@@ -115,14 +115,19 @@ public/               Portrait, manifest icons, (your CV)
 ## Deploying to Vercel
 
 1. Push this repository to GitHub.
-2. In Vercel, choose **Add New… → Project** and import the repository. Vercel detects Next.js
-   automatically; keep the default build settings (`next build`, output handled by Vercel).
+2. In Vercel, choose **Add New… → Project** and import the repository.
 3. Click **Deploy**.
 4. Under **Project → Settings → Domains**, add `shahriarahmed.net` (and optionally
    `www.shahriarahmed.net`, redirecting to the apex domain), then add the DNS records Vercel shows
    at your domain registrar.
 
 No environment variables are required.
+
+[`vercel.json`](vercel.json) pins the framework (Next.js), build command and output directory, so
+deployments work even if the project's dashboard settings are wrong. Without it, a project whose
+**Framework Preset** was saved as **Other** (for example because it was imported while the
+repository was still empty) is built as a plain static site from `public/`, and every page returns
+Vercel's `404: NOT_FOUND`.
 
 ## Licences
 
