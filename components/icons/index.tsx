@@ -1,20 +1,33 @@
 import {
+  Blocks,
   BookOpenText,
   BotMessageSquare,
   Building2,
   ChartCandlestick,
-  ChartScatter,
   CodeXml,
   FlaskConical,
+  Handshake,
   Mail,
   MapPin,
+  Megaphone,
   Microscope,
   MousePointerClick,
+  Workflow,
   type LucideIcon,
 } from "lucide-react";
 import type { ComponentType } from "react";
 import type { IconKey, SocialId } from "@/lib/types";
-import { GitHubIcon, LinkedInIcon, XIcon } from "./brand-icons";
+import {
+  FacebookIcon,
+  GitHubIcon,
+  GoogleScholarIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  OrcidIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+  XIcon,
+} from "./brand-icons";
 
 /** Maps content icon keys (from data/portfolio.ts) to icon components. */
 export const contentIcons: Record<IconKey, LucideIcon> = {
@@ -27,7 +40,10 @@ export const contentIcons: Record<IconKey, LucideIcon> = {
   automation: MousePointerClick,
   bot: BotMessageSquare,
   code: CodeXml,
-  analysis: ChartScatter,
+  blocks: Blocks,
+  handshake: Handshake,
+  megaphone: Megaphone,
+  workflow: Workflow,
 };
 
 type IconComponent = ComponentType<{ size?: number; className?: string }>;
@@ -37,8 +53,14 @@ function MailIcon({ size = 18, className }: { size?: number; className?: string 
 }
 
 export const socialIcons: Record<SocialId, IconComponent> = {
+  scholar: GoogleScholarIcon,
+  orcid: OrcidIcon,
   github: GitHubIcon,
   linkedin: LinkedInIcon,
   x: XIcon,
   email: MailIcon,
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  telegram: TelegramIcon,
+  whatsapp: WhatsAppIcon,
 };

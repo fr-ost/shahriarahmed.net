@@ -28,27 +28,36 @@ Any field set to `null` (or an empty array) is treated as "not provided yet" and
 consistent **Coming soon** placeholder. Replace the `null` with real content when you have it.
 Only add verified information.
 
-| What                      | Where in `data/portfolio.ts`                               |
-| ------------------------- | ---------------------------------------------------------- |
-| Name, title, email        | `person`                                                   |
-| Social links              | `socials`                                                  |
-| Hero text, rotating roles | `hero`                                                     |
-| About text, profile card  | `about`                                                    |
-| Unique Labs               | `uniqueLabs` (mission, products, website, GitHub, …)       |
-| Research placeholder      | `currentResearch` (shown until the research is published)  |
-| Publications              | `publications` (add new papers to the top of the list)     |
-| Achievements              | `achievements`                                             |
-| Projects & filters        | `projects`, `projectCategories`                            |
-| Experience, education     | `experience`, `education`                                  |
-| Skills                    | `skillGroups`                                              |
-| Section headings          | `sections`                                                 |
-| SEO title, description    | `site`                                                     |
+| What                      | Where in `data/portfolio.ts`                              |
+| ------------------------- | --------------------------------------------------------- |
+| Name, title, email        | `person`                                                  |
+| Social links              | `socials`, `socialGroups`                                 |
+| Hero text, rotating roles | `hero`                                                    |
+| About text, profile card  | `about`                                                   |
+| Unique Labs               | `uniqueLabs` (mission, services, products, website, …)    |
+| Research placeholder      | `currentResearch` (shown until the research is published) |
+| Publications              | `publications` (add new papers to the top of the list)    |
+| Achievements              | `achievements` (an empty list shows "Coming soon")        |
+| Projects & filters        | `projects`, `projectCategories`                           |
+| Experience, education     | `experience`, `education`                                 |
+| Skills                    | `skillGroups`                                             |
+| Section headings          | `sections`                                                |
+| SEO title, description    | `site`                                                    |
 
 ### Adding your CV
 
 Put the PDF at `public/Shahriar-Ahmed-CV.pdf` and redeploy. The site checks for the file at build
 time: when it exists, the "Download CV" buttons link to it; until then they fall back to a
 "Request CV" email link, so nothing ever points at a missing file.
+
+### Social links
+
+Links appear in the Contact section, grouped by their `group` (`research`, `professional` or
+`social`; the headings come from `socialGroups`). Links marked `featured: true` also appear as
+icons in the hero and footer. A link with `href: null` (currently the WhatsApp username) is shown
+as its handle with a copy button, because WhatsApp has no confirmed public link for usernames yet;
+set `href` if you get a link. Profile links are also added to the page's structured data, and the
+ORCID iD is included as an identifier.
 
 ### Publications
 
@@ -62,8 +71,9 @@ the page's structured data (JSON-LD).
 These are intentionally left empty rather than invented:
 
 - **Publication**: year of publication (`year`)
-- **Unique Labs**: mission, what we build, current products, website, GitHub, company contact
-  email (falls back to your personal email)
+- **Unique Labs**: current products, website, GitHub, company contact email (falls back to your
+  personal email)
+- **Achievements**: none listed yet, so the section shows "Coming soon"
 - **Projects**: status, GitHub and live-demo URLs for each project, and the technology lists
   (currently limited to terms from the project descriptions)
 - **Research**: the current research is confidential until published, so the Research section
@@ -130,4 +140,5 @@ Vercel's `404: NOT_FOUND`.
 
 ## Licences
 
-Fonts are licensed under the SIL Open Font License 1.1 (see `assets/fonts/`).
+Fonts are licensed under the SIL Open Font License 1.1 (see `assets/fonts/`). Brand icons come from
+[Simple Icons](https://simpleicons.org) (CC0); the brands are trademarks of their owners.

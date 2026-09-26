@@ -16,7 +16,10 @@ import {
  */
 export function buildJsonLd() {
   const personId = `${site.url}/#person`;
-  const sameAs = socials.filter((social) => social.id !== "email").map((social) => social.href);
+  const sameAs = socials
+    .filter((social) => social.id !== "email" && social.href)
+    .map((social) => social.href);
+  const orcid = socials.find((social) => social.id === "orcid");
 
   const knowsAbout = [
     person.field,
@@ -92,6 +95,16 @@ export function buildJsonLd() {
         },
         knowsAbout: [...new Set(knowsAbout)],
         sameAs,
+        ...(orcid?.href
+          ? {
+              identifier: {
+                "@type": "PropertyValue",
+                propertyID: "ORCID",
+                value: orcid.handle,
+                url: orcid.href,
+              },
+            }
+          : {}),
       },
       ...articles,
     ],

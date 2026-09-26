@@ -25,6 +25,7 @@ import type {
   Publication,
   SectionMeta,
   SkillGroup,
+  SocialGroup,
   SocialLink,
   UniqueLabsInfo,
 } from "@/lib/types";
@@ -49,6 +50,8 @@ export const site = {
     "Researcher",
     "AI",
     "Automation",
+    "Blockchain Development",
+    "Digital Marketing",
     "Rajshahi",
     "Bangladesh",
   ],
@@ -80,31 +83,93 @@ export const person = {
 } as const;
 
 /* ── Social links (use these URLs exactly) ──────────────────────────────── */
+/*  Listed in display order. `group` sets where a link appears in the        */
+/*  Contact section; `featured` links also appear as icons in the hero and   */
+/*  footer. A `null` href shows the handle with a copy button instead.       */
+
+export const socialGroups: { id: SocialGroup; label: string }[] = [
+  { id: "research", label: "Research profiles" },
+  { id: "professional", label: "Professional" },
+  { id: "social", label: "Social & messaging" },
+];
 
 export const socials: SocialLink[] = [
+  {
+    id: "scholar",
+    label: "Google Scholar",
+    handle: "Publications & citations",
+    href: "https://scholar.google.com/citations?user=Z7z7L_kAAAAJ&hl=en",
+    group: "research",
+    featured: true,
+  },
+  {
+    id: "orcid",
+    label: "ORCID",
+    handle: "0009-0005-3432-7559",
+    href: "https://orcid.org/0009-0005-3432-7559",
+    group: "research",
+    featured: true,
+  },
   {
     id: "github",
     label: "GitHub",
     handle: "fr-ost",
     href: "https://github.com/fr-ost",
+    group: "professional",
+    featured: true,
   },
   {
     id: "linkedin",
     label: "LinkedIn",
     handle: "shahriar-bmb",
     href: "https://www.linkedin.com/in/shahriar-bmb/",
+    group: "professional",
+    featured: true,
   },
   {
     id: "x",
     label: "X",
     handle: "@0x_nation",
     href: "https://x.com/0x_nation",
+    group: "professional",
+    featured: true,
   },
   {
     id: "email",
     label: "Email",
     handle: person.email,
     href: `mailto:${person.email}`,
+    group: "professional",
+    featured: true,
+  },
+  {
+    id: "facebook",
+    label: "Facebook",
+    handle: "ig.frostt",
+    href: "https://www.facebook.com/ig.frostt",
+    group: "social",
+  },
+  {
+    id: "instagram",
+    label: "Instagram",
+    handle: "@ig.frostt",
+    href: "https://www.instagram.com/ig.frostt",
+    group: "social",
+  },
+  {
+    id: "telegram",
+    label: "Telegram",
+    handle: "@igfrostt",
+    href: "https://t.me/igfrostt",
+    group: "social",
+  },
+  {
+    // A WhatsApp username, not a link: visitors copy it and search in WhatsApp.
+    id: "whatsapp",
+    label: "WhatsApp",
+    handle: "ig.frostt",
+    href: null,
+    group: "social",
   },
 ];
 
@@ -179,7 +244,8 @@ export const sections = {
     eyebrow: "Skills",
     title: "Skills &",
     titleAccent: "Methods",
-    description: "Laboratory techniques, programming tools, and research practice I work with.",
+    description:
+      "Laboratory techniques, programming tools, and blockchain development I work with.",
   },
   cv: {
     id: "cv",
@@ -295,8 +361,8 @@ export const about: {
   paragraphs: [
     "I am a Biochemistry & Molecular Biology researcher interested in understanding molecular mechanisms underlying disease and exploring how modern computational technologies can accelerate scientific discovery.",
     "My Master’s research at the University of Rajshahi is rooted in cancer biology, working with molecular biology techniques that span protein purification, cell culture, and molecular analysis.",
-    "Alongside the lab, I write software — AI-assisted tools, browser automation, and chatbots — and I am interested in how AI and automation can accelerate both research and everyday work.",
-    "I am also the Co-Founder of Unique Labs, where we build at the intersection of technology, AI, and experimentation.",
+    "Alongside the lab, I write software — AI-assisted tools, browser automation, and Telegram bots — and I am interested in how AI and automation can accelerate both research and everyday work.",
+    "I am also the Co-Founder of Unique Labs, where we offer KOC and consultancy services, digital marketing, and blockchain development.",
   ],
   focusAreas: [
     "Cancer biology",
@@ -324,11 +390,44 @@ export const uniqueLabs: UniqueLabsInfo = {
   founderRole: "Co-Founder",
   founderName: person.name,
   description:
-    "Unique Labs is the company I co-founded — a place to build at the intersection of technology, AI, and experimentation. More about our mission, products, and current work will be shared here soon.",
-  mission: null,
-  whatWeBuild: null,
+    "Unique Labs is the company I co-founded. We offer KOC and consultancy services, digital marketing, and blockchain development — helping brands and Web3 projects build, launch, and grow.",
+  mission:
+    "To help brands and Web3 projects grow with trust — combining authentic, community-driven marketing and clear strategy with secure, reliable blockchain technology.",
+  whatWeBuild: [
+    {
+      title: "KOC & Consultancy",
+      description:
+        "Key Opinion Consumer (KOC) campaigns that turn real users into credible voices for a product, alongside consulting on launch, growth, and community strategy.",
+      icon: "handshake",
+    },
+    {
+      title: "Digital Marketing",
+      description:
+        "Social media, content, and community campaigns — planned around clear goals and measured by results.",
+      icon: "megaphone",
+    },
+    {
+      title: "Blockchain Development",
+      description:
+        "Smart contracts, tokens, dApps, and Web3 integrations — designed, tested, and built with security in mind.",
+      icon: "blocks",
+    },
+    {
+      title: "AI & Automation",
+      description:
+        "Bots, workflow automation, and AI-assisted tools that take repetitive work off a team’s plate.",
+      icon: "workflow",
+    },
+  ],
   products: [],
-  focusAreas: ["Technology", "AI", "Experimentation"],
+  focusAreas: [
+    "Web3",
+    "Blockchain",
+    "KOC marketing",
+    "Digital marketing",
+    "Consultancy",
+    "AI & automation",
+  ],
   website: null,
   github: null,
   contactEmail: null,
@@ -348,20 +447,13 @@ export const currentResearch: CurrentResearch = {
 };
 
 /* ── Achievements ───────────────────────────────────────────────────────── */
+/*  The section shows a "Coming soon" card while this list is empty. The    */
+/*  first entry is displayed as the featured card, e.g.:                     */
+/*  { id: "award-2026", rank: "1st", placement: "1st Place",                 */
+/*    title: "…", event: "…", institution: "…", date: "1 January 2026",      */
+/*    dateTime: "2026-01-01", description: null }                            */
 
-export const achievements: Achievement[] = [
-  {
-    id: "svas-2025",
-    rank: "1st",
-    placement: "1st Place",
-    title: "Scientific Conference Presentation",
-    event: "1st Scientific Conference of Veterinary and Animal Sciences 2025",
-    institution: "University of Rajshahi",
-    date: "29 November 2025",
-    dateTime: "2025-11-29",
-    description: null,
-  },
-];
+export const achievements: Achievement[] = [];
 
 /* ── Projects ───────────────────────────────────────────────────────────── */
 
@@ -398,11 +490,12 @@ export const projects: Project[] = [
     icon: "automation",
   },
   {
-    id: "telegram-gpt-bot",
-    name: "Telegram GPT Bot",
-    description: "AI-powered Telegram chatbot.",
-    categories: ["AI", "Automation"],
-    technologies: ["Telegram", "GPT"],
+    id: "telegram-bots",
+    name: "Telegram Bots",
+    description:
+      "Multi-purpose Telegram bots built for different needs — AI-powered conversations, group and community management, automated alerts and notifications, and everyday task automation.",
+    categories: ["AI", "Automation", "Tools"],
+    technologies: ["Telegram", "AI", "Automation"],
     status: null,
     links: { github: null, demo: null },
     icon: "bot",
@@ -422,7 +515,7 @@ export const experience: ExperienceEntry[] = [
     current: true,
     featured: true,
     description:
-      "Co-founded Unique Labs — building at the intersection of technology, AI, and experimentation.",
+      "Co-founded Unique Labs, offering KOC and consultancy services, digital marketing, and blockchain development.",
     link: { label: "About Unique Labs", href: "#unique-labs" },
   },
   {
@@ -434,16 +527,6 @@ export const experience: ExperienceEntry[] = [
     current: true,
     description: "Master’s research in cancer biology. Details will be shared after publication.",
     link: { label: "View research", href: "#research" },
-  },
-  {
-    id: "conference-2025",
-    role: "Conference Presenter · 1st Place",
-    organization:
-      "1st Scientific Conference of Veterinary and Animal Sciences 2025 · University of Rajshahi",
-    categories: ["Conferences"],
-    period: "29 Nov 2025",
-    description: "Received 1st place for a scientific conference presentation.",
-    link: { label: "View achievement", href: "#achievements" },
   },
   {
     id: "icrast",
@@ -473,7 +556,7 @@ export const experience: ExperienceEntry[] = [
     categories: ["Technology", "Projects"],
     period: null,
     description:
-      "Building software across AI-assisted market analysis, browser automation and Chrome extensions, and AI-powered chatbots.",
+      "Building software across AI-assisted market analysis, browser automation and Chrome extensions, and multi-purpose Telegram bots.",
     link: { label: "View projects", href: "#projects" },
   },
 ];
@@ -529,15 +612,19 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    id: "analysis",
-    title: "Research & Analysis",
-    description: "Scientific practice",
-    icon: "analysis",
+    id: "blockchain",
+    title: "Blockchain Development",
+    description: "Web3 & smart contracts",
+    icon: "blocks",
     skills: [
-      "Experimental Design",
-      "Data Analysis",
-      "Scientific Literature Review",
-      "Molecular Biology Research",
+      "Smart Contracts",
+      "Solidity",
+      "EVM Chains",
+      "Token Standards (ERC-20, ERC-721)",
+      "dApp Development",
+      "Web3.js / Ethers.js",
+      "Wallet Integration",
+      "Tokenomics",
     ],
   },
 ];

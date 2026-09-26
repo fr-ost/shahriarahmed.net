@@ -99,7 +99,25 @@ export function Achievements() {
             </div>
           </article>
         </Reveal>
-      ) : null}
+      ) : (
+        <Reveal>
+          <div className="relative isolate overflow-hidden rounded-[2rem] border border-dashed border-line-strong p-6 sm:p-10 lg:p-14">
+            <div className="absolute inset-0 -z-10 overflow-hidden">
+              <Rings />
+            </div>
+            <p className="eyebrow flex items-center gap-2 text-accent">
+              <Award aria-hidden className="size-4" strokeWidth={1.75} />
+              Recognition
+            </p>
+            <h3 className="mt-5 text-[clamp(2.25rem,6vw,3.75rem)] font-semibold leading-none tracking-[-0.045em] text-fg">
+              Coming soon
+            </h3>
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
+              Awards and recognition will be listed here.
+            </p>
+          </div>
+        </Reveal>
+      )}
 
       {rest.length > 0 ? (
         <ul className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">

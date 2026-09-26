@@ -1,5 +1,6 @@
 import { ArrowUpRight, Mail } from "lucide-react";
 import type { ReactNode } from "react";
+import { contentIcons } from "@/components/icons";
 import { GitHubIcon } from "@/components/icons/brand-icons";
 import { ButtonLink } from "@/components/ui/button";
 import { Placeholder } from "@/components/ui/placeholder";
@@ -8,7 +9,7 @@ import { SectionHeading } from "@/components/ui/section";
 import { SmartLink } from "@/components/ui/smart-link";
 import { VennVisual } from "@/components/visuals/venn-visual";
 import { person, sections, uniqueLabs } from "@/data/portfolio";
-import { cn } from "@/lib/utils";
+import { cn, pad2 } from "@/lib/utils";
 
 function ProfileField({
   label,
@@ -105,9 +106,47 @@ export function UniqueLabs() {
                   <Placeholder tone="panel" />
                 )}
               </ProfileField>
-              <ProfileField label="What we build" className="sm:col-span-2">
-                {labs.whatWeBuild ? (
-                  <p className="text-lg leading-relaxed">{labs.whatWeBuild}</p>
+              <ProfileField label="Areas of focus" className="sm:col-span-2">
+                {labs.focusAreas.length > 0 ? (
+                  <ul className="flex flex-wrap gap-2">
+                    {labs.focusAreas.map((area) => (
+                      <li
+                        key={area}
+                        className="rounded-full border border-panel-line bg-white/[0.03] px-3 py-1 text-sm text-panel-fg"
+                      >
+                        {area}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Placeholder tone="panel" />
+                )}
+              </ProfileField>
+              <ProfileField label="What we build" className="sm:col-span-2 lg:col-span-4">
+                {labs.whatWeBuild.length > 0 ? (
+                  <ul className="mt-3 grid grid-cols-1 gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">
+                    {labs.whatWeBuild.map((service, index) => {
+                      const Icon = contentIcons[service.icon];
+                      return (
+                        <li key={service.title}>
+                          <div className="flex items-center justify-between gap-4">
+                            <span className="flex size-10 items-center justify-center rounded-xl border border-panel-line bg-white/[0.03] text-panel-accent">
+                              <Icon aria-hidden className="size-[1.125rem]" strokeWidth={1.6} />
+                            </span>
+                            <span className="text-xs font-medium tabular-nums text-panel-muted">
+                              {pad2(index + 1)}
+                            </span>
+                          </div>
+                          <h4 className="mt-5 text-lg font-semibold tracking-[-0.015em] text-panel-fg">
+                            {service.title}
+                          </h4>
+                          <p className="mt-2 text-[0.9375rem] leading-relaxed text-panel-muted">
+                            {service.description}
+                          </p>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 ) : (
                   <Placeholder tone="panel" />
                 )}
@@ -135,24 +174,17 @@ export function UniqueLabs() {
                   <Placeholder tone="panel" />
                 )}
               </ProfileField>
-              <ProfileField label="Areas of focus" className="sm:col-span-2">
-                {labs.focusAreas.length > 0 ? (
-                  <ul className="flex flex-wrap gap-2">
-                    {labs.focusAreas.map((area) => (
-                      <li
-                        key={area}
-                        className="rounded-full border border-panel-line bg-white/[0.03] px-3 py-1 text-sm text-panel-fg"
-                      >
-                        {area}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <Placeholder tone="panel" />
-                )}
-              </ProfileField>
-              <ProfileField label="Co-Founder">
+              <ProfileField label="Co-Founder" className="lg:col-span-2">
                 <span className="font-medium">{labs.founderName}</span>
+              </ProfileField>
+              <ProfileField label="Contact" className="lg:col-span-2">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="inline-flex max-w-full items-center gap-2 break-all hover:text-panel-accent"
+                >
+                  <Mail aria-hidden className="size-4 shrink-0" />
+                  {contactEmail}
+                </a>
               </ProfileField>
               <ProfileField label="Website">
                 {labs.website ? (
@@ -179,15 +211,6 @@ export function UniqueLabs() {
                 ) : (
                   <Placeholder tone="panel" />
                 )}
-              </ProfileField>
-              <ProfileField label="Contact">
-                <a
-                  href={`mailto:${contactEmail}`}
-                  className="inline-flex max-w-full items-center gap-2 break-all hover:text-panel-accent"
-                >
-                  <Mail aria-hidden className="size-4 shrink-0" />
-                  {contactEmail}
-                </a>
               </ProfileField>
             </dl>
           </Reveal>

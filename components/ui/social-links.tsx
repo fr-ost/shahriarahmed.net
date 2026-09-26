@@ -1,6 +1,6 @@
 import { socialIcons } from "@/components/icons";
 import type { SocialLink } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, isExternalHref } from "@/lib/utils";
 import { SmartLink } from "./smart-link";
 
 interface SocialLinksProps {
@@ -9,18 +9,21 @@ interface SocialLinksProps {
   size?: "sm" | "md";
 }
 
-/** Compact row of icon-only social links. */
+/** Compact row of icon-only social links. Entries without a URL are skipped. */
 export function SocialLinks({ links, className, size = "md" }: SocialLinksProps) {
   return (
-    <ul className={cn("flex items-center gap-1", className)}>
+    <ul className={cn("flex flex-wrap items-center gap-1", className)}>
       {links.map((link) => {
+        if (!link.href) return null;
         const Icon = socialIcons[link.id];
         return (
           <li key={link.id}>
             <SmartLink
               href={link.href}
               aria-label={
-                link.id === "email" ? `Email ${link.handle}` : `${link.label} — ${link.handle}`
+                link.id === "email"
+                  ? `Email ${link.handle}`
+                  : `${link.label} — ${link.handle}${isExternalHref(link.href) ? " (opens in a new tab)" : ""}`
               }
               title={link.label}
               className={cn(

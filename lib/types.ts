@@ -16,21 +16,44 @@ export type IconKey =
   | "automation"
   | "bot"
   | "code"
-  | "analysis";
+  | "blocks"
+  | "handshake"
+  | "megaphone"
+  | "workflow";
 
 export interface Link {
   label: string;
   href: string;
 }
 
-export type SocialId = "github" | "linkedin" | "x" | "email";
+export type SocialId =
+  | "scholar"
+  | "orcid"
+  | "github"
+  | "linkedin"
+  | "x"
+  | "email"
+  | "facebook"
+  | "instagram"
+  | "telegram"
+  | "whatsapp";
+
+/** Groups used to organise the links in the Contact section. */
+export type SocialGroup = "research" | "professional" | "social";
 
 export interface SocialLink {
   id: SocialId;
   label: string;
-  /** Display handle, derived from the profile URL. */
+  /** Display handle, derived from the profile URL (or the username as supplied). */
   handle: string;
-  href: string;
+  /**
+   * Profile URL. `null` when there is no public link, e.g. a WhatsApp
+   * username: the handle is then shown with a copy button instead.
+   */
+  href: string | null;
+  group: SocialGroup;
+  /** Also shown in the compact icon rows in the hero and footer. */
+  featured?: boolean;
 }
 
 export interface NavItem {
@@ -170,6 +193,13 @@ export interface UniqueLabsProduct {
   href: string | null;
 }
 
+/** A service or line of work shown under "What we build". */
+export interface UniqueLabsService {
+  title: string;
+  description: string;
+  icon: IconKey;
+}
+
 export interface UniqueLabsInfo {
   name: string;
   tagline: string;
@@ -177,7 +207,8 @@ export interface UniqueLabsInfo {
   founderName: string;
   description: string;
   mission: string | null;
-  whatWeBuild: string | null;
+  /** Services and lines of work. An empty list shows a placeholder. */
+  whatWeBuild: UniqueLabsService[];
   products: UniqueLabsProduct[];
   focusAreas: string[];
   website: string | null;

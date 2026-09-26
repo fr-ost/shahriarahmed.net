@@ -1,12 +1,13 @@
 import { Fragment } from "react";
+import { socialIcons } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Placeholder } from "@/components/ui/placeholder";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
-import { person, publications, sections } from "@/data/portfolio";
-import type { Publication } from "@/lib/types";
+import { person, publications, sections, socials } from "@/data/portfolio";
+import type { Publication, SocialLink } from "@/lib/types";
 import { cn, pad2 } from "@/lib/utils";
 
 const MISSING = "Publication details coming soon.";
@@ -127,6 +128,12 @@ function PublicationCard({ publication, index }: { publication: Publication; ind
   );
 }
 
+/** Google Scholar, ORCID and any other research profiles with a link. */
+const researchProfiles = socials.filter(
+  (social): social is SocialLink & { href: string } =>
+    social.group === "research" && social.href !== null,
+);
+
 export function Publications() {
   const count = publications.length;
 
@@ -151,6 +158,29 @@ export function Publications() {
           </Reveal>
         ))}
       </ol>
+
+      {researchProfiles.length > 0 ? (
+        <Reveal className="mt-6 flex flex-col gap-4 rounded-3xl border border-line px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <p className="eyebrow text-faint">Research profiles</p>
+          <ul className="flex flex-wrap gap-2">
+            {researchProfiles.map((profile) => {
+              const Icon = socialIcons[profile.id];
+              return (
+                <li key={profile.id}>
+                  <ButtonLink
+                    href={profile.href}
+                    variant="secondary"
+                    size="sm"
+                    leadingIcon={<Icon size={15} />}
+                  >
+                    {profile.label}
+                  </ButtonLink>
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
+      ) : null}
     </Section>
   );
 }

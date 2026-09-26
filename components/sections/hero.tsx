@@ -101,7 +101,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
           </div>
 
           <div
-            className="mt-7 flex flex-wrap items-center gap-x-7 gap-y-4 animate-rise"
+            className="@container mt-7 flex flex-wrap items-center gap-x-7 gap-y-4 animate-rise"
             style={rise(520)}
           >
             <a
@@ -129,8 +129,13 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
               )}
               <span className="link-underline">{cvLink.label}</span>
             </a>
-            <span aria-hidden className="hidden h-5 w-px bg-line-strong sm:block" />
-            <SocialLinks links={socials} size="sm" className="-ml-2 sm:ml-0" />
+            {/* The divider only shows when the icons fit on the same line. */}
+            <span aria-hidden className="hidden h-5 w-px bg-line-strong @min-[36rem]:block" />
+            <SocialLinks
+              links={socials.filter((social) => social.featured)}
+              size="sm"
+              className="-ml-2 @min-[36rem]:ml-0"
+            />
           </div>
         </div>
 

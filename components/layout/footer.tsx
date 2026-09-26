@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
 export function Footer() {
   return (
     <footer className="border-t border-line">
-      <div className="container-page grid gap-8 py-10 sm:py-12 md:grid-cols-3 md:items-center">
+      <div className="container-page grid gap-6 py-10 sm:py-12 lg:grid-cols-3 lg:items-center lg:gap-8">
         <div className="flex items-center gap-3">
           <Mark className="size-6 text-fg" />
           <p className="text-sm text-muted">
@@ -17,9 +17,13 @@ export function Footer() {
           </p>
         </div>
 
-        <p className="text-sm text-muted md:text-center">{person.title}</p>
+        <p className="text-sm text-muted lg:text-center">{person.title}</p>
 
-        <SocialLinks links={socials} size="sm" className="-ml-2 md:ml-0 md:justify-end" />
+        <SocialLinks
+          links={socials.filter((social) => social.featured)}
+          size="sm"
+          className="-ml-2 lg:ml-0 lg:justify-end"
+        />
       </div>
 
       <div className="border-t border-line">
