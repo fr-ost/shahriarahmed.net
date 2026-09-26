@@ -21,7 +21,13 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
   const [filter, setFilter] = useState<Filter>("All");
-  const filters: Filter[] = ["All", ...categories];
+  // Only offer categories that currently have projects.
+  const filters: Filter[] = [
+    "All",
+    ...categories.filter((category) =>
+      projects.some((project) => project.categories.includes(category)),
+    ),
+  ];
   const visible =
     filter === "All" ? projects : projects.filter((project) => project.categories.includes(filter));
 
@@ -55,7 +61,7 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
                 {item}
                 <span
                   className={cn(
-                    "font-mono text-[0.6875rem]",
+                    "text-[0.6875rem] font-medium tabular-nums",
                     selected ? "text-bg/60" : "text-faint",
                   )}
                 >

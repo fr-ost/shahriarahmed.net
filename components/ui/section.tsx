@@ -74,7 +74,7 @@ export function SectionHeading({
         <h2
           id={`${meta.id}-title`}
           className={cn(
-            "font-serif text-[clamp(2.75rem,7vw,4.75rem)] leading-[0.95] tracking-[-0.02em]",
+            "text-[clamp(2.25rem,5.6vw,4rem)] font-semibold leading-[1.04] tracking-[-0.035em]",
             panel ? "text-panel-fg" : "text-fg",
           )}
         >
@@ -82,9 +82,9 @@ export function SectionHeading({
           {meta.titleAccent ? (
             <>
               {" "}
-              <em className={cn("italic", panel ? "text-panel-accent" : "text-accent")}>
+              <span className={panel ? "text-panel-accent" : "text-accent"}>
                 {meta.titleAccent}
-              </em>
+              </span>
             </>
           ) : null}
         </h2>

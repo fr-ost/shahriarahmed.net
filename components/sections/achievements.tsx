@@ -49,11 +49,11 @@ export function Achievements() {
                   <Award aria-hidden className="size-4" strokeWidth={1.75} />
                   Recognition · {featured.dateTime.slice(0, 4)}
                 </p>
-                <p className="mt-4 flex items-start font-serif leading-[0.8] tracking-[-0.04em] text-fg">
-                  <span className="text-[clamp(6rem,16vw,10rem)]">
+                <p className="mt-4 flex items-start font-semibold leading-[0.85] tracking-[-0.06em] text-fg">
+                  <span className="text-[clamp(5.5rem,15vw,9rem)] tabular-nums">
                     {featured.rank.replace(/\D+$/, "")}
                   </span>
-                  <span className="mt-3 text-[clamp(2rem,5vw,3.25rem)] italic text-accent">
+                  <span className="ml-1 mt-2 text-[clamp(1.75rem,4.5vw,2.75rem)] tracking-[-0.03em] text-accent">
                     {featured.rank.replace(/^\d+/, "")}
                   </span>
                 </p>
@@ -63,7 +63,7 @@ export function Achievements() {
               <div className="lg:col-span-8 lg:border-l lg:border-line lg:pl-12">
                 <h3
                   id={`${featured.id}-title`}
-                  className="font-serif text-[clamp(1.875rem,3.6vw,2.75rem)] leading-[1.08] tracking-[-0.01em] text-fg"
+                  className="text-[clamp(1.625rem,3.2vw,2.375rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-fg"
                 >
                   {featured.title}
                 </h3>

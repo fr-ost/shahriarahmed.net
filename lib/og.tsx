@@ -7,11 +7,10 @@ import { hero, person, site } from "@/data/portfolio";
 
 const asset = (path: string) => readFile(join(process.cwd(), "assets", path));
 
-const [serif, serifItalic, sans, mono, portrait] = await Promise.all([
-  asset("fonts/InstrumentSerif-Regular.woff"),
-  asset("fonts/InstrumentSerif-Italic.woff"),
-  asset("fonts/InstrumentSans-Medium.woff"),
-  asset("fonts/IBMPlexMono-Medium.woff"),
+// Inter stands in for SF Pro, which cannot be embedded outside Apple devices.
+const [interMedium, interSemiBold, portrait] = await Promise.all([
+  asset("fonts/Inter-Medium.woff"),
+  asset("fonts/Inter-SemiBold.woff"),
   asset("og/portrait.jpg"),
 ]);
 
@@ -33,7 +32,8 @@ export function renderSocialImage(size: { width: number; height: number }) {
         display: "flex",
         position: "relative",
         background: PAPER,
-        fontFamily: "Instrument Sans",
+        fontFamily: "Inter",
+        fontWeight: 500,
         color: INK,
       }}
     >
@@ -64,9 +64,9 @@ export function renderSocialImage(size: { width: number; height: number }) {
           style={{
             display: "flex",
             alignItems: "center",
-            fontFamily: "IBM Plex Mono",
             fontSize: 15,
-            letterSpacing: 1.6,
+            fontWeight: 600,
+            letterSpacing: 1.4,
             textTransform: "uppercase",
             color: MUTED,
           }}
@@ -86,26 +86,33 @@ export function renderSocialImage(size: { width: number; height: number }) {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              fontFamily: "Instrument Serif",
-              fontSize: 136,
-              lineHeight: 0.9,
-              letterSpacing: -3,
+              fontSize: 120,
+              fontWeight: 600,
+              lineHeight: 0.98,
+              letterSpacing: -5.4,
             }}
           >
             {person.givenName}
           </div>
           <div
             style={{
-              fontFamily: "Instrument Serif",
-              fontStyle: "italic",
-              fontSize: 136,
-              lineHeight: 0.9,
-              letterSpacing: -3,
+              fontSize: 120,
+              fontWeight: 600,
+              lineHeight: 0.98,
+              letterSpacing: -5.4,
             }}
           >
             {person.familyName}
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginTop: 40, fontSize: 38 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: 40,
+              fontSize: 36,
+              letterSpacing: -0.7,
+            }}
+          >
             <div style={{ width: 44, height: 2, background: INK, marginRight: 18 }} />
             {person.title}
           </div>
@@ -115,9 +122,9 @@ export function renderSocialImage(size: { width: number; height: number }) {
           style={{
             display: "flex",
             alignItems: "center",
-            fontFamily: "IBM Plex Mono",
-            fontSize: 20,
-            letterSpacing: 1,
+            fontSize: 22,
+            fontWeight: 600,
+            letterSpacing: -0.2,
             color: ACCENT,
           }}
         >
@@ -159,9 +166,9 @@ export function renderSocialImage(size: { width: number; height: number }) {
               justifyContent: "space-between",
               alignItems: "center",
               padding: "16px 8px 4px",
-              fontFamily: "IBM Plex Mono",
               fontSize: 14,
-              letterSpacing: 2,
+              fontWeight: 600,
+              letterSpacing: 1.2,
               textTransform: "uppercase",
               color: MUTED,
             }}
@@ -175,10 +182,8 @@ export function renderSocialImage(size: { width: number; height: number }) {
     {
       ...size,
       fonts: [
-        { name: "Instrument Serif", data: serif, weight: 400, style: "normal" },
-        { name: "Instrument Serif", data: serifItalic, weight: 400, style: "italic" },
-        { name: "Instrument Sans", data: sans, weight: 500, style: "normal" },
-        { name: "IBM Plex Mono", data: mono, weight: 500, style: "normal" },
+        { name: "Inter", data: interMedium, weight: 500, style: "normal" },
+        { name: "Inter", data: interSemiBold, weight: 600, style: "normal" },
       ],
     },
   );

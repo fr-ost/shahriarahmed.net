@@ -25,7 +25,7 @@ export function Contact() {
             <p className="eyebrow text-faint">Primary contact</p>
             <a
               href={`mailto:${person.email}`}
-              className="group/email mt-3 inline-flex max-w-full items-center gap-3 font-serif text-[clamp(1.625rem,5.4vw,3.5rem)] leading-tight tracking-[-0.01em] text-fg"
+              className="group/email mt-3 inline-flex max-w-full items-center gap-3 text-[clamp(1.5rem,4.8vw,3rem)] font-semibold leading-tight tracking-[-0.035em] text-fg"
             >
               <span className="break-all underline decoration-line-strong decoration-1 underline-offset-[0.2em] transition-colors duration-300 group-hover/email:decoration-accent">
                 {person.email}
@@ -59,9 +59,7 @@ export function Contact() {
                       <span className="block text-[0.9375rem] font-medium text-fg">
                         {social.label}
                       </span>
-                      <span className="block truncate font-mono text-xs text-faint">
-                        {social.handle}
-                      </span>
+                      <span className="block truncate text-xs text-faint">{social.handle}</span>
                     </span>
                     <ArrowUpRight
                       aria-hidden

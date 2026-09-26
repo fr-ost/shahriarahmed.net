@@ -33,7 +33,7 @@ export function Skills() {
                     key={skill}
                     className="group/skill flex items-baseline gap-4 border-b border-line py-3 last:border-b-0"
                   >
-                    <span className="font-mono text-[0.6875rem] text-faint transition-colors duration-300 group-hover/skill:text-accent">
+                    <span className="text-[0.6875rem] font-medium tabular-nums text-faint transition-colors duration-300 group-hover/skill:text-accent">
                       {pad2(index + 1)}
                     </span>
                     <span className="text-[0.9375rem] text-fg transition-transform duration-300 ease-smooth group-hover/skill:translate-x-0.5">

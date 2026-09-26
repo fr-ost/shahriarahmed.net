@@ -74,8 +74,8 @@ export function Experience() {
               {entry.featured ? (
                 <article className="rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-8">
                   <Meta entry={entry} />
-                  <h3 className="mt-4 font-serif text-4xl leading-none tracking-[-0.01em] text-fg sm:text-5xl">
-                    {entry.role} <span className="italic text-accent">—</span> {entry.organization}
+                  <h3 className="mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-fg sm:text-[2.5rem]">
+                    {entry.role} <span className="text-accent">—</span> {entry.organization}
                   </h3>
                   <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
                     {entry.description}
@@ -129,8 +129,8 @@ export function Experience() {
               <ul className="mt-5 space-y-5">
                 {education.map((entry) => (
                   <li key={entry.id}>
-                    <p className="font-serif text-2xl leading-tight text-fg">
-                      {entry.degree} <span className="italic">in</span> {entry.field}
+                    <p className="text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">
+                      {entry.degree} in {entry.field}
                     </p>
                     <p className="mt-2 text-muted">{entry.institution}</p>
                     <p className="eyebrow mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-faint">
@@ -154,7 +154,9 @@ export function Experience() {
                 {counts.map(({ category, count }) => (
                   <li key={category} className="flex items-center justify-between py-3 text-sm">
                     <span className="text-fg">{category}</span>
-                    <span className="font-mono text-xs text-faint">{pad2(count)}</span>
+                    <span className="text-xs font-medium tabular-nums text-faint">
+                      {pad2(count)}
+                    </span>
                   </li>
                 ))}
               </ul>

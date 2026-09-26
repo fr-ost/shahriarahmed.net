@@ -57,7 +57,7 @@ export function UniqueLabs() {
 
               <Reveal delay={0.1} className="mt-10">
                 <div className="flex items-center gap-4 border-y border-panel-line py-5">
-                  <span className="flex size-11 items-center justify-center rounded-full border border-panel-line font-serif text-lg text-panel-fg">
+                  <span className="flex size-11 items-center justify-center rounded-full border border-panel-line text-sm font-semibold tracking-[-0.01em] text-panel-fg">
                     {person.givenName.charAt(0)}
                     {person.familyName.charAt(0)}
                   </span>

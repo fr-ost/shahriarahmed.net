@@ -35,8 +35,7 @@ Only add verified information.
 | Hero text, rotating roles | `hero`                                                     |
 | About text, profile card  | `about`                                                    |
 | Unique Labs               | `uniqueLabs` (mission, products, website, GitHub, …)       |
-| Featured research         | `featuredResearch`                                         |
-| Research timeline         | `researchTimeline` (add `date` + `dateTime` to show dates) |
+| Research placeholder      | `currentResearch` (shown until the research is published)  |
 | Publications              | `publications` (add new papers to the top of the list)     |
 | Achievements              | `achievements`                                             |
 | Projects & filters        | `projects`, `projectCategories`                            |
@@ -51,29 +50,28 @@ Put the PDF at `public/Shahriar-Ahmed-CV.pdf` and redeploy. The site checks for 
 time: when it exists, the "Download CV" buttons link to it; until then they fall back to a
 "Request CV" email link, so nothing ever points at a missing file.
 
-### Completing the publication
+### Publications
 
-The DOI (`10.1016/j.molstruc.2026.146299`) is the authoritative link. Fill in `title`, `authors`,
-`journal`, `year` and `abstract` in `publications` when you want them shown. Once a title is
-present, the paper is also added to the page's structured data (JSON-LD) automatically.
+Each entry in `publications` shows its title, authors, journal, abstract, DOI and where it was
+presented. Your name is highlighted automatically in the author list (any author containing
+`person.name`). A `null` journal or year is simply not shown. Papers with a title are also added to
+the page's structured data (JSON-LD).
 
 ## Placeholders to replace
 
 These are intentionally left empty rather than invented:
 
-- **Publication**: title, authors, journal, year, abstract
+- **Publication**: year of publication (`year`)
 - **Unique Labs**: mission, what we build, current products, website, GitHub, company contact
   email (falls back to your personal email)
 - **Projects**: status, GitHub and live-demo URLs for each project, and the technology lists
   (currently limited to terms from the project descriptions)
-- **Research**: findings summary (`featuredResearch.findings`), milestone dates in
-  `researchTimeline`
+- **Research**: the current research is confidential until published, so the Research section
+  shows a placeholder (`currentResearch`); add the project details there after publication
 - **Experience / education**: periods (for example `"2024 — Present"`)
 - **CV**: `public/Shahriar-Ahmed-CV.pdf`
 
-Please also verify a few inferred details: the research status (`"Ongoing"`), the education
-status (`"Current"`), and that the conference presentation in the research timeline is the one
-that received 1st place.
+Please also verify the education status (`"Current"`).
 
 ## Project structure
 
@@ -105,8 +103,9 @@ public/               Portrait, manifest icons, (your CV)
 - **Colours and theme**: tokens are CSS variables in `styles/globals.css` (`:root` for light,
   `[data-theme="dark"]` for dark). Light is the default; the toggle remembers the visitor's
   choice and an inline script applies it before first paint, so there is no flash.
-- **Typography**: Instrument Serif (display), Instrument Sans (text), IBM Plex Mono (labels),
-  self-hosted through `next/font`.
+- **Typography**: Apple's system font (SF Pro) on iPhone, iPad and Mac. SF Pro cannot be
+  embedded on the web, so other devices use Inter, an open-source typeface in the same style
+  (self-hosted through `next/font`; also used for the share image).
 - **Motion**: subtle, and disabled for visitors who prefer reduced motion. Content is fully
   visible without JavaScript.
 - **Icons**: edit the mark in `scripts/generate-icons.mjs` and run `npm run icons` to regenerate

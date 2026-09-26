@@ -110,7 +110,7 @@ export function VennVisual({ name, className }: { name: string; className?: stri
               x={field.label_x}
               y={field.label_y}
               textAnchor={field.anchor}
-              className="fill-panel-muted font-mono text-[11px] uppercase tracking-[0.18em]"
+              className="fill-panel-muted font-sans text-[11px] font-semibold uppercase tracking-[0.12em]"
             >
               {field.label}
             </text>
@@ -132,7 +132,7 @@ export function VennVisual({ name, className }: { name: string; className?: stri
             x="150"
             y="-132"
             textAnchor="middle"
-            className="fill-panel-fg font-mono text-[11px] uppercase tracking-[0.18em]"
+            className="fill-panel-fg font-sans text-[11px] font-semibold uppercase tracking-[0.12em]"
           >
             {name}
           </text>

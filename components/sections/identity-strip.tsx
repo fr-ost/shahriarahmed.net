@@ -1,21 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
-import { Fragment } from "react";
 import { contentIcons } from "@/components/icons";
 import { Reveal } from "@/components/ui/reveal";
 import { identityStrip } from "@/data/portfolio";
-
-/** Digits in the display serif read ambiguously ("1" vs "l"); set them in the sans. */
-function WithSansNumerals({ text }: { text: string }) {
-  return text.split(/(\d+)/).map((part, index) =>
-    /^\d+$/.test(part) ? (
-      <span key={index} className="font-sans text-[0.9em] font-medium tracking-tight">
-        {part}
-      </span>
-    ) : (
-      <Fragment key={index}>{part}</Fragment>
-    ),
-  );
-}
 
 /** Compact "at a glance" profile directly beneath the hero. */
 export function IdentityStrip() {
@@ -36,17 +22,17 @@ export function IdentityStrip() {
                   <Icon aria-hidden className="size-3.5 text-accent" strokeWidth={1.75} />
                   {item.label}
                 </dt>
-                <dd className="mt-3 font-serif text-[1.375rem] leading-[1.15] text-fg sm:text-[1.75rem]">
+                <dd className="mt-3 text-lg font-semibold leading-snug tracking-[-0.02em] text-fg sm:text-[1.375rem]">
                   {item.href ? (
                     <a href={item.href} className="after:absolute after:inset-0 after:content-['']">
-                      <WithSansNumerals text={item.value} />
+                      {item.value}
                     </a>
                   ) : (
-                    <WithSansNumerals text={item.value} />
+                    item.value
                   )}
                 </dd>
                 {item.detail ? (
-                  <dd className="eyebrow mt-2 whitespace-nowrap text-faint max-sm:text-[0.625rem] max-sm:tracking-[0.06em]">
+                  <dd className="eyebrow mt-2 whitespace-nowrap text-faint max-sm:text-[0.625rem] max-sm:tracking-[0.04em]">
                     {item.detail}
                   </dd>
                 ) : null}

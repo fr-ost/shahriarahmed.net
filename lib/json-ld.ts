@@ -33,7 +33,12 @@ export function buildJsonLd() {
       url: publication.url,
       sameAs: publication.url,
       identifier: { "@type": "PropertyValue", propertyID: "DOI", value: publication.doi },
-      author: { "@id": personId },
+      author: publication.authors
+        ? publication.authors.map((name) =>
+            name.includes(person.name) ? { "@id": personId } : { "@type": "Person", name },
+          )
+        : { "@id": personId },
+      ...(publication.abstract ? { abstract: publication.abstract } : {}),
       ...(publication.journal
         ? { isPartOf: { "@type": "Periodical", name: publication.journal } }
         : {}),

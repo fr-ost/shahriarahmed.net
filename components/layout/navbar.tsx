@@ -299,7 +299,7 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
                         <span className="eyebrow w-6 text-faint group-aria-[current]/link:text-accent">
                           {pad2(index + 1)}
                         </span>
-                        <span className="font-serif text-[2.125rem] leading-none tracking-tight transition-transform duration-500 ease-smooth group-hover/link:translate-x-1">
+                        <span className="text-[2rem] font-semibold leading-none tracking-[-0.035em] transition-transform duration-500 ease-smooth group-hover/link:translate-x-1">
                           {item.label}
                         </span>
                       </Link>
@@ -318,7 +318,7 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
                 <p className="eyebrow text-faint">Get in touch</p>
                 <a
                   href={`mailto:${email}`}
-                  className="mt-2 inline-block break-all font-serif text-2xl text-fg underline decoration-line-strong underline-offset-[6px] transition-colors hover:decoration-accent"
+                  className="mt-2 inline-block break-all text-xl font-medium tracking-[-0.02em] text-fg underline decoration-line-strong underline-offset-[6px] transition-colors hover:decoration-accent"
                 >
                   {email}
                 </a>

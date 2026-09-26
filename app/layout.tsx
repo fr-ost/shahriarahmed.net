@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
@@ -8,24 +8,15 @@ import { navigation, person, site, socials } from "@/data/portfolio";
 import { THEME_COLORS, themeInitScript } from "@/lib/theme";
 import "@/styles/globals.css";
 
-const sans = Instrument_Sans({
+/*
+ * Apple devices render the native system font (SF Pro) via the stack in
+ * styles/globals.css. SF Pro cannot be embedded on the web, so every other
+ * device falls back to Inter, an open-source typeface in the same style.
+ */
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-instrument-sans",
-  display: "swap",
-});
-
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-plex-mono",
+  axes: ["opsz"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -80,7 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-theme="light"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${sans.variable} ${serif.variable} ${mono.variable}`}
+      className={inter.variable}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />

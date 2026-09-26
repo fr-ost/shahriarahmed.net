@@ -83,9 +83,10 @@
   --color-panel-line: var(--panel-border);
   --color-panel-accent: var(--panel-accent);
 
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* San Francisco (SF Pro) on Apple devices; Inter everywhere else. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, var(--font-inter), "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
 
   --shadow-card: var(--shadow-soft);
   --shadow-float: var(--shadow-lift);
@@ -186,6 +187,7 @@
     background-color: var(--bg);
     color: var(--fg);
     font-family: var(--font-sans);
+    letter-spacing: -0.011em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -236,14 +238,15 @@
   padding-inline: clamp(1rem, 4vw, 3rem);
 }
 
-/* Small uppercase mono label used for metadata and eyebrows. */
+/* Small uppercase label used for metadata and eyebrows. */
 @utility eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
   line-height: 1.4;
-  font-weight: 400;
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Lab-notebook grid used behind the hero and technical panels. */

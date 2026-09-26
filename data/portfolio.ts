@@ -14,6 +14,7 @@
 
 import type {
   Achievement,
+  CurrentResearch,
   EducationEntry,
   ExperienceEntry,
   IdentityItem,
@@ -22,11 +23,9 @@ import type {
   Project,
   ProjectCategory,
   Publication,
-  ResearchProject,
   SectionMeta,
   SkillGroup,
   SocialLink,
-  TimelineMilestone,
   UniqueLabsInfo,
 } from "@/lib/types";
 
@@ -46,9 +45,6 @@ export const site = {
     "Biochemistry",
     "Molecular Biology",
     "Cancer Biology",
-    "A549",
-    "Apoptosis",
-    "Cell Cycle",
     "University of Rajshahi",
     "Researcher",
     "AI",
@@ -224,8 +220,10 @@ export const hero = {
 };
 
 /* ── Publications ───────────────────────────────────────────────────────── */
-/*  Add new papers to the top of this list. Only fill in verified metadata;  */
-/*  `null` fields display "Publication details coming soon."                 */
+/*  Add new papers to the top of this list. Only fill in verified metadata.  */
+/*  A `null` title/abstract displays "Publication details coming soon."; a   */
+/*  `null` journal or year is simply not shown. Authors whose name contains  */
+/*  `person.name` are highlighted automatically.                             */
 
 export const publications: Publication[] = [
   {
@@ -233,11 +231,28 @@ export const publications: Publication[] = [
     status: "Published",
     doi: "10.1016/j.molstruc.2026.146299",
     url: "https://doi.org/10.1016/j.molstruc.2026.146299",
-    title: null,
-    authors: null,
-    journal: null,
+    title:
+      "Solvent-dependent nonlinear optical response and potential Mcl-1 antagonist activity of an azo–hydrazone derivative: Experimental and theoretical studies",
+    authors: [
+      "Md. Abdur Rakib",
+      "Billal Hossain",
+      "Jenia Afrin Tanni",
+      "Md. Shohag Hossain",
+      "Md. Shakirul Hasan Sium",
+      "Shahriar Ahmed Tushar",
+      "Md. Tanvir Anjum",
+      "Shofiur Rahman",
+      "M. Shahed Zaman",
+      "Md. Badrul Islam",
+      "Md. Rabiul Karim",
+    ],
+    // Journal code "molstruc" in the DOI.
+    journal: "Journal of Molecular Structure",
     year: null,
-    abstract: null,
+    abstract:
+      "An azo-hydrazone derivative, 4-((E)-phenyldiazenyl)-2-((E)-(2-phenylhydrazono)methyl)phenol (PDPMP), was synthesized and characterized using FT-IR, UV–Vis, NMR, and LC-MS. Its structural, electronic, and nonlinear optical (NLO) properties were examined via DFT and TD-DFT at the B3LYP/6–311++G(d,p) level with the IEFPCM solvent model. The influence of solvent polarity on electronic transitions, charge transfer, NLO response, and antagonist activity was explored systematically. Solvent polarity significantly altered UV–Vis absorption, HOMO–LUMO gap, charge-transfer behavior, and NLO efficiency. PDPMP exhibited first-order hyperpolarizability (βtotal) of 537 × 10⁻³¹ esu, which is approximately 69 times greater than the reference value for urea (βtotal = 7.803 × 10⁻³¹ esu) and 3.5 time than p-nitroaniline (βtotal = 155 × 10–31 esu) and increasing up to threefold in polar solvents with notable positive solvatochromism. NTO and TDM analyses confirmed solvent-induced intramolecular charge transfer, while NBO and RDG analyses revealed orbital delocalization and noncovalent interactions. Molecular docking against Mcl-1 (PDB IDs: 4HW3, 6GL8) suggested that PDPMP has higher binding affinity than the preclinical drug Obatoclax. These findings suggest that it may serve as a dual-function NLO material and merit additional investigation for its potential as an anticancer agent.",
+    presentedAt:
+      "2nd International Conference on “Recent Advances in Science and Technology” (ICRAST)",
   },
 ];
 
@@ -279,7 +294,7 @@ export const about: {
 } = {
   paragraphs: [
     "I am a Biochemistry & Molecular Biology researcher interested in understanding molecular mechanisms underlying disease and exploring how modern computational technologies can accelerate scientific discovery.",
-    "My Master’s research at the University of Rajshahi is rooted in cancer biology: I study how AGL modulates apoptotic and cell-cycle regulatory pathways in A549 lung cancer cells, using molecular biology techniques that span protein purification, cell culture, and molecular analysis.",
+    "My Master’s research at the University of Rajshahi is rooted in cancer biology, working with molecular biology techniques that span protein purification, cell culture, and molecular analysis.",
     "Alongside the lab, I write software — AI-assisted tools, browser automation, and chatbots — and I am interested in how AI and automation can accelerate both research and everyday work.",
     "I am also the Co-Founder of Unique Labs, where we build at the intersection of technology, AI, and experimentation.",
   ],
@@ -320,100 +335,17 @@ export const uniqueLabs: UniqueLabsInfo = {
 };
 
 /* ── Research ───────────────────────────────────────────────────────────── */
+/*  Current research stays confidential until it is published; the site     */
+/*  shows this placeholder instead of project details.                       */
 
-export const featuredResearch: ResearchProject = {
-  id: "agl-a549",
-  label: "Featured Research",
+export const currentResearch: CurrentResearch = {
+  label: "Current research",
   context: "Master’s Research · University of Rajshahi",
-  title:
-    "AGL-Induced Modulation of Apoptotic and Cell Cycle Regulatory Pathways in A549 Lung Cancer Cells",
-  summary:
-    "Investigating how AGL influences the pathways that govern programmed cell death and cell-cycle progression in a human lung cancer cell model.",
-  objective:
-    "To investigate how AGL modulates apoptotic and cell-cycle regulatory pathways in A549 lung cancer cells.",
-  model: "A549 — human lung adenocarcinoma cell line",
-  techniques: [
-    "Cell culture",
-    "MTT assay",
-    "SDS-PAGE",
-    "Affinity chromatography",
-    "Hemagglutination assay",
-    "qPCR",
-    "Apoptosis-related assays",
-    "Cell-cycle analysis",
-  ],
-  techniqueGroups: [
-    {
-      name: "Protein purification & characterization",
-      techniques: ["Affinity chromatography", "SDS-PAGE", "Hemagglutination assay"],
-    },
-    {
-      name: "Cell-based assays",
-      techniques: ["Cell culture", "MTT assay", "Apoptosis-related assays", "Cell-cycle analysis"],
-    },
-    { name: "Molecular analysis", techniques: ["qPCR"] },
-  ],
-  focus: ["Apoptosis", "Cell-cycle regulation", "Lung cancer biology"],
-  status: "Ongoing",
-  publicationDoi: "10.1016/j.molstruc.2026.146299",
-  findings: null,
+  title: "Details will be shared after publication",
+  description:
+    "My current Master’s research in cancer biology is confidential until it is published. Its details will appear here once the work is out.",
+  areas: ["Cancer biology", "Molecular biology"],
 };
-
-/*  Research timeline — add a `date` (and ISO `dateTime`) to any milestone   */
-/*  when you want it shown. Undated milestones simply show their step.      */
-
-export const researchTimeline: TimelineMilestone[] = [
-  {
-    id: "initiation",
-    title: "Research initiation",
-    description: "Framing the research question and designing the experimental approach.",
-    date: null,
-  },
-  {
-    id: "lectin-purification",
-    title: "Lectin purification",
-    description: "Purifying the lectin for downstream biochemical and cellular studies.",
-    date: null,
-  },
-  {
-    id: "characterization",
-    title: "Characterization",
-    description: "Biochemical characterization of the purified protein.",
-    date: null,
-  },
-  {
-    id: "cell-experiments",
-    title: "Cell-based experiments",
-    description: "Evaluating effects on cultured A549 lung cancer cells.",
-    date: null,
-  },
-  {
-    id: "molecular-analysis",
-    title: "Molecular analysis",
-    description: "Examining apoptotic and cell-cycle regulatory pathways at the molecular level.",
-    date: null,
-  },
-  {
-    id: "conference",
-    title: "Conference presentation",
-    description:
-      "Presented at the 1st Scientific Conference of Veterinary and Animal Sciences 2025, University of Rajshahi.",
-    date: "29 Nov 2025",
-    dateTime: "2025-11-29",
-    highlight: true,
-  },
-  {
-    id: "publication",
-    title: "Publication",
-    description: "Research published with a registered DOI.",
-    date: null,
-    highlight: true,
-    link: {
-      label: "10.1016/j.molstruc.2026.146299",
-      href: "https://doi.org/10.1016/j.molstruc.2026.146299",
-    },
-  },
-];
 
 /* ── Achievements ───────────────────────────────────────────────────────── */
 
@@ -475,21 +407,6 @@ export const projects: Project[] = [
     links: { github: null, demo: null },
     icon: "bot",
   },
-  {
-    id: "agl-a549-research",
-    name: "AGL × A549 Cancer Biology Research",
-    description:
-      "Master’s research on AGL-induced modulation of apoptotic and cell-cycle regulatory pathways in A549 lung cancer cells.",
-    categories: ["Research"],
-    technologies: ["Cell culture", "MTT assay", "SDS-PAGE", "qPCR"],
-    status: featuredResearch.status,
-    links: {
-      github: null,
-      demo: null,
-      internal: { label: "Read about the research", href: "#research" },
-    },
-    icon: "flask",
-  },
 ];
 
 /* ── Experience ─────────────────────────────────────────────────────────── */
@@ -515,8 +432,7 @@ export const experience: ExperienceEntry[] = [
     categories: ["Academic", "Research"],
     period: null,
     current: true,
-    description:
-      "Master’s research in cancer biology investigating AGL-induced modulation of apoptotic and cell-cycle regulatory pathways in A549 lung cancer cells.",
+    description: "Master’s research in cancer biology. Details will be shared after publication.",
     link: { label: "View research", href: "#research" },
   },
   {
@@ -530,12 +446,24 @@ export const experience: ExperienceEntry[] = [
     link: { label: "View achievement", href: "#achievements" },
   },
   {
+    id: "icrast",
+    role: "Conference Presenter",
+    organization:
+      "2nd International Conference on “Recent Advances in Science and Technology” (ICRAST)",
+    categories: ["Conferences"],
+    period: null,
+    description:
+      "Participated and presented the research published as DOI 10.1016/j.molstruc.2026.146299.",
+    link: { label: "View publication", href: "#publications" },
+  },
+  {
     id: "publication",
     role: "Published Author",
-    organization: "Research publication",
+    organization: "Journal of Molecular Structure",
     categories: ["Research"],
     period: null,
-    description: "Published research article — DOI 10.1016/j.molstruc.2026.146299.",
+    description:
+      "Co-author of “Solvent-dependent nonlinear optical response and potential Mcl-1 antagonist activity of an azo–hydrazone derivative: Experimental and theoretical studies”.",
     link: { label: "View publication", href: "#publications" },
   },
   {

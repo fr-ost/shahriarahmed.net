@@ -46,7 +46,7 @@ export interface SectionMeta {
   index: string;
   eyebrow: string;
   title: string;
-  /** Optional part of the title rendered in the italic serif accent. */
+  /** Optional part of the title rendered in the accent colour. */
   titleAccent?: string;
   description?: string;
 }
@@ -64,36 +64,14 @@ export interface IdentityItem {
   href?: string;
 }
 
-export interface ResearchProject {
-  id: string;
+/** Placeholder shown while current research is confidential. */
+export interface CurrentResearch {
   label: string;
   context: string;
   title: string;
-  summary: string;
-  objective: string;
-  model: string;
-  techniques: string[];
-  techniqueGroups: { name: string; techniques: string[] }[];
-  focus: string[];
-  /** e.g. "Ongoing" or "Completed". `null` renders a placeholder. */
-  status: string | null;
-  /** DOI (without the https://doi.org/ prefix) of the related publication. */
-  publicationDoi: string | null;
-  /** Summary of findings. Leave `null` until you want to publish results. */
-  findings: string | null;
-}
-
-export interface TimelineMilestone {
-  id: string;
-  title: string;
   description: string;
-  /** Human-readable date, e.g. "29 Nov 2025". `null` hides the date. */
-  date: string | null;
-  /** Machine-readable date for the <time> element, e.g. "2025-11-29". */
-  dateTime?: string;
-  /** Emphasise research outputs (presentations, publications). */
-  highlight?: boolean;
-  link?: Link;
+  /** Broad, public research areas only. */
+  areas: string[];
 }
 
 export interface Publication {
@@ -109,6 +87,8 @@ export interface Publication {
   journal: string | null;
   year: number | null;
   abstract: string | null;
+  /** Conference or event where the work was presented, if any. */
+  presentedAt: string | null;
 }
 
 export interface Achievement {

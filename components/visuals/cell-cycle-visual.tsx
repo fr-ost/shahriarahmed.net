@@ -1,7 +1,7 @@
 /**
  * Schematic of the eukaryotic cell cycle (G1 → S → G2 → M) with the major
- * checkpoints and an apoptosis exit — the pathways studied in the featured
- * research. Phase proportions are approximate and not to scale.
+ * checkpoints and an apoptosis exit — a general cancer-biology motif for the
+ * research section. Phase proportions are approximate and not to scale.
  */
 
 const R = 128;
@@ -103,7 +103,7 @@ export function CellCycleVisual({ className }: { className?: string }) {
                 y={p.y}
                 textAnchor="middle"
                 dominantBaseline="central"
-                className="fill-fg font-mono text-[13px] tracking-[0.08em]"
+                className="fill-fg font-sans text-[13px] font-semibold tracking-[0.04em]"
               >
                 {phase.label}
               </text>
@@ -139,22 +139,27 @@ export function CellCycleVisual({ className }: { className?: string }) {
               x="24"
               y="0"
               dominantBaseline="central"
-              className="fill-faint font-mono text-[10px] uppercase tracking-[0.16em]"
+              className="fill-faint font-sans text-[10px] font-semibold uppercase tracking-[0.1em]"
             >
               Apoptosis
             </text>
           </g>
 
-          <text x="0" y="-8" textAnchor="middle" className="fill-fg font-serif text-[40px]">
-            A549
+          <text
+            x="0"
+            y="-4"
+            textAnchor="middle"
+            className="fill-fg font-sans text-[26px] font-semibold tracking-[-0.02em]"
+          >
+            Cell cycle
           </text>
           <text
             x="0"
-            y="18"
+            y="20"
             textAnchor="middle"
-            className="fill-faint font-mono text-[10px] uppercase tracking-[0.18em]"
+            className="fill-faint font-sans text-[10px] font-semibold uppercase tracking-[0.1em]"
           >
-            Cell cycle
+            G1 · S · G2 · M
           </text>
         </svg>
 

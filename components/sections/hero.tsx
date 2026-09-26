@@ -32,7 +32,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
       <div className="container-page grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-7">
           <ul
-            className="eyebrow flex flex-wrap items-center gap-x-2.5 gap-y-2 text-faint animate-rise max-sm:text-[0.625rem] max-sm:tracking-[0.1em] sm:gap-x-3"
+            className="eyebrow flex flex-wrap items-center gap-x-2.5 gap-y-2 text-faint animate-rise max-sm:text-[0.625rem] max-sm:tracking-[0.05em] sm:gap-x-3"
             style={rise(0)}
             aria-label="Areas of work"
           >
@@ -48,18 +48,18 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
 
           <h1
             id="hero-title"
-            className="mt-8 font-serif text-[clamp(3.5rem,13vw,9.25rem)] leading-[0.86] tracking-[-0.03em] text-fg"
+            className="mt-7 text-[clamp(3.5rem,15vw,7.75rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-fg"
           >
             <span className="block animate-focus-in" style={rise(90)}>
               {person.givenName}
             </span>{" "}
-            <span className="block animate-focus-in italic" style={rise(170)}>
+            <span className="block animate-focus-in" style={rise(170)}>
               {person.familyName}
             </span>
           </h1>
 
           <div className="mt-9 animate-rise" style={rise(280)}>
-            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl font-medium tracking-tight text-fg sm:text-2xl">
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xl font-medium tracking-[-0.02em] text-fg sm:text-2xl">
               <span aria-hidden className="h-px w-8 bg-fg" />
               <span>
                 {person.jobTitle},{" "}
@@ -71,7 +71,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
                 </a>
               </span>
             </p>
-            <p className="mt-3 flex items-center pl-11 font-serif text-2xl italic text-accent sm:text-[1.75rem]">
+            <p className="mt-3 flex items-center pl-11 text-xl font-semibold tracking-[-0.02em] text-accent sm:text-2xl">
               <RoleCycler roles={hero.roles} />
             </p>
           </div>

@@ -32,9 +32,9 @@ export function CvSection({ cvLink }: { cvLink: CvLink }) {
                 </p>
                 <h2
                   id={`${meta.id}-title`}
-                  className="mt-5 font-serif text-[clamp(2.5rem,6vw,3.75rem)] leading-[0.95] tracking-[-0.02em] text-fg"
+                  className="mt-5 text-[clamp(2.25rem,5vw,3.25rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-fg"
                 >
-                  {meta.title} <em className="italic text-accent">{meta.titleAccent}</em>
+                  {meta.title} <span className="text-accent">{meta.titleAccent}</span>
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">{cv.text}</p>
               </div>
@@ -45,7 +45,7 @@ export function CvSection({ cvLink }: { cvLink: CvLink }) {
                     <FileText aria-hidden className="size-5" strokeWidth={1.6} />
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate font-mono text-sm text-fg">{cv.fileName}</p>
+                    <p className="truncate text-sm font-medium text-fg">{cv.fileName}</p>
                     <p className="eyebrow mt-1 text-faint">
                       {cvLink.available ? "PDF · Download" : "PDF"}
                     </p>

@@ -15,9 +15,9 @@ export default function NotFound() {
         <p className="eyebrow text-accent">Error 404</p>
         <h1
           id="not-found-title"
-          className="mt-6 font-serif text-[clamp(3rem,10vw,7rem)] leading-[0.9] tracking-[-0.03em] text-fg"
+          className="mt-6 text-[clamp(2.75rem,9vw,6rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-fg"
         >
-          Nothing to see <em className="italic text-accent">here</em>.
+          Nothing to see <span className="text-accent">here</span>.
         </h1>
         <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">
           The page you were looking for does not exist or has moved.
