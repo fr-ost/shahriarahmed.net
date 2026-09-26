@@ -9,7 +9,7 @@ import { SectionHeading } from "@/components/ui/section";
 import { SmartLink } from "@/components/ui/smart-link";
 import { VennVisual } from "@/components/visuals/venn-visual";
 import { person, sections, uniqueLabs } from "@/data/portfolio";
-import { cn, pad2 } from "@/lib/utils";
+import { cn, pad2, prettyUrl } from "@/lib/utils";
 
 function ProfileField({
   label,
@@ -26,10 +26,6 @@ function ProfileField({
       <dd className="mt-3 text-panel-fg">{children}</dd>
     </div>
   );
-}
-
-function prettyUrl(url: string) {
-  return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }
 
 export function UniqueLabs() {

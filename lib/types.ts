@@ -17,6 +17,7 @@ export type IconKey =
   | "bot"
   | "code"
   | "blocks"
+  | "puzzle"
   | "handshake"
   | "megaphone"
   | "workflow";
@@ -129,17 +130,37 @@ export interface Achievement {
 
 export type ProjectCategory = "AI" | "Web" | "Automation" | "Research" | "Tools";
 
+/** One app in a project that groups several, e.g. a single bot or extension. */
+export interface ProjectItem {
+  name: string;
+  description: string;
+  href: string | null;
+  /** Link text, e.g. "@sfchecker_bot" or "Chrome Web Store". */
+  linkLabel: string;
+}
+
 export interface Project {
   id: string;
   name: string;
   description: string;
   categories: ProjectCategory[];
   technologies: string[];
-  /** e.g. "Active", "In development", "Completed". `null` renders a placeholder. */
+  /**
+   * e.g. "Live", "In development", "Completed". When `null`, projects with
+   * `items` show how many they contain; others show a placeholder.
+   */
   status: string | null;
+  /** Key facts shown as a short list, e.g. { label: "Type", value: "Web app" }. */
+  details?: LabeledValue[];
+  /** Individual apps in this project, each with its own link. */
+  items?: ProjectItem[];
+  /** Singular noun for `items`, e.g. "bot" (shown as "03 bots"). */
+  itemNoun?: string;
   links: {
     github: string | null;
     demo: string | null;
+    /** Public website or live app. */
+    website?: string | null;
     /** Optional in-page link, e.g. "#research". */
     internal?: Link | null;
   };

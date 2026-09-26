@@ -465,38 +465,89 @@ export const projectCategories: ProjectCategory[] = [
   "Tools",
 ];
 
-/*  Add repository / demo URLs when they are public — `null` shows a        */
-/*  placeholder. Do not add URLs that do not exist.                          */
+/*  `links.website` is the live site; `items` lists the apps in a project    */
+/*  (each with its own link) and `details` adds key facts. Add repository    */
+/*  URLs when they are public. Do not add URLs that do not exist.            */
 
 export const projects: Project[] = [
   {
-    id: "crypto-signal-analyzer",
-    name: "AI / Crypto Signal Analyzer",
-    description: "AI-assisted cryptocurrency market analysis and signal-generation platform.",
-    categories: ["AI", "Tools"],
-    technologies: ["AI", "Market data", "Signal generation"],
-    status: null,
-    links: { github: null, demo: null },
+    id: "signova",
+    name: "Signova",
+    description:
+      "AI-assisted crypto market analysis and signal-generation platform. Signova analyses market data and turns it into trading signals, delivered through a live web app.",
+    categories: ["AI", "Web", "Tools"],
+    technologies: ["AI", "Market data", "Signal generation", "Web app"],
+    status: "Live",
+    details: [
+      { label: "Type", value: "Web platform" },
+      { label: "Market", value: "Cryptocurrency" },
+      { label: "Analysis", value: "AI-assisted" },
+      { label: "Output", value: "Trading signals" },
+    ],
+    links: { github: null, demo: null, website: "https://signova.up.railway.app/" },
     icon: "chart",
   },
   {
-    id: "x-automation-tools",
-    name: "X / Twitter Automation Tools",
-    description: "Browser automation and Chrome extension projects.",
+    // Store titles and summaries as listed on the Chrome Web Store.
+    id: "x-chrome-extensions",
+    name: "Chrome Extensions for X",
+    description:
+      "Browser extensions that automate growing and managing an X (Twitter) account, published on the Chrome Web Store.",
     categories: ["Automation", "Web", "Tools"],
-    technologies: ["Browser automation", "Chrome extensions"],
+    technologies: ["Chrome extensions", "Browser automation"],
     status: null,
+    items: [
+      {
+        name: "X Follow Grow",
+        description:
+          "Grow an X (Twitter) following with safe, smart automated follows, right in the browser.",
+        href: "https://chromewebstore.google.com/detail/x-follow-grow-safe-smart/ofiancichfcakbdgekhcahflpoglfgbh",
+        linkLabel: "Chrome Web Store",
+      },
+      {
+        name: "X (Twitter) Mass Unfollow Tool - Bulk Following Cleaner",
+        description:
+          "X/Twitter unfollow manager with bulk unfollow, non-followers cleaner, smart filters, safety limits, analytics & CSV export.",
+        href: "https://chromewebstore.google.com/detail/x-twitter-mass-unfollow-t/igpjmagghnibmjkkdcgpjgpkfkpiglnl",
+        linkLabel: "Chrome Web Store",
+      },
+    ],
+    itemNoun: "extension",
     links: { github: null, demo: null },
-    icon: "automation",
+    icon: "puzzle",
   },
   {
     id: "telegram-bots",
     name: "Telegram Bots",
     description:
-      "Multi-purpose Telegram bots built for different needs — AI-powered conversations, group and community management, automated alerts and notifications, and everyday task automation.",
-    categories: ["AI", "Automation", "Tools"],
-    technologies: ["Telegram", "AI", "Automation"],
+      "Bots for everyday social media tasks — follower checks, Instagram video downloads, and social media marketing, each inside a Telegram chat.",
+    categories: ["Automation", "Tools"],
+    technologies: ["Telegram", "Automation", "Social media"],
     status: null,
+    items: [
+      {
+        name: "Smart Follower Checker",
+        description:
+          "On-demand follower checks: the bot analyses an account’s followers and sends the results straight back to your chat.",
+        href: "https://t.me/sfchecker_bot",
+        linkLabel: "@sfchecker_bot",
+      },
+      {
+        name: "Instagram Video Downloader",
+        description:
+          "Send an Instagram post or reel link and get the video back, ready to save — no extra app or website needed.",
+        href: "https://t.me/uniquelabs_igbot",
+        linkLabel: "@uniquelabs_igbot",
+      },
+      {
+        name: "SMM Agent",
+        description:
+          "A social media marketing (SMM) assistant that brings growth services and campaign tasks into a single Telegram chat.",
+        href: "https://t.me/smmagentprobot",
+        linkLabel: "@smmagentprobot",
+      },
+    ],
+    itemNoun: "bot",
     links: { github: null, demo: null },
     icon: "bot",
   },
@@ -520,7 +571,7 @@ export const experience: ExperienceEntry[] = [
   },
   {
     id: "masters-research",
-    role: "Master’s Researcher",
+    role: "Graduate Student",
     organization: "Biochemistry & Molecular Biology · University of Rajshahi",
     categories: ["Academic", "Research"],
     period: null,
@@ -556,7 +607,7 @@ export const experience: ExperienceEntry[] = [
     categories: ["Technology", "Projects"],
     period: null,
     description:
-      "Building software across AI-assisted market analysis, browser automation and Chrome extensions, and multi-purpose Telegram bots.",
+      "Building Signova (AI-assisted crypto market analysis), Chrome extensions for X, and Telegram bots.",
     link: { label: "View projects", href: "#projects" },
   },
 ];
@@ -618,12 +669,10 @@ export const skillGroups: SkillGroup[] = [
     icon: "blocks",
     skills: [
       "Smart Contracts",
-      "Solidity",
       "EVM Chains",
-      "Token Standards (ERC-20, ERC-721)",
       "dApp Development",
-      "Web3.js / Ethers.js",
-      "Wallet Integration",
+      "Web3 Incubation",
+      "Payment Integration",
       "Tokenomics",
     ],
   },

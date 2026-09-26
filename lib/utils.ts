@@ -17,3 +17,8 @@ export function pad2(value: number): string {
 export function mailto(email: string, subject?: string): string {
   return subject ? `mailto:${email}?subject=${encodeURIComponent(subject)}` : `mailto:${email}`;
 }
+
+/** URL without the protocol or trailing slash, e.g. "example.com/path". */
+export function prettyUrl(url: string): string {
+  return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+}

@@ -12,6 +12,7 @@ import {
   Megaphone,
   Microscope,
   MousePointerClick,
+  Puzzle,
   Workflow,
   type LucideIcon,
 } from "lucide-react";
@@ -41,6 +42,7 @@ export const contentIcons: Record<IconKey, LucideIcon> = {
   bot: BotMessageSquare,
   code: CodeXml,
   blocks: Blocks,
+  puzzle: Puzzle,
   handshake: Handshake,
   megaphone: Megaphone,
   workflow: Workflow,

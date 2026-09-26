@@ -38,7 +38,7 @@ Only add verified information.
 | Research placeholder      | `currentResearch` (shown until the research is published) |
 | Publications              | `publications` (add new papers to the top of the list)    |
 | Achievements              | `achievements` (an empty list shows "Coming soon")        |
-| Projects & filters        | `projects`, `projectCategories`                           |
+| Projects & filters        | `projects` (apps, links, key facts), `projectCategories`  |
 | Experience, education     | `experience`, `education`                                 |
 | Skills                    | `skillGroups`                                             |
 | Section headings          | `sections`                                                |
@@ -59,6 +59,13 @@ as its handle with a copy button, because WhatsApp has no confirmed public link 
 set `href` if you get a link. Profile links are also added to the page's structured data, and the
 ORCID iD is included as an identifier.
 
+### Projects
+
+A project can link to its live site (`links.website`), list key facts (`details`) and group several
+apps under one card (`items`, each with its own link: the Chrome extensions and Telegram bots work
+this way). Cards with items show how many they contain (`itemNoun`, e.g. "03 bots") instead of a
+status. When the number of visible cards is odd, the first one spans the full width.
+
 ### Publications
 
 Each entry in `publications` shows its title, authors, journal, abstract, DOI and where it was
@@ -74,8 +81,7 @@ These are intentionally left empty rather than invented:
 - **Unique Labs**: current products, website, GitHub, company contact email (falls back to your
   personal email)
 - **Achievements**: none listed yet, so the section shows "Coming soon"
-- **Projects**: status, GitHub and live-demo URLs for each project, and the technology lists
-  (currently limited to terms from the project descriptions)
+- **Projects**: GitHub links (`links.github`)
 - **Research**: the current research is confidential until published, so the Research section
   shows a placeholder (`currentResearch`); add the project details there after publication
 - **Experience / education**: periods (for example `"2024 — Present"`)
