@@ -3,8 +3,10 @@ import { ExperienceTabs, ExperienceTimeline } from "@/components/sections/experi
 import { KeepExploring } from "@/components/sections/explore";
 import { CollaborationList, Web3Aside } from "@/components/sections/web3";
 import { BlockHeading } from "@/components/ui/block-heading";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
 import { pages, web3Experience } from "@/data/portfolio";
+import { buildPageJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
 const page = pages.web3;
@@ -14,6 +16,7 @@ export const metadata: Metadata = pageMetadata(page);
 export default function Web3Page() {
   return (
     <>
+      <JsonLd data={buildPageJsonLd({ page, parents: [pages.experience] })} />
       <PageHeader page={page} parents={[pages.experience]}>
         <ExperienceTabs active="web3" />
       </PageHeader>

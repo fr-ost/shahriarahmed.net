@@ -20,6 +20,7 @@ export function SocialLinks({ links, className, size = "md" }: SocialLinksProps)
           <li key={link.id}>
             <SmartLink
               href={link.href}
+              {...(isExternalHref(link.href) ? { rel: "me noopener noreferrer" } : {})}
               aria-label={
                 link.id === "email"
                   ? `Email ${link.handle}`

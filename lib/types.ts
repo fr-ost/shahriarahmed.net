@@ -73,6 +73,10 @@ export interface PageMeta {
   /** Optional part of the title rendered in the accent colour. */
   titleAccent?: string;
   description: string;
+  /** Title in search results, when it should differ from the page heading. */
+  seoTitle?: string;
+  /** Description in search results (about 160 characters), if not `description`. */
+  seoDescription?: string;
   /** Short name for links and breadcrumbs, e.g. "Web3 & Collaborations". */
   label: string;
   /** One line shown on the cards that link to the page. */

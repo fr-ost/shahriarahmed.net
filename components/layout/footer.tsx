@@ -3,15 +3,9 @@ import Link from "next/link";
 import { Mark } from "@/components/icons/mark";
 import { SocialLinks } from "@/components/ui/social-links";
 import { pages, person, socials } from "@/data/portfolio";
+import { contentPages, infoPages } from "@/lib/pages";
 
-const pageLinks = [
-  pages.research,
-  pages.projects,
-  pages.experience,
-  pages.web3,
-  pages.achievements,
-];
-const legalLinks = [pages.privacy, pages.dmca];
+const pageLinks = [pages.uniqueLabs, ...contentPages];
 
 const linkClass = "text-muted transition-colors duration-300 hover:text-fg";
 
@@ -51,9 +45,9 @@ export function Footer() {
               ))}
             </ul>
           </nav>
-          <nav aria-label="Legal">
+          <nav aria-label="About this site">
             <ul className="flex flex-wrap gap-x-6 gap-y-3">
-              {legalLinks.map((page) => (
+              {infoPages.map((page) => (
                 <li key={page.href}>
                   <Link href={page.href} className={linkClass}>
                     {page.label}

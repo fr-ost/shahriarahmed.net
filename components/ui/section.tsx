@@ -27,6 +27,8 @@ export function Section({ meta, children, className, containerClassName }: Secti
 
 interface SectionHeadingProps {
   meta: SectionMeta;
+  /** `h1` when the section heading is also the page title. */
+  as?: "h1" | "h2";
   /** Extra content to the right of the heading on large screens. */
   aside?: ReactNode;
   className?: string;
@@ -42,6 +44,7 @@ const headingSpacing = {
 
 export function SectionHeading({
   meta,
+  as: Heading = "h2",
   aside,
   className,
   tone = "default",
@@ -64,14 +67,16 @@ export function SectionHeading({
             panel ? "text-panel-muted" : "text-faint",
           )}
         >
-          <span className={panel ? "text-panel-accent" : "text-accent"}>{meta.index}</span>
+          {meta.index ? (
+            <span className={panel ? "text-panel-accent" : "text-accent"}>{meta.index}</span>
+          ) : null}
           <span
             aria-hidden
             className={cn("h-px w-8", panel ? "bg-panel-line" : "bg-line-strong")}
           />
           <span>{meta.eyebrow}</span>
         </p>
-        <h2
+        <Heading
           id={`${meta.id}-title`}
           className={cn(
             "text-[clamp(2.25rem,5.6vw,4rem)] font-semibold leading-[1.04] tracking-[-0.035em]",
@@ -87,7 +92,7 @@ export function SectionHeading({
               </span>
             </>
           ) : null}
-        </h2>
+        </Heading>
         {meta.description ? (
           <p
             className={cn(

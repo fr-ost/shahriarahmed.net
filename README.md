@@ -31,7 +31,7 @@ Only add verified information.
 
 | What                      | Where in `data/portfolio.ts`                              |
 | ------------------------- | --------------------------------------------------------- |
-| Name, title, email        | `person`                                                  |
+| Name, title, email        | `person` (`fullName` is used for search engines)          |
 | Social links              | `socials`, `socialGroups`                                 |
 | Hero text, rotating roles | `hero`                                                    |
 | About text, profile card  | `about`                                                   |
@@ -44,16 +44,20 @@ Only add verified information.
 | Web3 experience           | `web3Experience`, `collaborations`                        |
 | Skills                    | `skillGroups`                                             |
 | Homepage section headings | `sections`                                                |
-| Page headings, summaries  | `pages` (Research, Projects, Experience, …)               |
+| Page headings, summaries  | `pages` (plus `seoTitle`, `seoDescription` for search)    |
 | SEO title, description    | `site`                                                    |
 
 ### Pages
 
 The homepage covers About, Unique Labs, Publications, Skills, the CV and Contact, and links to
-the other pages from its **Explore** section, the navigation and the footer:
+the other pages from its **Explore** section, the navigation and the footer (About, Contact,
+Privacy Policy and DMCA sit together at the bottom right):
 
 | Page                    | Route               | Content                                         |
 | ----------------------- | ------------------- | ----------------------------------------------- |
+| About                   | `/about`            | `about`, `education`, `publications`            |
+| Contact                 | `/contact`          | `socials`, `contact` (including `topics`)       |
+| Unique Labs             | `/unique-labs`      | `uniqueLabs`                                    |
 | Research                | `/research`         | `currentResearch` and `publications`            |
 | Projects                | `/projects`         | `projects`                                      |
 | Experience              | `/experience`       | `experience`, `education`                       |
@@ -63,6 +67,30 @@ the other pages from its **Explore** section, the navigation and the footer:
 
 Each page's title, description and card summary come from `pages`. If you add a page, also list
 it in `app/sitemap.ts`.
+
+### Search engines
+
+- **Titles and descriptions**: every page has its own title, description and canonical URL
+  (`seoTitle` and `seoDescription` in `pages`; the homepage uses `site.title` and
+  `site.description`). Keep titles under about 60 characters and descriptions under about 160.
+- **Structured data**: every page describes itself and points to the same person, website and
+  company (`lib/json-ld.ts`), including the alternative name `person.fullName`, the profile
+  links, the ORCID iD, the University of Rajshahi and Unique Labs, plus a breadcrumb.
+- **Sitemap and robots**: `/sitemap.xml` lists every page (and the portrait for image search);
+  `/robots.txt` allows all crawlers and points to the sitemap. Sitemaps list pages, not
+  keywords: keywords belong in titles, headings, text and structured data, which is where they
+  are.
+- **`/llms.txt`**: a plain-text summary of the site for AI assistants.
+
+What helps most beyond the site itself:
+
+1. In Google Search Console, submit `https://shahriarahmed.net/sitemap.xml` (Sitemaps) and use
+   URL Inspection → Request indexing for `/`, `/about`, `/contact` and `/unique-labs`.
+2. Add `https://shahriarahmed.net` to every profile: Google Scholar (homepage field), ORCID
+   (websites), LinkedIn (contact info), GitHub, X, Instagram, Facebook and Telegram bios. Links
+   from these profiles are what tie your name to this site.
+3. Use the same name everywhere (Shahriar Ahmed, and Shahriar Ahmed Tushar on publications).
+4. Optionally add the site to Bing Webmaster Tools (it can import from Search Console).
 
 ### Adding your CV
 
@@ -115,8 +143,10 @@ Please also verify the education status (`"Current"`).
 app/                  Routes and metadata files
   layout.tsx          Fonts, SEO metadata, theme script, navbar/footer
   page.tsx            Home page (composes the sections, JSON-LD)
-  research/, projects/, experience/ (+ web3/), achievements/, privacy/, dmca/
+  about/, contact/, unique-labs/, research/, projects/, experience/ (+ web3/),
+  achievements/, privacy/, dmca/
                       The other pages
+  llms.txt/           Plain-text summary for AI assistants
   not-found.tsx       404 page
   opengraph-image.tsx Social share image (rendered at build time)
   twitter-image.tsx
@@ -130,7 +160,7 @@ components/
   icons/              Brand icons and the site mark
 data/portfolio.ts     All site content
 data/legal.ts         Privacy Policy and DMCA text
-lib/                  Types, theme helpers, JSON-LD, CV lookup, utilities
+lib/                  Types, page metadata and structured data, theme, CV lookup, utilities
 styles/globals.css    Design tokens (light/dark), Tailwind theme, base styles
 assets/               Fonts and portrait used only by the share image
 scripts/              generate-icons.mjs (regenerates favicon and app icons)

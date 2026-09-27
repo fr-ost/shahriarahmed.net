@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: person.name,
-  authors: [{ name: person.name, url: site.url }],
+  authors: [{ name: person.name, url: `${site.url}/about` }],
   creator: person.name,
   publisher: person.name,
   keywords: [...site.keywords],
@@ -54,7 +54,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   formatDetection: { telephone: false, address: false, email: false },
   category: "science",

@@ -5,8 +5,10 @@ import {
   ExperienceTimeline,
 } from "@/components/sections/experience";
 import { KeepExploring } from "@/components/sections/explore";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
 import { experience, pages } from "@/data/portfolio";
+import { buildPageJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
 const page = pages.experience;
@@ -16,6 +18,7 @@ export const metadata: Metadata = pageMetadata(page);
 export default function ExperiencePage() {
   return (
     <>
+      <JsonLd data={buildPageJsonLd({ page })} />
       <PageHeader page={page}>
         <ExperienceTabs active="experience" />
       </PageHeader>

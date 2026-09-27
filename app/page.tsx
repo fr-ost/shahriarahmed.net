@@ -8,17 +8,15 @@ import { Publications } from "@/components/sections/publications";
 import { Skills } from "@/components/sections/skills";
 import { UniqueLabs } from "@/components/sections/unique-labs";
 import { getCvLink } from "@/lib/cv";
-import { buildJsonLd, serializeJsonLd } from "@/lib/json-ld";
+import { JsonLd } from "@/components/seo/json-ld";
+import { buildHomeJsonLd } from "@/lib/json-ld";
 
 export default function HomePage() {
   const cvLink = getCvLink();
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(buildJsonLd()) }}
-      />
+      <JsonLd data={buildHomeJsonLd()} />
       <Hero cvLink={cvLink} />
       <IdentityStrip />
       <About />

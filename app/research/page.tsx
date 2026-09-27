@@ -3,8 +3,10 @@ import { KeepExploring } from "@/components/sections/explore";
 import { PublicationCount, PublicationList } from "@/components/sections/publications";
 import { CurrentResearchCard } from "@/components/sections/research";
 import { BlockHeading } from "@/components/ui/block-heading";
+import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
 import { pages } from "@/data/portfolio";
+import { articleNodes, buildPageJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
 const page = pages.research;
@@ -14,6 +16,7 @@ export const metadata: Metadata = pageMetadata(page);
 export default function ResearchPage() {
   return (
     <>
+      <JsonLd data={buildPageJsonLd({ page, type: "CollectionPage", nodes: articleNodes() })} />
       <PageHeader page={page} />
       <div className="container-page pb-24 sm:pb-28">
         <CurrentResearchCard />

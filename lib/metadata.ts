@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { person, site, socials } from "@/data/portfolio";
+import { pageTitle } from "@/lib/pages";
 import { socialImage } from "@/lib/social-image";
 import type { PageMeta } from "@/lib/types";
 
@@ -14,27 +15,35 @@ const imageDetails = {
 };
 
 /** Title, description, canonical URL and social cards for a standalone page. */
-export function pageMetadata(page: PageMeta): Metadata {
-  const title = page.titleAccent ? `${page.title} ${page.titleAccent}` : page.title;
-  const fullTitle = `${title} — ${person.name}`;
+export function pageMetadata(page: PageMeta, options: { profile?: boolean } = {}): Metadata {
+  const fullTitle = page.seoTitle ?? `${pageTitle(page)} — ${person.name}`;
+  const description = page.seoDescription ?? page.description;
+  const common = {
+    url: page.href,
+    siteName: person.name,
+    title: fullTitle,
+    description,
+    locale: site.locale,
+    images: [{ url: "/opengraph-image", ...imageDetails }],
+  };
 
   return {
-    title,
-    description: page.description,
+    // An explicit SEO title already names the site owner, so skip the template.
+    title: page.seoTitle ? { absolute: page.seoTitle } : pageTitle(page),
+    description,
     alternates: { canonical: page.href },
-    openGraph: {
-      type: "website",
-      url: page.href,
-      siteName: person.name,
-      title: fullTitle,
-      description: page.description,
-      locale: site.locale,
-      images: [{ url: "/opengraph-image", ...imageDetails }],
-    },
+    openGraph: options.profile
+      ? {
+          ...common,
+          type: "profile",
+          firstName: person.givenName,
+          lastName: person.familyName,
+        }
+      : { ...common, type: "website" },
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
-      description: page.description,
+      description,
       creator: xHandle,
       images: [{ url: "/twitter-image", ...imageDetails }],
     },

@@ -1,4 +1,5 @@
 import { ArrowUpRight, Mail } from "lucide-react";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { contentIcons } from "@/components/icons";
 import { GitHubIcon } from "@/components/icons/brand-icons";
@@ -8,7 +9,8 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section";
 import { SmartLink } from "@/components/ui/smart-link";
 import { VennVisual } from "@/components/visuals/venn-visual";
-import { person, sections, uniqueLabs } from "@/data/portfolio";
+import { pages, person, sections, uniqueLabs } from "@/data/portfolio";
+import portrait from "@/public/images/shahriar-ahmed.webp";
 import { cn, pad2, prettyUrl } from "@/lib/utils";
 
 function ProfileField({
@@ -28,8 +30,16 @@ function ProfileField({
   );
 }
 
-export function UniqueLabs() {
+interface UniqueLabsProps {
+  /** `h1` on the Unique Labs page, where the panel is the page title. */
+  as?: "h1" | "h2";
+}
+
+export function UniqueLabs({ as = "h2" }: UniqueLabsProps) {
   const labs = uniqueLabs;
+  const onPage = as === "h1";
+  const SubHeading = onPage ? "h2" : "h3";
+  const ItemHeading = onPage ? "h3" : "h4";
   const contactEmail = labs.contactEmail ?? person.email;
   const mailSubject = encodeURIComponent(`Hello ${labs.name}`);
 
@@ -50,7 +60,12 @@ export function UniqueLabs() {
 
           <div className="grid grid-cols-1 items-center gap-12 px-6 pb-4 pt-12 sm:px-10 sm:pt-16 lg:grid-cols-12 lg:gap-8 lg:px-16 lg:pb-8 lg:pt-20">
             <div className="lg:col-span-6">
-              <SectionHeading meta={sections.uniqueLabs} tone="panel" spacing="none" />
+              <SectionHeading
+                meta={onPage ? { ...sections.uniqueLabs, index: "" } : sections.uniqueLabs}
+                as={as}
+                tone="panel"
+                spacing="none"
+              />
 
               <Reveal delay={0.1} className="mt-10">
                 <div className="flex items-center gap-4 border-y border-panel-line py-5">
@@ -80,6 +95,15 @@ export function UniqueLabs() {
                       Visit website
                     </ButtonLink>
                   ) : null}
+                  {onPage ? null : (
+                    <ButtonLink
+                      href={pages.uniqueLabs.href}
+                      variant="panel-outline"
+                      icon="arrow-right"
+                    >
+                      Company page
+                    </ButtonLink>
+                  )}
                 </div>
               </Reveal>
             </div>
@@ -93,7 +117,7 @@ export function UniqueLabs() {
           </div>
 
           <Reveal className="mt-8 border-t border-panel-line">
-            <h3 className="sr-only">Company profile</h3>
+            <SubHeading className="sr-only">Company profile</SubHeading>
             <dl className="grid grid-cols-1 gap-px bg-panel-line sm:grid-cols-2 lg:grid-cols-4">
               <ProfileField label="Mission" className="sm:col-span-2">
                 {labs.mission ? (
@@ -133,9 +157,9 @@ export function UniqueLabs() {
                               {pad2(index + 1)}
                             </span>
                           </div>
-                          <h4 className="mt-5 text-lg font-semibold tracking-[-0.015em] text-panel-fg">
+                          <ItemHeading className="mt-5 text-lg font-semibold tracking-[-0.015em] text-panel-fg">
                             {service.title}
-                          </h4>
+                          </ItemHeading>
                           <p className="mt-2 text-[0.9375rem] leading-relaxed text-panel-muted">
                             {service.description}
                           </p>
@@ -213,5 +237,39 @@ export function UniqueLabs() {
         </div>
       </div>
     </section>
+  );
+}
+
+/** The founder, linking to the About and Contact pages. */
+export function FounderCard() {
+  return (
+    <Reveal>
+      <article className="flex flex-col gap-6 rounded-3xl border border-line bg-elevated p-6 shadow-card sm:flex-row sm:items-center sm:p-8">
+        <Image
+          src={portrait}
+          alt={person.portrait.alt}
+          placeholder="blur"
+          sizes="112px"
+          className="size-24 shrink-0 rounded-2xl object-cover sm:size-28"
+        />
+        <div className="min-w-0 flex-1">
+          <p className="eyebrow text-accent">{uniqueLabs.founderRole}</p>
+          <h3 className="mt-2 text-2xl font-semibold tracking-[-0.02em] text-fg">
+            {uniqueLabs.founderName}
+          </h3>
+          <p className="mt-2 leading-relaxed text-muted">
+            {person.field} researcher at the {person.institution}, and {person.title}.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2 sm:flex-col">
+          <ButtonLink href={pages.about.href} variant="secondary" size="sm" icon="arrow-right">
+            About {person.givenName}
+          </ButtonLink>
+          <ButtonLink href={pages.contact.href} variant="secondary" size="sm" icon="arrow-right">
+            Contact
+          </ButtonLink>
+        </div>
+      </article>
+    </Reveal>
   );
 }

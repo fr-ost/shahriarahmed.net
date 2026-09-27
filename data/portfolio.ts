@@ -37,23 +37,39 @@ import type {
 export const site = {
   url: "https://shahriarahmed.net",
   domain: "shahriarahmed.net",
-  title: "Shahriar Ahmed — Biochemistry & Molecular Biology Researcher & Co-Founder",
+  /** Homepage title in search results (about 60 characters at most). */
+  title: "Shahriar Ahmed — Researcher & Co-Founder of Unique Labs",
+  /** Homepage description in search results (about 160 characters at most). */
   description:
-    "Shahriar Ahmed is a Biochemistry & Molecular Biology researcher, Co-Founder of Unique Labs, and technology enthusiast working across molecular research, cancer biology, AI, software, and automation.",
+    "Shahriar Ahmed (Shahriar Ahmed Tushar) is a Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
   locale: "en_US",
   keywords: [
+    "Shahriar",
     "Shahriar Ahmed",
+    "Shahriar Ahmed Tushar",
+    "Tushar",
+    "shahriarahmed.net",
     "Unique Labs",
+    "Unique Labs Co-Founder",
     "Co-Founder",
     "Biochemistry",
     "Molecular Biology",
+    "Biochemistry and Molecular Biology",
+    "BMB",
     "Cancer Biology",
     "University of Rajshahi",
+    "Rajshahi University",
     "Researcher",
+    "Signova",
+    "KOC Marketing",
+    "Consultancy",
+    "Digital Marketing",
+    "Blockchain Development",
+    "Web3",
     "AI",
     "Automation",
-    "Blockchain Development",
-    "Digital Marketing",
+    "Chrome Extensions",
+    "Telegram Bots",
     "Rajshahi",
     "Bangladesh",
   ],
@@ -63,6 +79,8 @@ export const site = {
 
 export const person = {
   name: "Shahriar Ahmed",
+  /** Full name, as used on publications. */
+  fullName: "Shahriar Ahmed Tushar",
   givenName: "Shahriar",
   familyName: "Ahmed",
   /** Professional title, shown prominently across the site. */
@@ -80,7 +98,7 @@ export const person = {
   },
   portrait: {
     src: "/images/shahriar-ahmed.webp",
-    alt: "Portrait of Shahriar Ahmed",
+    alt: "Portrait of Shahriar Ahmed, Co-Founder of Unique Labs",
   },
 } as const;
 
@@ -250,11 +268,47 @@ export const sections = {
 /*  to each page.                                                            */
 
 export const pages = {
+  about: {
+    href: "/about",
+    label: "About",
+    eyebrow: "About",
+    title: "About",
+    titleAccent: "Shahriar Ahmed",
+    seoTitle: "About Shahriar Ahmed Tushar — Researcher, Unique Labs Co-Founder",
+    seoDescription:
+      "Shahriar Ahmed (Shahriar Ahmed Tushar): Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
+    description:
+      "Shahriar Ahmed, also published as Shahriar Ahmed Tushar, is a Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
+  },
+  contact: {
+    href: "/contact",
+    label: "Contact",
+    eyebrow: "Contact",
+    title: "Contact",
+    titleAccent: "Shahriar Ahmed",
+    seoTitle: "Contact Shahriar Ahmed — Email, Research & Social Profiles",
+    description:
+      "Reach Shahriar Ahmed by email, or through Google Scholar, ORCID, LinkedIn, GitHub, X, Telegram, and other profiles.",
+  },
+  uniqueLabs: {
+    href: "/unique-labs",
+    label: "Unique Labs",
+    eyebrow: "Company",
+    title: "Unique",
+    titleAccent: "Labs",
+    seoTitle: "Unique Labs — KOC, Digital Marketing & Blockchain Development",
+    description:
+      "Unique Labs, co-founded by Shahriar Ahmed, offers KOC and consultancy services, digital marketing, and blockchain development for brands and Web3 projects.",
+    icon: "building",
+  },
   research: {
     href: "/research",
     label: "Research",
     eyebrow: "Research",
     title: "Research",
+    seoTitle: "Research & Publications — Shahriar Ahmed",
+    seoDescription:
+      "Research by Shahriar Ahmed in Biochemistry & Molecular Biology at the University of Rajshahi: cancer biology, and a 2026 paper in the Journal of Molecular Structure.",
     description: "Exploring molecular mechanisms through experimental biology.",
     summary: "Current Master’s research in cancer biology, and published work.",
     icon: "microscope",
@@ -265,6 +319,9 @@ export const pages = {
     eyebrow: "Projects",
     title: "Selected",
     titleAccent: "Projects",
+    seoTitle: "Projects by Shahriar Ahmed — Signova, Chrome Extensions & Bots",
+    seoDescription:
+      "Projects by Shahriar Ahmed: Signova, an AI-assisted crypto signal platform; Chrome extensions for X; and Telegram bots for follower checks, downloads, and SMM.",
     description: "Technology work across AI, automation, and the web — alongside research.",
     summary: "Signova, Chrome extensions for X, and Telegram bots.",
     icon: "code",
@@ -275,6 +332,8 @@ export const pages = {
     eyebrow: "Experience",
     title: "Experience",
     description: "Entrepreneurship, research, and technology — one timeline.",
+    seoDescription:
+      "Experience of Shahriar Ahmed: Co-Founder of Unique Labs, graduate student in Biochemistry & Molecular Biology at the University of Rajshahi, and published author.",
     summary: "Unique Labs, graduate research, conferences, and publications.",
     icon: "briefcase",
   },
@@ -285,6 +344,8 @@ export const pages = {
     title: "Web3 &",
     titleAccent: "Collaborations",
     description: "Web3 experience and collaboration history.",
+    seoDescription:
+      "Web3 experience of Shahriar Ahmed, Co-Founder of Unique Labs — KOC and consultancy, digital marketing, and blockchain development — and collaboration history.",
     summary: "Web3 work through Unique Labs, and past collaborations.",
     icon: "blocks",
   },
@@ -294,6 +355,8 @@ export const pages = {
     eyebrow: "Recognition",
     title: "Achievements",
     description: "Awards and recognition.",
+    seoDescription:
+      "Awards and recognition of Shahriar Ahmed (Shahriar Ahmed Tushar), Biochemistry & Molecular Biology researcher and Co-Founder of Unique Labs.",
     summary: "Awards and recognition.",
     icon: "award",
   },
@@ -304,6 +367,8 @@ export const pages = {
     title: "Privacy",
     titleAccent: "Policy",
     description: "What information this website collects, and how it is used.",
+    seoDescription:
+      "Privacy policy of shahriarahmed.net, the website of Shahriar Ahmed: no cookies, analytics, or tracking, and how email you send is used.",
   },
   dmca: {
     href: "/dmca",
@@ -312,6 +377,8 @@ export const pages = {
     title: "DMCA",
     titleAccent: "Policy",
     description: "Copyright on this website, and how to report infringing material.",
+    seoDescription:
+      "Copyright and DMCA policy of shahriarahmed.net: how to report material that infringes your copyright, and how to send a counter-notice.",
   },
 } satisfies Record<string, PageMeta>;
 
@@ -424,6 +491,7 @@ export const about: {
     "Entrepreneurship",
   ],
   profile: [
+    { label: "Full name", value: "Shahriar Ahmed Tushar" },
     { label: "Role", value: "Co-Founder, Unique Labs" },
     { label: "Field", value: "Biochemistry & Molecular Biology" },
     { label: "Research Focus", value: "Cancer Biology • Molecular Research" },
@@ -778,4 +846,22 @@ export const cv = {
 
 export const contact = {
   text: "For research collaborations, technology projects, entrepreneurship, or interesting ideas, feel free to reach out.",
+  /** Shown on the Contact page. */
+  topics: [
+    {
+      title: "Research collaborations",
+      description: "Biochemistry & molecular biology, and cancer biology research.",
+      link: { label: "View research", href: "/research" },
+    },
+    {
+      title: "Unique Labs",
+      description: "KOC and consultancy services, digital marketing, and blockchain development.",
+      link: { label: "About Unique Labs", href: "/unique-labs" },
+    },
+    {
+      title: "Technology projects",
+      description: "AI-assisted tools, browser automation, Chrome extensions, and Telegram bots.",
+      link: { label: "View projects", href: "/projects" },
+    },
+  ],
 };

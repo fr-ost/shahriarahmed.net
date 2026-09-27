@@ -12,17 +12,9 @@ import {
   publications,
   sections,
 } from "@/data/portfolio";
+import { contentPages } from "@/lib/pages";
 import type { PageMeta } from "@/lib/types";
 import { cn, pad2 } from "@/lib/utils";
-
-/** The content pages, in the order they are offered. */
-const contentPages = [
-  pages.research,
-  pages.projects,
-  pages.experience,
-  pages.web3,
-  pages.achievements,
-] satisfies PageMeta[];
 
 function count(n: number, noun: string, plural = `${noun}s`) {
   return `${pad2(n)} ${n === 1 ? noun : plural}`;
@@ -124,7 +116,8 @@ export function Explore() {
 
 /** Links to the other content pages, shown at the end of each page. */
 export function KeepExploring({ current }: { current: string }) {
-  const others = contentPages.filter((page) => page.href !== current);
+  // Four cards fill one row on large screens.
+  const others = contentPages.filter((page) => page.href !== current).slice(0, 4);
 
   return (
     <section aria-labelledby="keep-exploring-title" className="border-t border-line py-16 sm:py-20">
