@@ -1,38 +1,15 @@
 import { Award, CalendarDays, Landmark } from "lucide-react";
+import { ComingSoonCard } from "@/components/ui/coming-soon";
 import { Reveal } from "@/components/ui/reveal";
-import { Section, SectionHeading } from "@/components/ui/section";
-import { achievements, sections } from "@/data/portfolio";
+import { Rings } from "@/components/visuals/rings";
+import { achievements } from "@/data/portfolio";
 
-/** Concentric rings behind the rank numeral — a quiet medal motif. */
-function Rings() {
-  return (
-    <svg
-      viewBox="-100 -100 200 200"
-      aria-hidden
-      className="absolute -right-44 top-1/2 size-[26rem] -translate-y-1/2 animate-spin-slower text-line-strong opacity-70 sm:-right-40 lg:-right-36"
-    >
-      {[92, 74, 56].map((r, i) => (
-        <circle
-          key={r}
-          r={r}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="0.6"
-          strokeDasharray={i === 0 ? "0.6 3" : i === 1 ? undefined : "4 3"}
-        />
-      ))}
-      <circle cx="0" cy="-92" r="2.4" className="fill-accent-bright" />
-    </svg>
-  );
-}
-
-export function Achievements() {
+/** The first achievement as a featured card, the rest in a grid. */
+export function AchievementsList() {
   const [featured, ...rest] = achievements;
 
   return (
-    <Section meta={sections.achievements}>
-      <SectionHeading meta={sections.achievements} />
-
+    <>
       {featured ? (
         <Reveal>
           <article
@@ -61,12 +38,12 @@ export function Achievements() {
               </div>
 
               <div className="lg:col-span-8 lg:border-l lg:border-line lg:pl-12">
-                <h3
+                <h2
                   id={`${featured.id}-title`}
                   className="text-[clamp(1.625rem,3.2vw,2.375rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-fg"
                 >
                   {featured.title}
-                </h3>
+                </h2>
                 {featured.description ? (
                   <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted">
                     {featured.description}
@@ -100,23 +77,12 @@ export function Achievements() {
           </article>
         </Reveal>
       ) : (
-        <Reveal>
-          <div className="relative isolate overflow-hidden rounded-[2rem] border border-dashed border-line-strong p-6 sm:p-10 lg:p-14">
-            <div className="absolute inset-0 -z-10 overflow-hidden">
-              <Rings />
-            </div>
-            <p className="eyebrow flex items-center gap-2 text-accent">
-              <Award aria-hidden className="size-4" strokeWidth={1.75} />
-              Recognition
-            </p>
-            <h3 className="mt-5 text-[clamp(2.25rem,6vw,3.75rem)] font-semibold leading-none tracking-[-0.045em] text-fg">
-              Coming soon
-            </h3>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
-              Awards and recognition will be listed here.
-            </p>
-          </div>
-        </Reveal>
+        <ComingSoonCard
+          eyebrow="Recognition"
+          icon={Award}
+          text="Awards and recognition will be listed here."
+          as="h2"
+        />
       )}
 
       {rest.length > 0 ? (
@@ -125,7 +91,7 @@ export function Achievements() {
             <Reveal as="li" key={item.id} delay={index * 0.06}>
               <article className="h-full rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-8">
                 <p className="eyebrow text-accent">{item.placement}</p>
-                <h3 className="mt-3 text-xl font-semibold tracking-tight text-fg">{item.title}</h3>
+                <h2 className="mt-3 text-xl font-semibold tracking-tight text-fg">{item.title}</h2>
                 <p className="mt-2 text-muted">{item.event}</p>
                 <p className="eyebrow mt-4 text-faint">
                   {item.institution} · <time dateTime={item.dateTime}>{item.date}</time>
@@ -135,6 +101,6 @@ export function Achievements() {
           ))}
         </ul>
       ) : null}
-    </Section>
+    </>
   );
 }

@@ -14,12 +14,14 @@
 
 import type {
   Achievement,
+  Collaboration,
   CurrentResearch,
   EducationEntry,
   ExperienceEntry,
   IdentityItem,
   LabeledValue,
   NavItem,
+  PageMeta,
   Project,
   ProjectCategory,
   Publication,
@@ -176,16 +178,16 @@ export const socials: SocialLink[] = [
 /* ── Navigation ─────────────────────────────────────────────────────────── */
 
 export const navigation: NavItem[] = [
-  { id: "about", label: "About" },
-  { id: "research", label: "Research" },
-  { id: "unique-labs", label: "Unique Labs" },
-  { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "publications", label: "Publications" },
-  { id: "contact", label: "Contact" },
+  { label: "About", href: "/#about" },
+  { label: "Research", href: "/research" },
+  { label: "Unique Labs", href: "/#unique-labs" },
+  { label: "Projects", href: "/projects" },
+  { label: "Experience", href: "/experience" },
+  { label: "Publications", href: "/#publications" },
+  { label: "Contact", href: "/#contact" },
 ];
 
-/* ── Section headings ───────────────────────────────────────────────────── */
+/* ── Homepage section headings ──────────────────────────────────────────── */
 
 export const sections = {
   about: {
@@ -195,52 +197,32 @@ export const sections = {
     title: "About",
     titleAccent: "Me",
   },
-  research: {
-    id: "research",
-    index: "02",
-    eyebrow: "Research",
-    title: "Research",
-    description: "Exploring molecular mechanisms through experimental biology.",
-  },
   uniqueLabs: {
     id: "unique-labs",
-    index: "03",
+    index: "02",
     eyebrow: "Company",
     title: "Unique",
     titleAccent: "Labs",
     description: "Building at the intersection of technology, AI, and experimentation.",
   },
-  projects: {
-    id: "projects",
-    index: "04",
-    eyebrow: "Projects",
-    title: "Selected",
-    titleAccent: "Projects",
-    description: "Technology work across AI, automation, and the web — alongside research.",
-  },
-  experience: {
-    id: "experience",
-    index: "05",
-    eyebrow: "Experience",
-    title: "Experience",
-    description: "Entrepreneurship, research, and technology — one timeline.",
+  explore: {
+    id: "explore",
+    index: "03",
+    eyebrow: "Explore",
+    title: "More of",
+    titleAccent: "My Work",
+    description: "Research, projects, experience, and recognition — each on its own page.",
   },
   publications: {
     id: "publications",
-    index: "06",
+    index: "04",
     eyebrow: "Publications",
     title: "Publications",
     description: "Published scientific work",
   },
-  achievements: {
-    id: "achievements",
-    index: "07",
-    eyebrow: "Recognition",
-    title: "Achievements",
-  },
   skills: {
     id: "skills",
-    index: "08",
+    index: "05",
     eyebrow: "Skills",
     title: "Skills &",
     titleAccent: "Methods",
@@ -249,19 +231,89 @@ export const sections = {
   },
   cv: {
     id: "cv",
-    index: "09",
+    index: "06",
     eyebrow: "CV",
     title: "Curriculum",
     titleAccent: "Vitae",
   },
   contact: {
     id: "contact",
-    index: "10",
+    index: "07",
     eyebrow: "Contact",
     title: "Let’s",
     titleAccent: "Connect",
   },
 } satisfies Record<string, SectionMeta>;
+
+/* ── Separate pages ─────────────────────────────────────────────────────── */
+/*  Headings, descriptions and the summaries shown on the cards that link    */
+/*  to each page.                                                            */
+
+export const pages = {
+  research: {
+    href: "/research",
+    label: "Research",
+    eyebrow: "Research",
+    title: "Research",
+    description: "Exploring molecular mechanisms through experimental biology.",
+    summary: "Current Master’s research in cancer biology, and published work.",
+    icon: "microscope",
+  },
+  projects: {
+    href: "/projects",
+    label: "Projects",
+    eyebrow: "Projects",
+    title: "Selected",
+    titleAccent: "Projects",
+    description: "Technology work across AI, automation, and the web — alongside research.",
+    summary: "Signova, Chrome extensions for X, and Telegram bots.",
+    icon: "code",
+  },
+  experience: {
+    href: "/experience",
+    label: "Experience",
+    eyebrow: "Experience",
+    title: "Experience",
+    description: "Entrepreneurship, research, and technology — one timeline.",
+    summary: "Unique Labs, graduate research, conferences, and publications.",
+    icon: "briefcase",
+  },
+  web3: {
+    href: "/experience/web3",
+    label: "Web3 & Collaborations",
+    eyebrow: "Experience",
+    title: "Web3 &",
+    titleAccent: "Collaborations",
+    description: "Web3 experience and collaboration history.",
+    summary: "Web3 work through Unique Labs, and past collaborations.",
+    icon: "blocks",
+  },
+  achievements: {
+    href: "/achievements",
+    label: "Achievements",
+    eyebrow: "Recognition",
+    title: "Achievements",
+    description: "Awards and recognition.",
+    summary: "Awards and recognition.",
+    icon: "award",
+  },
+  privacy: {
+    href: "/privacy",
+    label: "Privacy Policy",
+    eyebrow: "Legal",
+    title: "Privacy",
+    titleAccent: "Policy",
+    description: "What information this website collects, and how it is used.",
+  },
+  dmca: {
+    href: "/dmca",
+    label: "DMCA",
+    eyebrow: "Legal",
+    title: "DMCA",
+    titleAccent: "Policy",
+    description: "Copyright on this website, and how to report infringing material.",
+  },
+} satisfies Record<string, PageMeta>;
 
 /* ── Hero ───────────────────────────────────────────────────────────────── */
 
@@ -279,10 +331,10 @@ export const hero = {
   description:
     "Exploring the intersection of molecular biology, cancer research, computational tools, entrepreneurship, and emerging technology.",
   primaryActions: [
-    { label: "Explore My Research", href: "#research" },
+    { label: "Explore My Research", href: "/research" },
     { label: "Explore Unique Labs", href: "#unique-labs" },
   ],
-  workAction: { label: "View My Work", href: "#projects" },
+  workAction: { label: "View My Work", href: "/projects" },
 };
 
 /* ── Publications ───────────────────────────────────────────────────────── */
@@ -314,7 +366,7 @@ export const publications: Publication[] = [
     ],
     // Journal code "molstruc" in the DOI.
     journal: "Journal of Molecular Structure",
-    year: null,
+    published: { label: "17 April 2026", dateTime: "2026-04-17" },
     abstract:
       "An azo-hydrazone derivative, 4-((E)-phenyldiazenyl)-2-((E)-(2-phenylhydrazono)methyl)phenol (PDPMP), was synthesized and characterized using FT-IR, UV–Vis, NMR, and LC-MS. Its structural, electronic, and nonlinear optical (NLO) properties were examined via DFT and TD-DFT at the B3LYP/6–311++G(d,p) level with the IEFPCM solvent model. The influence of solvent polarity on electronic transitions, charge transfer, NLO response, and antagonist activity was explored systematically. Solvent polarity significantly altered UV–Vis absorption, HOMO–LUMO gap, charge-transfer behavior, and NLO efficiency. PDPMP exhibited first-order hyperpolarizability (βtotal) of 537 × 10⁻³¹ esu, which is approximately 69 times greater than the reference value for urea (βtotal = 7.803 × 10⁻³¹ esu) and 3.5 time than p-nitroaniline (βtotal = 155 × 10–31 esu) and increasing up to threefold in polar solvents with notable positive solvatochromism. NTO and TDM analyses confirmed solvent-induced intramolecular charge transfer, while NBO and RDG analyses revealed orbital delocalization and noncovalent interactions. Molecular docking against Mcl-1 (PDB IDs: 4HW3, 6GL8) suggested that PDPMP has higher binding affinity than the preclinical drug Obatoclax. These findings suggest that it may serve as a dual-function NLO material and merit additional investigation for its potential as an anticancer agent.",
     presentedAt:
@@ -329,7 +381,7 @@ export const identityStrip: IdentityItem[] = [
     label: "Researcher",
     value: "Biochemistry & Molecular Biology",
     icon: "microscope",
-    href: "#research",
+    href: "/research",
   },
   {
     label: "Co-Founder",
@@ -567,7 +619,7 @@ export const experience: ExperienceEntry[] = [
     featured: true,
     description:
       "Co-founded Unique Labs, offering KOC and consultancy services, digital marketing, and blockchain development.",
-    link: { label: "About Unique Labs", href: "#unique-labs" },
+    link: { label: "About Unique Labs", href: "/#unique-labs" },
   },
   {
     id: "masters-research",
@@ -577,7 +629,7 @@ export const experience: ExperienceEntry[] = [
     period: null,
     current: true,
     description: "Master’s research in cancer biology. Details will be shared after publication.",
-    link: { label: "View research", href: "#research" },
+    link: { label: "View research", href: "/research" },
   },
   {
     id: "icrast",
@@ -588,17 +640,17 @@ export const experience: ExperienceEntry[] = [
     period: null,
     description:
       "Participated and presented the research published as DOI 10.1016/j.molstruc.2026.146299.",
-    link: { label: "View publication", href: "#publications" },
+    link: { label: "View publication", href: "/#publications" },
   },
   {
     id: "publication",
     role: "Published Author",
     organization: "Journal of Molecular Structure",
     categories: ["Research"],
-    period: null,
+    period: "17 Apr 2026",
     description:
       "Co-author of “Solvent-dependent nonlinear optical response and potential Mcl-1 antagonist activity of an azo–hydrazone derivative: Experimental and theoretical studies”.",
-    link: { label: "View publication", href: "#publications" },
+    link: { label: "View publication", href: "/#publications" },
   },
   {
     id: "technology-projects",
@@ -608,9 +660,42 @@ export const experience: ExperienceEntry[] = [
     period: null,
     description:
       "Building Signova (AI-assisted crypto market analysis), Chrome extensions for X, and Telegram bots.",
-    link: { label: "View projects", href: "#projects" },
+    link: { label: "View projects", href: "/projects" },
   },
 ];
+
+/* ── Web3 experience & collaborations ─────────────────────────────────────── */
+
+export const web3Experience: ExperienceEntry[] = [
+  {
+    id: "unique-labs-web3",
+    role: "Co-Founder",
+    organization: "Unique Labs",
+    categories: ["Entrepreneurship"],
+    period: null,
+    current: true,
+    featured: true,
+    description:
+      "KOC and consultancy services, digital marketing, and blockchain development — helping brands and Web3 projects build, launch, and grow.",
+    link: { label: "About Unique Labs", href: "/#unique-labs" },
+  },
+  {
+    id: "signova-web3",
+    role: "Developer",
+    organization: "Signova",
+    categories: ["Technology"],
+    period: null,
+    description: "AI-assisted crypto market analysis and signal-generation platform.",
+    link: { label: "View project", href: "/projects" },
+  },
+];
+
+/*  Past collaborations. The page shows "Coming soon" while this is empty.   */
+/*  Example entry:                                                          */
+/*  { id: "project-x", name: "Project X", type: "KOC campaign",             */
+/*    period: "2025", description: null, href: "https://…" }                 */
+
+export const collaborations: Collaboration[] = [];
 
 /* ── Education ──────────────────────────────────────────────────────────── */
 

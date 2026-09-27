@@ -21,7 +21,8 @@ npm run start      # serve the production build
 
 ## Editing content
 
-All text, links and facts live in **[`data/portfolio.ts`](data/portfolio.ts)**. Components only
+All text, links and facts live in **[`data/portfolio.ts`](data/portfolio.ts)**, apart from the
+Privacy Policy and DMCA text, which is in **[`data/legal.ts`](data/legal.ts)**. Components only
 render what is there, so you rarely need to touch anything else.
 
 Any field set to `null` (or an empty array) is treated as "not provided yet" and shows a
@@ -40,9 +41,28 @@ Only add verified information.
 | Achievements              | `achievements` (an empty list shows "Coming soon")        |
 | Projects & filters        | `projects` (apps, links, key facts), `projectCategories`  |
 | Experience, education     | `experience`, `education`                                 |
+| Web3 experience           | `web3Experience`, `collaborations`                        |
 | Skills                    | `skillGroups`                                             |
-| Section headings          | `sections`                                                |
+| Homepage section headings | `sections`                                                |
+| Page headings, summaries  | `pages` (Research, Projects, Experience, …)               |
 | SEO title, description    | `site`                                                    |
+
+### Pages
+
+The homepage covers About, Unique Labs, Publications, Skills, the CV and Contact, and links to
+the other pages from its **Explore** section, the navigation and the footer:
+
+| Page                    | Route               | Content                                         |
+| ----------------------- | ------------------- | ----------------------------------------------- |
+| Research                | `/research`         | `currentResearch` and `publications`            |
+| Projects                | `/projects`         | `projects`                                      |
+| Experience              | `/experience`       | `experience`, `education`                       |
+| Web3 & Collaborations   | `/experience/web3`  | `web3Experience`, `collaborations`              |
+| Achievements            | `/achievements`     | `achievements`                                  |
+| Privacy Policy and DMCA | `/privacy`, `/dmca` | `data/legal.ts` (update `legalUpdated` on edit) |
+
+Each page's title, description and card summary come from `pages`. If you add a page, also list
+it in `app/sitemap.ts`.
 
 ### Adding your CV
 
@@ -69,21 +89,21 @@ status. When the number of visible cards is odd, the first one spans the full wi
 ### Publications
 
 Each entry in `publications` shows its title, authors, journal, abstract, DOI and where it was
-presented. Your name is highlighted automatically in the author list (any author containing
-`person.name`). A `null` journal or year is simply not shown. Papers with a title are also added to
+presented, plus its publication date (`published`). Your name is highlighted automatically in the
+author list (any author containing `person.name`). A `null` journal or date is simply not shown. Papers with a title are also added to
 the page's structured data (JSON-LD).
 
 ## Placeholders to replace
 
 These are intentionally left empty rather than invented:
 
-- **Publication**: year of publication (`year`)
 - **Unique Labs**: current products, website, GitHub, company contact email (falls back to your
   personal email)
-- **Achievements**: none listed yet, so the section shows "Coming soon"
+- **Achievements**: none listed yet, so the page shows "Coming soon"
+- **Web3 collaborations**: `collaborations` is empty, so the Web3 page shows "Coming soon"
 - **Projects**: GitHub links (`links.github`)
 - **Research**: the current research is confidential until published, so the Research section
-  shows a placeholder (`currentResearch`); add the project details there after publication
+  page shows a placeholder (`currentResearch`); add the project details there after publication
 - **Experience / education**: periods (for example `"2024 — Present"`)
 - **CV**: `public/Shahriar-Ahmed-CV.pdf`
 
@@ -95,6 +115,8 @@ Please also verify the education status (`"Current"`).
 app/                  Routes and metadata files
   layout.tsx          Fonts, SEO metadata, theme script, navbar/footer
   page.tsx            Home page (composes the sections, JSON-LD)
+  research/, projects/, experience/ (+ web3/), achievements/, privacy/, dmca/
+                      The other pages
   not-found.tsx       404 page
   opengraph-image.tsx Social share image (rendered at build time)
   twitter-image.tsx
@@ -102,11 +124,12 @@ app/                  Routes and metadata files
   icon.svg, favicon.ico, apple-icon.png
 components/
   layout/             Navbar (scroll-spy, mobile menu), footer, theme toggle, scroll progress
-  sections/           One component per page section
-  ui/                 Buttons, section headings, reveal animation, chips, dialog, …
+  sections/           Homepage sections and the content blocks of the other pages
+  ui/                 Buttons, page and section headings, reveal animation, chips, …
   visuals/            SVG visuals (molecular network, cell cycle, Unique Labs diagram)
   icons/              Brand icons and the site mark
 data/portfolio.ts     All site content
+data/legal.ts         Privacy Policy and DMCA text
 lib/                  Types, theme helpers, JSON-LD, CV lookup, utilities
 styles/globals.css    Design tokens (light/dark), Tailwind theme, base styles
 assets/               Fonts and portrait used only by the share image

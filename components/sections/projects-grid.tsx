@@ -148,14 +148,14 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
       >
         <div>
           <p className="eyebrow text-faint">{project.categories.join(" · ")}</p>
-          <h3
+          <h2
             className={cn(
               "mt-2 font-semibold tracking-tight text-fg",
               wide ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl",
             )}
           >
             {project.name}
-          </h3>
+          </h2>
           <p className={cn("mt-3 leading-relaxed text-muted", wide && "max-w-2xl sm:text-lg")}>
             {project.description}
           </p>
@@ -195,9 +195,9 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
         <ul className="mt-6 divide-y divide-line border-t border-line">
           {items.map((item) => (
             <li key={item.name} className="py-4 last:pb-0">
-              <h4 className="text-[0.9375rem] font-semibold leading-snug tracking-tight text-fg">
+              <h3 className="text-[0.9375rem] font-semibold leading-snug tracking-tight text-fg">
                 {item.name}
-              </h4>
+              </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.description}</p>
               {item.href ? (
                 <a

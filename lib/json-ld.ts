@@ -45,7 +45,7 @@ export function buildJsonLd() {
       ...(publication.journal
         ? { isPartOf: { "@type": "Periodical", name: publication.journal } }
         : {}),
-      ...(publication.year ? { datePublished: String(publication.year) } : {}),
+      ...(publication.published ? { datePublished: publication.published.dateTime } : {}),
     }));
 
   return {

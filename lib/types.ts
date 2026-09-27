@@ -16,6 +16,8 @@ export type IconKey =
   | "automation"
   | "bot"
   | "code"
+  | "briefcase"
+  | "award"
   | "blocks"
   | "puzzle"
   | "handshake"
@@ -58,9 +60,24 @@ export interface SocialLink {
 }
 
 export interface NavItem {
-  /** Must match the `id` of a section on the page. */
-  id: string;
   label: string;
+  /** A page ("/projects") or a homepage section ("/#about"). */
+  href: string;
+}
+
+/** A standalone page: used for its header, metadata and links to it. */
+export interface PageMeta {
+  href: string;
+  eyebrow: string;
+  title: string;
+  /** Optional part of the title rendered in the accent colour. */
+  titleAccent?: string;
+  description: string;
+  /** Short name for links and breadcrumbs, e.g. "Web3 & Collaborations". */
+  label: string;
+  /** One line shown on the cards that link to the page. */
+  summary?: string;
+  icon?: IconKey;
 }
 
 export interface SectionMeta {
@@ -109,7 +126,8 @@ export interface Publication {
   title: string | null;
   authors: string[] | null;
   journal: string | null;
-  year: number | null;
+  /** Publication date, e.g. { label: "17 April 2026", dateTime: "2026-04-17" }. */
+  published: { label: string; dateTime: string } | null;
   abstract: string | null;
   /** Conference or event where the work was presented, if any. */
   presentedAt: string | null;
@@ -161,7 +179,7 @@ export interface Project {
     demo: string | null;
     /** Public website or live app. */
     website?: string | null;
-    /** Optional in-page link, e.g. "#research". */
+    /** Optional link within the site, e.g. "/research". */
     internal?: Link | null;
   };
   icon: IconKey;
@@ -188,6 +206,25 @@ export interface ExperienceEntry {
   /** Renders as the prominent, highlighted entry. */
   featured?: boolean;
   link?: Link;
+}
+
+/** A past Web3 collaboration. `null` fields are simply not shown. */
+export interface Collaboration {
+  id: string;
+  name: string;
+  /** e.g. "KOC campaign", "Marketing", "Development". */
+  type: string | null;
+  period: string | null;
+  description: string | null;
+  href: string | null;
+}
+
+/** A block of text on the privacy and DMCA pages. */
+export interface LegalSection {
+  heading: string;
+  paragraphs: string[];
+  list?: string[];
+  links?: Link[];
 }
 
 export interface EducationEntry {

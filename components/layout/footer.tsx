@@ -1,7 +1,19 @@
 import { ArrowUp } from "lucide-react";
+import Link from "next/link";
 import { Mark } from "@/components/icons/mark";
 import { SocialLinks } from "@/components/ui/social-links";
-import { person, socials } from "@/data/portfolio";
+import { pages, person, socials } from "@/data/portfolio";
+
+const pageLinks = [
+  pages.research,
+  pages.projects,
+  pages.experience,
+  pages.web3,
+  pages.achievements,
+];
+const legalLinks = [pages.privacy, pages.dmca];
+
+const linkClass = "text-muted transition-colors duration-300 hover:text-fg";
 
 // Evaluated when the page is built, so the year stays current on redeploy.
 const year = new Date().getFullYear();
@@ -24,6 +36,33 @@ export function Footer() {
           size="sm"
           className="-ml-2 lg:ml-0 lg:justify-end"
         />
+      </div>
+
+      <div className="border-t border-line">
+        <div className="container-page flex flex-col gap-5 py-7 text-sm lg:flex-row lg:items-center lg:justify-between">
+          <nav aria-label="Pages">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              {pageLinks.map((page) => (
+                <li key={page.href}>
+                  <Link href={page.href} className={linkClass}>
+                    {page.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="Legal">
+            <ul className="flex flex-wrap gap-x-6 gap-y-3">
+              {legalLinks.map((page) => (
+                <li key={page.href}>
+                  <Link href={page.href} className={linkClass}>
+                    {page.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
 
       <div className="border-t border-line">

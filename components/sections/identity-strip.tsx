@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { contentIcons } from "@/components/icons";
 import { Reveal } from "@/components/ui/reveal";
+import { SmartLink } from "@/components/ui/smart-link";
 import { identityStrip } from "@/data/portfolio";
 
 /** Compact "at a glance" profile directly beneath the hero. */
@@ -24,9 +25,12 @@ export function IdentityStrip() {
                 </dt>
                 <dd className="mt-3 text-lg font-semibold leading-snug tracking-[-0.02em] text-fg sm:text-[1.375rem]">
                   {item.href ? (
-                    <a href={item.href} className="after:absolute after:inset-0 after:content-['']">
+                    <SmartLink
+                      href={item.href}
+                      className="after:absolute after:inset-0 after:content-['']"
+                    >
                       {item.value}
-                    </a>
+                    </SmartLink>
                   ) : (
                     item.value
                   )}

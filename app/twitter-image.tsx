@@ -1,8 +1,9 @@
 import { renderSocialImage } from "@/lib/og";
+import { socialImage } from "@/lib/social-image";
 
-export const alt = "Shahriar Ahmed — Co-Founder, Unique Labs";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = socialImage.alt;
+export const size = socialImage.size;
+export const contentType = socialImage.contentType;
 
 export default function TwitterImage() {
   return renderSocialImage(size);

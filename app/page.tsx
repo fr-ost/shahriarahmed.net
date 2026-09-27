@@ -1,13 +1,10 @@
 import { About } from "@/components/sections/about";
-import { Achievements } from "@/components/sections/achievements";
 import { Contact } from "@/components/sections/contact";
 import { CvSection } from "@/components/sections/cv";
-import { Experience } from "@/components/sections/experience";
+import { Explore } from "@/components/sections/explore";
 import { Hero } from "@/components/sections/hero";
 import { IdentityStrip } from "@/components/sections/identity-strip";
-import { Projects } from "@/components/sections/projects";
 import { Publications } from "@/components/sections/publications";
-import { Research } from "@/components/sections/research";
 import { Skills } from "@/components/sections/skills";
 import { UniqueLabs } from "@/components/sections/unique-labs";
 import { getCvLink } from "@/lib/cv";
@@ -25,12 +22,9 @@ export default function HomePage() {
       <Hero cvLink={cvLink} />
       <IdentityStrip />
       <About />
-      <Research />
       <UniqueLabs />
-      <Projects />
-      <Experience />
+      <Explore />
       <Publications />
-      <Achievements />
       <Skills />
       <CvSection cvLink={cvLink} />
       <Contact />

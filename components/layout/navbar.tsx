@@ -3,10 +3,12 @@
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   useCallback,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   useSyncExternalStore,
@@ -40,15 +42,20 @@ function useScrolled(threshold = 24) {
   );
 }
 
+/** Section id of a link to a homepage section ("/#about" → "about"). */
+function sectionIdOf(href: string) {
+  return href.startsWith("/#") ? href.slice(2) : null;
+}
+
 /**
- * The navigation item whose section crosses a thin band just above the
+ * On the homepage: the section that crosses a thin band just above the
  * middle of the viewport. Sections that are not in the nav clear it.
  */
-function useActiveSection(items: NavItem[]) {
+function useActiveSection(ids: string[], enabled: boolean) {
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
-    const ids = items.map((item) => item.id);
+    if (!enabled) return;
     const visible = new Set<string>();
 
     const observer = new IntersectionObserver(
@@ -67,9 +74,9 @@ function useActiveSection(items: NavItem[]) {
       if (element) observer.observe(element);
     }
     return () => observer.disconnect();
-  }, [items]);
+  }, [ids, enabled]);
 
-  return active;
+  return enabled ? active : null;
 }
 
 function prefersReducedMotion() {
@@ -77,9 +84,29 @@ function prefersReducedMotion() {
 }
 
 export function Navbar({ items, name, title, email }: NavbarProps) {
+  const pathname = usePathname();
+  const onHome = pathname === "/";
   const scrolled = useScrolled();
-  const active = useActiveSection(items);
-  const [open, setOpen] = useState(false);
+
+  const sectionIds = useMemo(() => items.flatMap((item) => sectionIdOf(item.href) ?? []), [items]);
+  const activeSection = useActiveSection(sectionIds, onHome);
+
+  // Homepage sections are tracked while scrolling; pages match by path.
+  const activeHref = onHome
+    ? activeSection
+      ? `/#${activeSection}`
+      : null
+    : (items.find(
+        (item) =>
+          !sectionIdOf(item.href) &&
+          (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+      )?.href ?? null);
+
+  // The menu belongs to the page it was opened on, so navigating closes it.
+  const [menuPath, setMenuPath] = useState<string | null>(null);
+  if (menuPath !== null && menuPath !== pathname) setMenuPath(null);
+  const open = menuPath === pathname;
+  const setOpen = useCallback((value: boolean) => setMenuPath(value ? pathname : null), [pathname]);
 
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -93,7 +120,9 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
     if (!list || !indicator) return;
 
     const update = () => {
-      const target = active ? list.querySelector<HTMLElement>(`[data-nav-id="${active}"]`) : null;
+      const target = activeHref
+        ? list.querySelector<HTMLElement>(`[data-nav-key="${activeHref}"]`)
+        : null;
       if (!target) {
         indicator.style.opacity = "0";
         return;
@@ -107,12 +136,15 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
     const observer = new ResizeObserver(update);
     observer.observe(list);
     return () => observer.disconnect();
-  }, [active]);
+  }, [activeHref]);
 
-  const closeMenu = useCallback((restoreFocus = true) => {
-    setOpen(false);
-    if (restoreFocus) menuButtonRef.current?.focus();
-  }, []);
+  const closeMenu = useCallback(
+    (restoreFocus = true) => {
+      setOpen(false);
+      if (restoreFocus) menuButtonRef.current?.focus();
+    },
+    [setOpen],
+  );
 
   // While the menu is open: lock page scroll, trap focus, close on Escape
   // and when the viewport grows to the desktop layout.
@@ -166,11 +198,17 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
   }, [open, closeMenu]);
 
   // Close the menu first so the page can scroll, then move to the section.
-  function goToSection(event: MouseEvent<HTMLAnchorElement>, id: string) {
-    const target = document.getElementById(id);
-    if (!target) return;
-    event.preventDefault();
+  // Links to other pages (or to homepage sections from another page) just
+  // navigate, which closes the menu.
+  function onMenuLink(event: MouseEvent<HTMLAnchorElement>, href: string) {
+    const id = sectionIdOf(href);
+    const target = id && onHome ? document.getElementById(id) : null;
     document.documentElement.removeAttribute("data-menu-open");
+    if (!target) {
+      setOpen(false);
+      return;
+    }
+    event.preventDefault();
     setOpen(false);
     requestAnimationFrame(() => {
       target.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
@@ -221,12 +259,12 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
             />
             <ul className="flex items-center">
               {items.map((item) => {
-                const isActive = active === item.id;
+                const isActive = activeHref === item.href;
                 return (
-                  <li key={item.id} data-nav-id={item.id} className="relative">
+                  <li key={item.href} data-nav-key={item.href} className="relative">
                     <Link
-                      href={`/#${item.id}`}
-                      aria-current={isActive ? "true" : undefined}
+                      href={item.href}
+                      aria-current={isActive ? (onHome ? "true" : "page") : undefined}
                       className={cn(
                         "relative block rounded-full px-3.5 py-1.5 text-sm transition-colors duration-300 xl:px-4",
                         isActive ? "text-fg" : "text-muted hover:text-fg",
@@ -249,7 +287,7 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              onClick={() => setOpen((value) => !value)}
+              onClick={() => setOpen(!open)}
             >
               <span aria-hidden className="relative block h-3 w-[1.125rem]">
                 <span className="absolute left-0 top-0 h-[1.5px] w-full rounded-full bg-current transition-transform duration-500 ease-smooth group-aria-expanded/menu:translate-y-[5.25px] group-aria-expanded/menu:rotate-45" />
@@ -283,7 +321,7 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
                 <ul className="flex flex-col">
                   {items.map((item, index) => (
                     <m.li
-                      key={item.id}
+                      key={item.href}
                       className="border-b border-line"
                       initial={{ opacity: 0, y: 18 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -291,9 +329,11 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
                       transition={{ duration: 0.5, delay: 0.06 + index * 0.045, ease }}
                     >
                       <Link
-                        href={`/#${item.id}`}
-                        onClick={(event) => goToSection(event, item.id)}
-                        aria-current={active === item.id ? "true" : undefined}
+                        href={item.href}
+                        onClick={(event) => onMenuLink(event, item.href)}
+                        aria-current={
+                          activeHref === item.href ? (onHome ? "true" : "page") : undefined
+                        }
                         className="group/link flex items-baseline gap-4 py-4 text-fg"
                       >
                         <span className="eyebrow w-6 text-faint group-aria-[current]/link:text-accent">

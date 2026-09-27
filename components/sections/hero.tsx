@@ -1,4 +1,5 @@
 import { ArrowRight, Download, Mail } from "lucide-react";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ButtonLink } from "@/components/ui/button";
 import { RoleCycler } from "@/components/ui/role-cycler";
@@ -104,7 +105,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
             className="@container mt-7 flex flex-wrap items-center gap-x-7 gap-y-4 animate-rise"
             style={rise(520)}
           >
-            <a
+            <Link
               href={hero.workAction.href}
               className="group/work inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg"
             >
@@ -113,7 +114,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
                 aria-hidden
                 className="size-4 transition-transform duration-300 group-hover/work:translate-x-0.5"
               />
-            </a>
+            </Link>
             <a
               href={cvLink.href}
               {...(cvLink.available ? { download: true } : {})}

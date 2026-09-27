@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import { socialIcons } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
@@ -35,11 +35,22 @@ function Authors({ authors }: { authors: string[] }) {
 
 function PublicationCard({ publication, index }: { publication: Publication; index: number }) {
   const featured = index === 0;
-  const meta = [
-    { label: "Journal", value: publication.journal },
-    { label: "Year", value: publication.year ? String(publication.year) : null },
-    { label: "Presented at", value: publication.presentedAt },
-  ].filter((item): item is { label: string; value: string } => Boolean(item.value));
+  const { published } = publication;
+  const meta: { label: string; value: ReactNode; wide?: boolean }[] = [];
+  if (publication.journal) meta.push({ label: "Journal", value: publication.journal });
+  if (published) {
+    meta.push({
+      label: "Published",
+      value: <time dateTime={published.dateTime}>{published.label}</time>,
+    });
+  }
+  if (publication.presentedAt) {
+    meta.push({
+      label: "Presented at",
+      value: publication.presentedAt,
+      wide: meta.length % 2 === 0,
+    });
+  }
 
   return (
     <article
@@ -55,7 +66,13 @@ function PublicationCard({ publication, index }: { publication: Publication; ind
         </p>
         <div className="text-right md:text-left">
           <Chip tone="accent">{publication.status}</Chip>
-          <p className="eyebrow mt-3 text-faint">Publication</p>
+          <p className="eyebrow mt-3 text-faint">
+            {published ? (
+              <time dateTime={published.dateTime}>{published.label}</time>
+            ) : (
+              "Publication"
+            )}
+          </p>
         </div>
       </div>
 
@@ -82,7 +99,7 @@ function PublicationCard({ publication, index }: { publication: Publication; ind
         {meta.length > 0 ? (
           <dl className="mt-8 grid grid-cols-1 gap-6 border-t border-line pt-6 sm:grid-cols-2">
             {meta.map((item) => (
-              <div key={item.label}>
+              <div key={item.label} className={item.wide ? "sm:col-span-2" : undefined}>
                 <dt className="eyebrow text-faint">{item.label}</dt>
                 <dd className="mt-2 text-[0.9375rem] leading-relaxed text-fg">{item.value}</dd>
               </div>
@@ -134,23 +151,10 @@ const researchProfiles = socials.filter(
     social.group === "research" && social.href !== null,
 );
 
-export function Publications() {
-  const count = publications.length;
-
+/** Publication cards followed by links to the research profiles. */
+export function PublicationList() {
   return (
-    <Section meta={sections.publications}>
-      <SectionHeading
-        meta={sections.publications}
-        aside={
-          <p className="flex items-baseline gap-3 lg:justify-end">
-            <span className="text-5xl font-semibold leading-none tracking-[-0.05em] tabular-nums text-fg">
-              {pad2(count)}
-            </span>
-            <span className="eyebrow text-faint">Published {count === 1 ? "paper" : "papers"}</span>
-          </p>
-        }
-      />
-
+    <>
       <ol className="space-y-6">
         {publications.map((publication, index) => (
           <Reveal as="li" key={publication.id} delay={index * 0.06}>
@@ -181,6 +185,28 @@ export function Publications() {
           </ul>
         </Reveal>
       ) : null}
+    </>
+  );
+}
+
+/** Number of published papers, shown beside the section heading. */
+export function PublicationCount() {
+  const count = publications.length;
+  return (
+    <p className="flex items-baseline gap-3 lg:justify-end">
+      <span className="text-5xl font-semibold leading-none tracking-[-0.05em] tabular-nums text-fg">
+        {pad2(count)}
+      </span>
+      <span className="eyebrow text-faint">Published {count === 1 ? "paper" : "papers"}</span>
+    </p>
+  );
+}
+
+export function Publications() {
+  return (
+    <Section meta={sections.publications}>
+      <SectionHeading meta={sections.publications} aside={<PublicationCount />} />
+      <PublicationList />
     </Section>
   );
 }

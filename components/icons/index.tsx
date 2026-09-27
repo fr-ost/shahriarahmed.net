@@ -1,7 +1,9 @@
 import {
+  Award,
   Blocks,
   BookOpenText,
   BotMessageSquare,
+  BriefcaseBusiness,
   Building2,
   ChartCandlestick,
   CodeXml,
@@ -41,6 +43,8 @@ export const contentIcons: Record<IconKey, LucideIcon> = {
   automation: MousePointerClick,
   bot: BotMessageSquare,
   code: CodeXml,
+  briefcase: BriefcaseBusiness,
+  award: Award,
   blocks: Blocks,
   puzzle: Puzzle,
   handshake: Handshake,
