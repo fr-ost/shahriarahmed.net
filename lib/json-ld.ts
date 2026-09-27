@@ -35,6 +35,9 @@ const buildDate = new Date().toISOString();
 
 const absolute = (href: string) => (href === "/" ? site.url : `${site.url}${href}`);
 
+/** The person's website, as given for the Person schema. */
+const personUrl = `${site.url}/`;
+
 export function personNode() {
   const sameAs = socials
     .filter((social) => social.id !== "email" && social.href)
@@ -52,9 +55,7 @@ export function personNode() {
     "@id": ids.person,
     name: person.name,
     alternateName: [person.fullName],
-    givenName: person.givenName,
-    familyName: person.familyName,
-    url: site.url,
+    url: personUrl,
     image: {
       "@type": "ImageObject",
       url: `${site.url}${person.portrait.src}`,
@@ -63,7 +64,8 @@ export function personNode() {
     email: `mailto:${person.email}`,
     jobTitle: person.jobTitle,
     description: site.description,
-    worksFor: { "@id": ids.organization },
+    // Named here so it resolves on pages that do not include the company node.
+    worksFor: { "@type": "Organization", "@id": ids.organization, name: uniqueLabs.name },
     affiliation: education.map((entry) => ({
       "@type": "CollegeOrUniversity",
       name: entry.institution,
@@ -98,7 +100,7 @@ function personReference() {
     "@id": ids.person,
     name: person.name,
     alternateName: [person.fullName],
-    url: site.url,
+    url: personUrl,
   };
 }
 
