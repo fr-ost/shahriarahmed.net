@@ -13,7 +13,7 @@ export function GET() {
     "",
     `> ${site.description}`,
     "",
-    `${person.name} (also published as ${person.fullName}) is based in ${person.location.city}, ${person.location.country}. ${pages.uniqueLabs.description}`,
+    `${person.name} (full name ${person.fullName}) is based in ${person.location.city}, ${person.location.country}. ${pages.uniqueLabs.description}`,
     "",
     "## Pages",
     "",

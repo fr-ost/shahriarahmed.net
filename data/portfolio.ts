@@ -79,7 +79,7 @@ export const site = {
 
 export const person = {
   name: "Shahriar Ahmed",
-  /** Full name, as used on publications. */
+  /** Full name, also used on publications. */
   fullName: "Shahriar Ahmed Tushar",
   givenName: "Shahriar",
   familyName: "Ahmed",
@@ -278,7 +278,7 @@ export const pages = {
     seoDescription:
       "Shahriar Ahmed (Shahriar Ahmed Tushar): Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
     description:
-      "Shahriar Ahmed, also published as Shahriar Ahmed Tushar, is a Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
+      "Shahriar Ahmed (full name Shahriar Ahmed Tushar) is a Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
   },
   contact: {
     href: "/contact",
