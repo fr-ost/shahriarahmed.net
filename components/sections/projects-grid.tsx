@@ -2,6 +2,7 @@
 
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import * as m from "motion/react-m";
+import Link from "next/link";
 import { useState } from "react";
 import { contentIcons } from "@/components/icons";
 import { GitHubIcon } from "@/components/icons/brand-icons";
@@ -102,6 +103,9 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
 const linkClass =
   "group/link inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent";
 
+const itemLinkClass =
+  "group/link inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-fg";
+
 function ExternalArrow() {
   return (
     <ArrowUpRight
@@ -199,17 +203,31 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
                 {item.name}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.description}</p>
-              {item.href ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/link mt-2.5 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-fg"
-                >
-                  {item.linkLabel}
-                  <ExternalArrow />
-                  <span className="sr-only"> — {item.name} (opens in a new tab)</span>
-                </a>
+              {item.page || item.href ? (
+                <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2">
+                  {item.page ? (
+                    <Link href={item.page.href} className={itemLinkClass}>
+                      {item.page.label}
+                      <ArrowRight
+                        aria-hidden
+                        className="size-3.5 transition-transform group-hover/link:translate-x-0.5"
+                      />
+                      <span className="sr-only"> — {item.name}</span>
+                    </Link>
+                  ) : null}
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={itemLinkClass}
+                    >
+                      {item.linkLabel}
+                      <ExternalArrow />
+                      <span className="sr-only"> — {item.name} (opens in a new tab)</span>
+                    </a>
+                  ) : null}
+                </div>
               ) : null}
             </li>
           ))}

@@ -10,7 +10,8 @@ import {
   uniqueLabs,
 } from "@/data/portfolio";
 import { breadcrumbTrail, pageTitle } from "@/lib/pages";
-import type { PageMeta } from "@/lib/types";
+import { productScreenshots } from "@/lib/products";
+import type { Faq, ImageAsset, PageMeta, ProductShowcase } from "@/lib/types";
 
 /**
  * schema.org structured data (JSON-LD). Every page describes itself and
@@ -183,7 +184,78 @@ export function buildHomeJsonLd() {
   };
 }
 
-type PageType = "WebPage" | "AboutPage" | "ContactPage" | "CollectionPage";
+/** `@id` of the software a product page describes. */
+export function softwareId(page: PageMeta) {
+  return `${absolute(page.href)}#software`;
+}
+
+/**
+ * A browser extension, as a SoftwareApplication. There is no rating: Google
+ * does not accept ratings copied from another site, such as a web store.
+ */
+export function softwareNode(product: ProductShowcase, page: PageMeta) {
+  return {
+    "@type": "SoftwareApplication",
+    "@id": softwareId(page),
+    name: product.name,
+    alternateName: [product.fullName],
+    description: product.description,
+    url: absolute(page.href),
+    image: absolute(product.icon.src),
+    screenshot: productScreenshots(product).map((image) => ({
+      "@type": "ImageObject",
+      url: absolute(image.src),
+      caption: image.alt,
+      width: image.width,
+      height: image.height,
+    })),
+    applicationCategory: "BrowserApplication",
+    applicationSubCategory: "Chrome extension",
+    operatingSystem: "Windows, macOS, Linux, ChromeOS",
+    browserRequirements: `Requires Google Chrome ${product.minimumChrome} or later`,
+    softwareVersion: product.version,
+    releaseNotes: product.whatsNew.join(" "),
+    featureList: product.features.map((feature) => feature.title),
+    permissions: product.permissions.map((permission) => permission.name).join(", "),
+    installUrl: product.storeUrl,
+    downloadUrl: product.storeUrl,
+    sameAs: [product.storeUrl],
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", url: product.storeUrl },
+    inLanguage: "en",
+    author: { "@id": ids.person },
+    publisher: { "@type": "Organization", "@id": ids.organization, name: uniqueLabs.name },
+  };
+}
+
+/** Short reference to the software, for pages about it such as its privacy policy. */
+export function softwareReference(product: ProductShowcase, page: PageMeta) {
+  return {
+    "@type": "SoftwareApplication",
+    "@id": softwareId(page),
+    name: product.name,
+    url: absolute(page.href),
+  };
+}
+
+/** Questions answered on a page; the answers must also be visible on it. */
+export function faqNode(page: PageMeta, faqs: Faq[]) {
+  const url = absolute(page.href);
+  return {
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    name: `${page.label}: questions & answers`,
+    inLanguage: "en",
+    isPartOf: { "@id": `${url}#webpage` },
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+}
+
+type PageType = "WebPage" | "AboutPage" | "ContactPage" | "CollectionPage" | "ItemPage";
 
 interface PageJsonLdOptions {
   page: PageMeta;
@@ -192,6 +264,8 @@ interface PageJsonLdOptions {
   /** What the page is about; defaults to the site owner. */
   about?: { "@id": string };
   mainEntity?: { "@id": string };
+  /** The page's main image, e.g. a product screenshot. */
+  image?: ImageAsset;
   /** Extra nodes, e.g. the full person or company description. */
   nodes?: object[];
 }
@@ -203,6 +277,7 @@ export function buildPageJsonLd({
   type = "WebPage",
   about: subject = { "@id": ids.person },
   mainEntity,
+  image,
   nodes = [],
 }: PageJsonLdOptions) {
   const url = absolute(page.href);
@@ -223,6 +298,17 @@ export function buildPageJsonLd({
         isPartOf: { "@id": ids.website },
         about: subject,
         ...(mainEntity ? { mainEntity } : {}),
+        ...(image
+          ? {
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: absolute(image.src),
+                caption: image.alt,
+                width: image.width,
+                height: image.height,
+              },
+            }
+          : {}),
         breadcrumb: { "@id": breadcrumbId },
       },
       {

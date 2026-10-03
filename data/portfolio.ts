@@ -31,6 +31,7 @@ import type {
   SocialLink,
   UniqueLabsInfo,
 } from "@/lib/types";
+import { xMassUnfollow } from "./x-mass-unfollow";
 
 /* ── Site & SEO ─────────────────────────────────────────────────────────── */
 
@@ -349,6 +350,47 @@ export const pages = {
     summary: "Web3 work through Unique Labs, and past collaborations.",
     icon: "blocks",
   },
+  xMassUnfollow: {
+    href: "/projects/x-mass-unfollow",
+    label: "X Mass Unfollow",
+    eyebrow: "Chrome extension",
+    title: "X Mass",
+    titleAccent: "Unfollow",
+    seoTitle: "X (Twitter) Mass Unfollow Tool — Free Chrome Extension",
+    seoDescription:
+      "Free, unlimited Chrome extension to mass unfollow on X (Twitter): see who doesn’t follow you back, bulk unfollow non-followers safely, and whitelist friends.",
+    description:
+      "The free & unlimited mass unfollow tool for X (Twitter). See who doesn’t follow you back and unfollow them in one click — or pick exactly who goes — at a safe, human pace.",
+    summary: "Free & unlimited mass unfollow tool for X (Twitter).",
+    icon: "puzzle",
+    keywords: [
+      "X Mass Unfollow",
+      "X mass unfollow tool",
+      "Twitter mass unfollow",
+      "mass unfollow on X",
+      "unfollow non-followers",
+      "who doesn’t follow me back on X",
+      "bulk unfollow Twitter",
+      "Twitter unfollow tool",
+      "X unfollow Chrome extension",
+      "unfollow everyone on X",
+      "following cleaner",
+      "Unique Labs",
+      "Shahriar Ahmed",
+    ],
+  },
+  xMassUnfollowPrivacy: {
+    href: "/projects/x-mass-unfollow/privacy",
+    label: "Privacy Policy",
+    eyebrow: "X Mass Unfollow",
+    title: "X Mass Unfollow",
+    titleAccent: "Privacy Policy",
+    seoTitle: "X Mass Unfollow Privacy Policy — Chrome Extension for X",
+    seoDescription:
+      "Privacy policy of the X Mass Unfollow Chrome extension: what stays on your device, what is sent to X, how the AdsOnBread ads work, and each permission.",
+    description:
+      "How the X Mass Unfollow Chrome extension handles your data. This policy applies to version 7.0.0.",
+  },
   achievements: {
     href: "/achievements",
     label: "Achievements",
@@ -539,7 +581,13 @@ export const uniqueLabs: UniqueLabsInfo = {
       icon: "workflow",
     },
   ],
-  products: [],
+  products: [
+    {
+      name: xMassUnfollow.name,
+      description: "Free & unlimited mass unfollow tool for X (Twitter), as a Chrome extension.",
+      href: pages.xMassUnfollow.href,
+    },
+  ],
   focusAreas: [
     "Web3",
     "Blockchain",
@@ -608,7 +656,9 @@ export const projects: Project[] = [
     icon: "chart",
   },
   {
-    // Store titles and summaries as listed on the Chrome Web Store.
+    // X Follow Grow: title and summary as listed on the Chrome Web Store.
+    // X Mass Unfollow: name and description from the extension itself,
+    // which has its own page (data/x-mass-unfollow.ts).
     id: "x-chrome-extensions",
     name: "Chrome Extensions for X",
     description:
@@ -625,11 +675,11 @@ export const projects: Project[] = [
         linkLabel: "Chrome Web Store",
       },
       {
-        name: "X (Twitter) Mass Unfollow Tool - Bulk Following Cleaner",
-        description:
-          "X/Twitter unfollow manager with bulk unfollow, non-followers cleaner, smart filters, safety limits, analytics & CSV export.",
-        href: "https://chromewebstore.google.com/detail/x-twitter-mass-unfollow-t/igpjmagghnibmjkkdcgpjgpkfkpiglnl",
+        name: xMassUnfollow.name,
+        description: xMassUnfollow.description,
+        href: xMassUnfollow.storeUrl,
         linkLabel: "Chrome Web Store",
+        page: { label: "Product page", href: pages.xMassUnfollow.href },
       },
     ],
     itemNoun: "extension",

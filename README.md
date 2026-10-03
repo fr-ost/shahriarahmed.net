@@ -22,8 +22,9 @@ npm run start      # serve the production build
 ## Editing content
 
 All text, links and facts live in **[`data/portfolio.ts`](data/portfolio.ts)**, apart from the
-Privacy Policy and DMCA text, which is in **[`data/legal.ts`](data/legal.ts)**. Components only
-render what is there, so you rarely need to touch anything else.
+Privacy Policy and DMCA text, which is in **[`data/legal.ts`](data/legal.ts)**, and the X Mass
+Unfollow page, which is in **[`data/x-mass-unfollow.ts`](data/x-mass-unfollow.ts)**. Components
+only render what is there, so you rarely need to touch anything else.
 
 Any field set to `null` (or an empty array) is treated as "not provided yet" and shows a
 consistent **Coming soon** placeholder. Replace the `null` with real content when you have it.
@@ -53,17 +54,19 @@ The homepage covers About, Unique Labs, Publications, Skills, the CV and Contact
 the other pages from its **Explore** section, the navigation and the footer (About, Contact,
 Privacy Policy and DMCA sit together at the bottom right):
 
-| Page                    | Route               | Content                                         |
-| ----------------------- | ------------------- | ----------------------------------------------- |
-| About                   | `/about`            | `about`, `education`, `publications`            |
-| Contact                 | `/contact`          | `socials`, `contact` (including `topics`)       |
-| Unique Labs             | `/unique-labs`      | `uniqueLabs`                                    |
-| Research                | `/research`         | `currentResearch` and `publications`            |
-| Projects                | `/projects`         | `projects`                                      |
-| Experience              | `/experience`       | `experience`, `education`                       |
-| Web3 & Collaborations   | `/experience/web3`  | `web3Experience`, `collaborations`              |
-| Achievements            | `/achievements`     | `achievements`                                  |
-| Privacy Policy and DMCA | `/privacy`, `/dmca` | `data/legal.ts` (update `legalUpdated` on edit) |
+| Page                    | Route                               | Content                                            |
+| ----------------------- | ----------------------------------- | -------------------------------------------------- |
+| About                   | `/about`                            | `about`, `education`, `publications`               |
+| Contact                 | `/contact`                          | `socials`, `contact` (including `topics`)          |
+| Unique Labs             | `/unique-labs`                      | `uniqueLabs`                                       |
+| Research                | `/research`                         | `currentResearch` and `publications`               |
+| Projects                | `/projects`                         | `projects`                                         |
+| X Mass Unfollow         | `/projects/x-mass-unfollow`         | `data/x-mass-unfollow.ts` (`xMassUnfollow`)        |
+| X Mass Unfollow privacy | `/projects/x-mass-unfollow/privacy` | `data/x-mass-unfollow.ts` (`xMassUnfollowPrivacy`) |
+| Experience              | `/experience`                       | `experience`, `education`                          |
+| Web3 & Collaborations   | `/experience/web3`                  | `web3Experience`, `collaborations`                 |
+| Achievements            | `/achievements`                     | `achievements`                                     |
+| Privacy Policy and DMCA | `/privacy`, `/dmca`                 | `data/legal.ts` (update `legalUpdated` on edit)    |
 
 Each page's title, description and card summary come from `pages`. If you add a page, also list
 it in `app/sitemap.ts`.
@@ -76,7 +79,13 @@ it in `app/sitemap.ts`.
 - **Structured data**: every page describes itself and points to the same person, website and
   company (`lib/json-ld.ts`), including the alternative name `person.fullName`, the profile
   links, the ORCID iD, the University of Rajshahi and Unique Labs, plus a breadcrumb.
-- **Sitemap and robots**: `/sitemap.xml` lists every page (and the portrait for image search);
+- **Product page**: `/projects/x-mass-unfollow` describes the extension as a
+  `SoftwareApplication` (free, version, Chrome requirement, screenshots, author and publisher) and
+  its questions as an `FAQPage`, and has its own share image. It has no star rating on purpose:
+  Google does not accept ratings copied from another site such as the Chrome Web Store, so
+  rating stars cannot be shown in search for it.
+- **Sitemap and robots**: `/sitemap.xml` lists every page (and the portrait and product
+  screenshots for image search);
   `/robots.txt` allows all crawlers and points to the sitemap. Sitemaps list pages, not
   keywords: keywords belong in titles, headings, text and structured data, which is where they
   are.
@@ -111,8 +120,23 @@ ORCID iD is included as an identifier.
 
 A project can link to its live site (`links.website`), list key facts (`details`) and group several
 apps under one card (`items`, each with its own link: the Chrome extensions and Telegram bots work
-this way). Cards with items show how many they contain (`itemNoun`, e.g. "03 bots") instead of a
-status. When the number of visible cards is odd, the first one spans the full width.
+this way). An item can also link to its own page on this site (`page`), as X Mass Unfollow does.
+Cards with items show how many they contain (`itemNoun`, e.g. "03 bots") instead of a status. When
+the number of visible cards is odd, the first one spans the full width.
+
+### X Mass Unfollow
+
+The extension's page (`/projects/x-mass-unfollow`) and its privacy policy
+(`/projects/x-mass-unfollow/privacy`) are written from the extension itself (version 7.0.0): its
+manifest, settings, help text, donate page and privacy policy. With each release:
+
+1. Update `version` (and anything that changed) in `data/x-mass-unfollow.ts`.
+2. If the privacy policy changed, update `xMassUnfollowPrivacy` and `xMassUnfollowPrivacyUpdated`.
+3. Replace screenshots in `public/images/x-mass-unfollow/`, keeping the file names: 1280 × 800
+   WebP images, and a 1200 × 630 JPEG (`x-mass-unfollow-og.jpg`) for link previews.
+
+The privacy page can be used as the privacy policy link in the Chrome Web Store listing, and the
+extension's `homepage_url` and "Developed by" link can point to the product page.
 
 ### Publications
 
@@ -125,8 +149,8 @@ the page's structured data (JSON-LD).
 
 These are intentionally left empty rather than invented:
 
-- **Unique Labs**: current products, website, GitHub, company contact email (falls back to your
-  personal email)
+- **Unique Labs**: website, GitHub, company contact email (falls back to your personal email);
+  X Mass Unfollow is listed as its product, so add any other products
 - **Achievements**: none listed yet, so the page shows "Coming soon"
 - **Web3 collaborations**: `collaborations` is empty, so the Web3 page shows "Coming soon"
 - **Projects**: GitHub links (`links.github`)
@@ -146,6 +170,8 @@ app/                  Routes and metadata files
   about/, contact/, unique-labs/, research/, projects/, experience/ (+ web3/),
   achievements/, privacy/, dmca/
                       The other pages
+  projects/x-mass-unfollow/ (+ privacy/)
+                      The extension's page and its privacy policy
   llms.txt/           Plain-text summary for AI assistants
   not-found.tsx       404 page
   opengraph-image.tsx Social share image (rendered at build time)
@@ -155,16 +181,19 @@ app/                  Routes and metadata files
 components/
   layout/             Navbar (scroll-spy, mobile menu), footer, theme toggle, scroll progress
   sections/           Homepage sections and the content blocks of the other pages
+  product/            Blocks of a product page (hero, features, screenshots, FAQ, …)
   ui/                 Buttons, page and section headings, reveal animation, chips, …
   visuals/            SVG visuals (molecular network, cell cycle, Unique Labs diagram)
   icons/              Brand icons and the site mark
 data/portfolio.ts     All site content
 data/legal.ts         Privacy Policy and DMCA text
+data/x-mass-unfollow.ts
+                      X Mass Unfollow page and privacy policy
 lib/                  Types, page metadata and structured data, theme, CV lookup, utilities
 styles/globals.css    Design tokens (light/dark), Tailwind theme, base styles
 assets/               Fonts and portrait used only by the share image
 scripts/              generate-icons.mjs (regenerates favicon and app icons)
-public/               Portrait, manifest icons, (your CV)
+public/               Portrait, manifest icons, X Mass Unfollow images, (your CV)
 ```
 
 ## Design notes
