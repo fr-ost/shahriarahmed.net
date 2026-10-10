@@ -655,7 +655,8 @@ export const projects: Project[] = [
           "Unlimited auto follow for X (Twitter): grow your following with safe, smart automated follows, right in the browser.",
         href: "https://chromewebstore.google.com/detail/growx-unlimited-auto-foll/ofiancichfcakbdgekhcahflpoglfgbh",
         linkLabel: "Chrome Web Store",
-        website: "https://www.growxapp.org/",
+        page: { label: "Product page", href: "https://www.growxapp.org/" },
+        icon: "/images/growx/growx-icon.png",
       },
       {
         name: xMassUnfollow.name,

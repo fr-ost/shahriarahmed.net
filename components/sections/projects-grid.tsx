@@ -10,7 +10,7 @@ import { GitHubIcon } from "@/components/icons/brand-icons";
 import { Chip, StatusDot } from "@/components/ui/chip";
 import { Placeholder } from "@/components/ui/placeholder";
 import type { Project, ProjectCategory } from "@/lib/types";
-import { cn, pad2, prettyUrl } from "@/lib/utils";
+import { cn, isExternalHref, pad2, prettyUrl } from "@/lib/utils";
 
 type Filter = "All" | ProjectCategory;
 
@@ -253,17 +253,30 @@ function ProjectCard({
                 <span>{item.name}</span>
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.description}</p>
-              {item.page || item.href || item.website ? (
+              {item.page || item.href ? (
                 <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2">
                   {item.page ? (
-                    <Link href={item.page.href} className={itemLinkClass}>
-                      {item.page.label}
-                      <ArrowRight
-                        aria-hidden
-                        className="size-3.5 transition-transform group-hover/link:translate-x-0.5"
-                      />
-                      <span className="sr-only"> — {item.name}</span>
-                    </Link>
+                    isExternalHref(item.page.href) ? (
+                      <a
+                        href={item.page.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={itemLinkClass}
+                      >
+                        {item.page.label}
+                        <ExternalArrow />
+                        <span className="sr-only"> — {item.name} (opens in a new tab)</span>
+                      </a>
+                    ) : (
+                      <Link href={item.page.href} className={itemLinkClass}>
+                        {item.page.label}
+                        <ArrowRight
+                          aria-hidden
+                          className="size-3.5 transition-transform group-hover/link:translate-x-0.5"
+                        />
+                        <span className="sr-only"> — {item.name}</span>
+                      </Link>
+                    )
                   ) : null}
                   {item.href ? (
                     <a
@@ -275,18 +288,6 @@ function ProjectCard({
                       {item.linkLabel}
                       <ExternalArrow />
                       <span className="sr-only"> — {item.name} (opens in a new tab)</span>
-                    </a>
-                  ) : null}
-                  {item.website ? (
-                    <a
-                      href={item.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={itemLinkClass}
-                    >
-                      {prettyUrl(item.website)}
-                      <ExternalArrow />
-                      <span className="sr-only"> — {item.name} website (opens in a new tab)</span>
                     </a>
                   ) : null}
                 </div>
