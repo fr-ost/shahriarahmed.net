@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
@@ -19,6 +20,9 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+
+/** Google tag (Google Ads). Loaded once for the whole site, after the page is interactive. */
+const GOOGLE_TAG_ID = "AW-18494416712";
 
 const xHandle = socials.find((social) => social.id === "x")?.handle;
 
@@ -88,6 +92,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GOOGLE_TAG_ID}');`}
+        </Script>
         <a href="#main" className="skip-link">
           Skip to content
         </a>

@@ -7,7 +7,7 @@
 import type { LegalSection } from "@/lib/types";
 import { person } from "./portfolio";
 
-export const legalUpdated = { label: "27 September 2026", dateTime: "2026-09-27" };
+export const legalUpdated = { label: "9 October 2026", dateTime: "2026-10-09" };
 
 export const privacyPolicy: LegalSection[] = [
   {
@@ -32,9 +32,10 @@ export const privacyPolicy: LegalSection[] = [
   {
     heading: "Cookies, analytics, and tracking",
     paragraphs: [
-      "This site does not set cookies and does not use analytics, advertising, or tracking tools. Fonts, images, and scripts are served from the site’s own domain; pages do not load anything from third parties.",
+      "This site uses a Google tag (Google Ads), loaded from Google’s servers (googletagmanager.com). Google may set cookies or similar identifiers in your browser, and receives information such as your IP address, browser and device details, and the pages you visit. I use this to measure and improve advertising. Google handles that information under its own privacy policy. Apart from this tag, fonts, images, and scripts are served from the site’s own domain. You can block or delete cookies in your browser settings, or manage ad personalisation in your Google account’s ad settings.",
       "If you switch between light and dark mode, your choice is saved in your browser’s local storage so the site can remember it on your next visit. It stays on your device and is never sent to me. You can clear it at any time in your browser settings.",
     ],
+    links: [{ label: "Google privacy policy", href: "https://policies.google.com/privacy" }],
   },
   {
     heading: "Copy buttons",

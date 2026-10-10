@@ -163,6 +163,10 @@ export interface ProjectItem {
   linkLabel: string;
   /** The app's own page on this site, if it has one. */
   page?: Link;
+  /** The app's own website, shown beside the store link. */
+  website?: string;
+  /** Icon shown beside the name: a path in /public (the store icon). */
+  icon?: string;
 }
 
 export interface Project {

@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Puzzle } from "lucide-react";
 import * as m from "motion/react-m";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { contentIcons } from "@/components/icons";
@@ -100,6 +101,27 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
   );
 }
 
+/** Projects that are no longer running, shown without filters. */
+export function ArchivedProjects({ projects }: { projects: Project[] }) {
+  return (
+    <ul className="grid grid-cols-1 gap-5 md:grid-cols-2">
+      {projects.map((project, index) => (
+        <m.li
+          key={project.id}
+          data-reveal=""
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+          transition={{ duration: 0.6, delay: index * 0.07, ease }}
+          className="flex"
+        >
+          <ProjectCard project={project} wide={false} archived />
+        </m.li>
+      ))}
+    </ul>
+  );
+}
+
 const linkClass =
   "group/link inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent";
 
@@ -115,13 +137,23 @@ function ExternalArrow() {
   );
 }
 
-function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
+function ProjectCard({
+  project,
+  wide,
+  archived = false,
+}: {
+  project: Project;
+  wide: boolean;
+  archived?: boolean;
+}) {
   const Icon = contentIcons[project.icon];
   const { github, demo, website, internal } = project.links;
   const hasLinks = Boolean(github || demo || website || internal);
   const details = project.details ?? [];
   const items = project.items ?? [];
   const split = wide && details.length > 0;
+  // Icons beside names only when at least one app has one, so the rows line up.
+  const hasItemIcons = items.some((item) => item.icon);
 
   return (
     <article className="group/card relative flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card transition-[border-color,box-shadow,transform] duration-500 ease-smooth hover:-translate-y-1 hover:border-line-strong hover:shadow-float sm:p-8">
@@ -131,7 +163,7 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
         </span>
         {project.status ? (
           <span className="inline-flex items-center gap-2 text-sm text-muted">
-            <StatusDot />
+            {archived ? null : <StatusDot />}
             {project.status}
           </span>
         ) : items.length > 0 ? (
@@ -199,11 +231,29 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
         <ul className="mt-6 divide-y divide-line border-t border-line">
           {items.map((item) => (
             <li key={item.name} className="py-4 last:pb-0">
-              <h3 className="text-[0.9375rem] font-semibold leading-snug tracking-tight text-fg">
-                {item.name}
+              <h3 className="flex items-center gap-3 text-[0.9375rem] font-semibold leading-snug tracking-tight text-fg">
+                {hasItemIcons ? (
+                  item.icon ? (
+                    <Image
+                      src={item.icon}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="size-8 shrink-0 rounded-lg"
+                    />
+                  ) : (
+                    <span
+                      aria-hidden
+                      className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-line bg-bg text-accent"
+                    >
+                      <Puzzle className="size-4" strokeWidth={1.6} />
+                    </span>
+                  )
+                ) : null}
+                <span>{item.name}</span>
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.description}</p>
-              {item.page || item.href ? (
+              {item.page || item.href || item.website ? (
                 <div className="mt-2.5 flex flex-wrap items-center gap-x-5 gap-y-2">
                   {item.page ? (
                     <Link href={item.page.href} className={itemLinkClass}>
@@ -227,6 +277,18 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
                       <span className="sr-only"> — {item.name} (opens in a new tab)</span>
                     </a>
                   ) : null}
+                  {item.website ? (
+                    <a
+                      href={item.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={itemLinkClass}
+                    >
+                      {prettyUrl(item.website)}
+                      <ExternalArrow />
+                      <span className="sr-only"> — {item.name} website (opens in a new tab)</span>
+                    </a>
+                  ) : null}
                 </div>
               ) : null}
             </li>
@@ -234,7 +296,7 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
         </ul>
       ) : null}
 
-      {hasLinks || items.length === 0 ? (
+      {hasLinks || (items.length === 0 && !archived) ? (
         <div className="mt-auto pt-8">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-line pt-5">
             {website ? (

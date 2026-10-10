@@ -61,7 +61,6 @@ export const site = {
     "University of Rajshahi",
     "Rajshahi University",
     "Researcher",
-    "Signova",
     "KOC Marketing",
     "Consultancy",
     "Digital Marketing",
@@ -320,11 +319,11 @@ export const pages = {
     eyebrow: "Projects",
     title: "Selected",
     titleAccent: "Projects",
-    seoTitle: "Projects by Shahriar Ahmed — Signova, Chrome Extensions & Bots",
+    seoTitle: "Projects by Shahriar Ahmed — Chrome Extensions for X & Telegram Bots",
     seoDescription:
-      "Projects by Shahriar Ahmed: Signova, an AI-assisted crypto signal platform; Chrome extensions for X; and Telegram bots for follower checks, downloads, and SMM.",
+      "Projects by Shahriar Ahmed: GrowX and X Mass Unfollow, Chrome extensions for X (Twitter); Telegram bots for follower checks, downloads, and SMM; and archived work.",
     description: "Technology work across AI, automation, and the web — alongside research.",
-    summary: "Signova, Chrome extensions for X, and Telegram bots.",
+    summary: "Chrome extensions for X, Telegram bots, and archived projects.",
     icon: "code",
   },
   experience: {
@@ -410,7 +409,7 @@ export const pages = {
     titleAccent: "Policy",
     description: "What information this website collects, and how it is used.",
     seoDescription:
-      "Privacy policy of shahriarahmed.net, the website of Shahriar Ahmed: no cookies, analytics, or tracking, and how email you send is used.",
+      "Privacy policy of shahriarahmed.net, the website of Shahriar Ahmed: the Google tag it uses, what is stored in your browser, and how email you send is used.",
   },
   dmca: {
     href: "/dmca",
@@ -639,24 +638,7 @@ export const projectCategories: ProjectCategory[] = [
 
 export const projects: Project[] = [
   {
-    id: "signova",
-    name: "Signova",
-    description:
-      "AI-assisted crypto market analysis and signal-generation platform. Signova analyses market data and turns it into trading signals, delivered through a live web app.",
-    categories: ["AI", "Web", "Tools"],
-    technologies: ["AI", "Market data", "Signal generation", "Web app"],
-    status: "Live",
-    details: [
-      { label: "Type", value: "Web platform" },
-      { label: "Market", value: "Cryptocurrency" },
-      { label: "Analysis", value: "AI-assisted" },
-      { label: "Output", value: "Trading signals" },
-    ],
-    links: { github: null, demo: null, website: "https://signova.up.railway.app/" },
-    icon: "chart",
-  },
-  {
-    // X Follow Grow: title and summary as listed on the Chrome Web Store.
+    // GrowX: title as listed on the Chrome Web Store.
     // X Mass Unfollow: name and description from the extension itself,
     // which has its own page (data/x-mass-unfollow.ts).
     id: "x-chrome-extensions",
@@ -668,11 +650,12 @@ export const projects: Project[] = [
     status: null,
     items: [
       {
-        name: "X Follow Grow",
+        name: "GrowX - Unlimited Auto Follow for X/Twitter",
         description:
-          "Grow an X (Twitter) following with safe, smart automated follows, right in the browser.",
-        href: "https://chromewebstore.google.com/detail/x-follow-grow-safe-smart/ofiancichfcakbdgekhcahflpoglfgbh",
+          "Unlimited auto follow for X (Twitter): grow your following with safe, smart automated follows, right in the browser.",
+        href: "https://chromewebstore.google.com/detail/growx-unlimited-auto-foll/ofiancichfcakbdgekhcahflpoglfgbh",
         linkLabel: "Chrome Web Store",
+        website: "https://www.growxapp.org/",
       },
       {
         name: xMassUnfollow.name,
@@ -680,6 +663,7 @@ export const projects: Project[] = [
         href: xMassUnfollow.storeUrl,
         linkLabel: "Chrome Web Store",
         page: { label: "Product page", href: pages.xMassUnfollow.href },
+        icon: xMassUnfollow.icon.src,
       },
     ],
     itemNoun: "extension",
@@ -720,6 +704,29 @@ export const projects: Project[] = [
     itemNoun: "bot",
     links: { github: null, demo: null },
     icon: "bot",
+  },
+];
+
+/*  Projects that are no longer running. They appear under "Archived         */
+/*  projects" on the Projects page.                                          */
+
+export const archivedProjects: Project[] = [
+  {
+    id: "signova",
+    name: "Signova",
+    description:
+      "AI-assisted crypto market analysis and signal-generation platform. Signova analysed market data and turned it into trading signals, delivered through a web app.",
+    categories: ["AI", "Web", "Tools"],
+    technologies: ["AI", "Market data", "Signal generation", "Web app"],
+    status: "Discontinued",
+    details: [
+      { label: "Type", value: "Web platform" },
+      { label: "Market", value: "Cryptocurrency" },
+      { label: "Analysis", value: "AI-assisted" },
+      { label: "Output", value: "Trading signals" },
+    ],
+    links: { github: null, demo: null },
+    icon: "chart",
   },
 ];
 
@@ -777,7 +784,7 @@ export const experience: ExperienceEntry[] = [
     categories: ["Technology", "Projects"],
     period: null,
     description:
-      "Building Signova (AI-assisted crypto market analysis), Chrome extensions for X, and Telegram bots.",
+      "Building Chrome extensions for X and Telegram bots. Earlier built Signova, an AI-assisted crypto market analysis platform, now discontinued.",
     link: { label: "View projects", href: "/projects" },
   },
 ];
@@ -803,8 +810,9 @@ export const web3Experience: ExperienceEntry[] = [
     organization: "Signova",
     categories: ["Technology"],
     period: null,
-    description: "AI-assisted crypto market analysis and signal-generation platform.",
-    link: { label: "View project", href: "/projects" },
+    description:
+      "AI-assisted crypto market analysis and signal-generation platform, now discontinued.",
+    link: { label: "View archived projects", href: "/projects#archived" },
   },
 ];
 
