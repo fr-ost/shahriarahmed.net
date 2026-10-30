@@ -24,6 +24,7 @@ import {
   uniqueLabs,
 } from "@/data/portfolio";
 import { xMassUnfollow } from "@/data/x-mass-unfollow";
+import type { ProjectItem } from "@/lib/types";
 import { cn, isExternalHref } from "@/lib/utils";
 
 /** The card's main link covers the whole card; other links sit above it. */
@@ -76,14 +77,70 @@ function IconTile({ children, panel = false }: { children: ReactNode; panel?: bo
   );
 }
 
-function MoreArrow({ external = false }: { external?: boolean }) {
-  const Icon = external ? ArrowUpRight : ArrowRight;
+const extensionLinkClass = cn(
+  aboveStretched,
+  "group/link inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-fg",
+);
+
+function ExternalArrow() {
+  return (
+    <ArrowUpRight
+      aria-hidden
+      className="size-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+    />
+  );
+}
+
+/** "Product page" then the store link, as on the Projects page. */
+function ExtensionLinks({ item, className }: { item: ProjectItem; className?: string }) {
+  return (
+    <div className={cn("flex flex-wrap items-center gap-x-5 gap-y-2", className)}>
+      {item.page ? (
+        isExternalHref(item.page.href) ? (
+          <a
+            href={item.page.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={extensionLinkClass}
+          >
+            {item.page.label}
+            <ExternalArrow />
+            <span className="sr-only"> — {item.name} (opens in a new tab)</span>
+          </a>
+        ) : (
+          <Link href={item.page.href} className={extensionLinkClass}>
+            {item.page.label}
+            <ArrowRight
+              aria-hidden
+              className="size-3.5 transition-transform group-hover/link:translate-x-0.5"
+            />
+            <span className="sr-only"> — {item.name}</span>
+          </Link>
+        )
+      ) : null}
+      {item.href ? (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={extensionLinkClass}
+        >
+          {item.linkLabel}
+          <ExternalArrow />
+          <span className="sr-only"> — {item.name} (opens in a new tab)</span>
+        </a>
+      ) : null}
+    </div>
+  );
+}
+
+function MoreArrow() {
   return (
     <span
       aria-hidden
       className="inline-flex size-9 items-center justify-center rounded-full border border-current/15 transition-transform duration-500 ease-smooth group-hover/card:translate-x-0.5"
     >
-      <Icon className="size-4" />
+      <ArrowRight className="size-4" />
     </span>
   );
 }
@@ -94,6 +151,9 @@ export function Work() {
   const extensions = projects.find((project) => project.id === "x-chrome-extensions");
   const bots = projects.find((project) => project.id === "telegram-bots");
   const growX = extensions?.items?.find((item) => item.name.startsWith("GrowX"));
+  const massUnfollow = extensions?.items?.find(
+    (item) => item.page?.href === pages.xMassUnfollow.href,
+  );
   const recent = experience.slice(0, 3);
 
   return (
@@ -180,13 +240,19 @@ export function Work() {
             {uniqueLabs.whatWeBuild.map((service) => {
               const Icon = contentIcons[service.icon];
               return (
-                <li key={service.title} className="flex items-center gap-4 py-3.5">
+                <li key={service.title} className="flex items-start gap-4 py-3.5 lg:py-4">
                   <Icon
                     aria-hidden
-                    className="size-[1.125rem] shrink-0 text-panel-accent"
+                    className="mt-0.5 size-[1.125rem] shrink-0 text-panel-accent"
                     strokeWidth={1.6}
                   />
-                  <span className="text-[0.9375rem] text-panel-fg">{service.title}</span>
+                  <span className="min-w-0">
+                    <span className="block text-[0.9375rem] text-panel-fg">{service.title}</span>
+                    {/* Only where the tall card has room for it; the full text is on /unique-labs. */}
+                    <span className="mt-1 hidden text-sm leading-relaxed text-panel-muted lg:block">
+                      {service.description}
+                    </span>
+                  </span>
                 </li>
               );
             })}
@@ -247,33 +313,16 @@ export function Work() {
             />
             <span className="eyebrow text-faint">Chrome extension · Free</span>
           </div>
-          <div className="mt-8 flex flex-col gap-x-10 gap-y-3 sm:flex-row sm:items-end sm:justify-between">
-            <div className="max-w-md">
-              <h3 className="text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-none tracking-[-0.04em] text-fg">
-                <Link href={pages.xMassUnfollow.href} className={stretched}>
-                  {xMassUnfollow.name}
-                </Link>
-              </h3>
-              <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
-                {xMassUnfollow.description}
-              </p>
-            </div>
-            <a
-              href={xMassUnfollow.storeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(
-                aboveStretched,
-                "group/store inline-flex w-fit shrink-0 items-center gap-1.5 text-sm font-medium text-accent hover:text-fg",
-              )}
-            >
-              Chrome Web Store
-              <ArrowUpRight
-                aria-hidden
-                className="size-3.5 transition-transform group-hover/store:-translate-y-0.5 group-hover/store:translate-x-0.5"
-              />
-              <span className="sr-only"> — {xMassUnfollow.name} (opens in a new tab)</span>
-            </a>
+          <div className="mt-8 max-w-md">
+            <h3 className="text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-none tracking-[-0.04em] text-fg">
+              <Link href={pages.xMassUnfollow.href} className={stretched}>
+                {xMassUnfollow.name}
+              </Link>
+            </h3>
+            <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
+              {xMassUnfollow.description}
+            </p>
+            {massUnfollow ? <ExtensionLinks item={massUnfollow} className="mt-5" /> : null}
           </div>
           <Tilt max={5} className="mt-8 lg:mt-auto lg:pt-8">
             <Image
@@ -322,27 +371,7 @@ export function Work() {
               )}
             </h3>
             <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{growX.description}</p>
-            {growX.href ? (
-              <a
-                href={growX.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  aboveStretched,
-                  "group/store mt-5 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-accent hover:text-fg",
-                )}
-              >
-                {growX.linkLabel}
-                <ArrowUpRight
-                  aria-hidden
-                  className="size-3.5 transition-transform group-hover/store:-translate-y-0.5 group-hover/store:translate-x-0.5"
-                />
-                <span className="sr-only"> — {growX.name} (opens in a new tab)</span>
-              </a>
-            ) : null}
-            <div className="mt-auto flex justify-end pt-6 text-fg">
-              <MoreArrow external />
-            </div>
+            <ExtensionLinks item={growX} className="mt-auto pt-6" />
           </Card>
         ) : null}
 

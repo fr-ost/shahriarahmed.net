@@ -84,7 +84,9 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
               <span aria-hidden className="mx-2 text-faint">
                 ·
               </span>
-              {person.location.city}, {person.location.country}
+              {person.location.city}
+              {/* Too long for narrow phones: kept for screen readers, hidden visually. */}
+              <span className="max-[420px]:sr-only">, {person.location.country}</span>
             </span>
           </p>
 
