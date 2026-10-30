@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { RevealWords } from "@/components/fx/reveal-words";
 import type { SectionMeta } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./reveal";
@@ -83,15 +84,23 @@ export function SectionHeading({
             panel ? "text-panel-fg" : "text-fg",
           )}
         >
-          {meta.title}
-          {meta.titleAccent ? (
+          {/* Section titles rise in word by word; a page title (h1) or a title
+              on the dark panel renders at once. */}
+          {Heading === "h2" && !panel ? (
+            <RevealWords text={meta.title} accent={meta.titleAccent} />
+          ) : (
             <>
-              {" "}
-              <span className={panel ? "text-panel-accent" : "text-accent"}>
-                {meta.titleAccent}
-              </span>
+              {meta.title}
+              {meta.titleAccent ? (
+                <>
+                  {" "}
+                  <span className={panel ? "text-panel-accent" : "text-accent"}>
+                    {meta.titleAccent}
+                  </span>
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
         </Heading>
         {meta.description ? (
           <p

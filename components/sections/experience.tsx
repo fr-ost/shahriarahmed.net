@@ -1,5 +1,6 @@
 import { ArrowRight, GraduationCap } from "lucide-react";
 import Link from "next/link";
+import { RailSegment } from "@/components/fx/rail-segment";
 import { StatusDot } from "@/components/ui/chip";
 import { Reveal } from "@/components/ui/reveal";
 import { SmartLink } from "@/components/ui/smart-link";
@@ -69,9 +70,7 @@ export function ExperienceTimeline({
         >
           {/* Rail */}
           <div aria-hidden className="relative flex justify-center">
-            {index < entries.length - 1 ? (
-              <span className="absolute bottom-[-2.5rem] top-3 w-px bg-line-strong" />
-            ) : null}
+            {index < entries.length - 1 ? <RailSegment className="bottom-[-2.5rem] top-3" /> : null}
             <span
               className={cn(
                 "relative mt-1.5 flex items-center justify-center rounded-full border bg-bg",
@@ -88,7 +87,7 @@ export function ExperienceTimeline({
           </div>
 
           {entry.featured ? (
-            <article className="rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-8">
+            <article className="spotlight rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-8">
               <Meta entry={entry} />
               <Heading className="mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-fg sm:text-[2.5rem]">
                 {entry.role} <span className="text-accent">—</span> {entry.organization}

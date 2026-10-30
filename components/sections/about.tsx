@@ -1,7 +1,8 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building2, GraduationCap, MapPin, Microscope } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { SweepText } from "@/components/fx/sweep-text";
 import { Chip } from "@/components/ui/chip";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
@@ -95,27 +96,68 @@ export function AboutBody({ heading, footer }: { heading?: ReactNode; footer?: R
   );
 }
 
-/** Homepage section, linking to the full About page. */
+/** Homepage section: a short statement and key facts, linking to the About page. */
 export function About() {
+  const [statement] = about.paragraphs;
+  const degree = education[0];
+  const facts = [
+    { icon: Microscope, label: "Field", value: person.field },
+    {
+      icon: GraduationCap,
+      label: degree ? `${degree.degree} student` : "Institution",
+      value: degree?.institution ?? person.institution,
+    },
+    { icon: Building2, label: person.jobTitle, value: person.company },
+    {
+      icon: MapPin,
+      label: "Based in",
+      value: `${person.location.city}, ${person.location.country}`,
+    },
+  ];
+
   return (
     <Section meta={sections.about}>
-      <AboutBody
-        heading={<SectionHeading meta={sections.about} spacing="tight" />}
-        footer={
-          <Reveal delay={0.1} className="mt-10">
-            <Link
-              href={pages.about.href}
-              className="group/more inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg hover:text-accent"
-            >
-              More about {person.name}
-              <ArrowRight
-                aria-hidden
-                className="size-4 transition-transform duration-300 group-hover/more:translate-x-0.5"
-              />
-            </Link>
-          </Reveal>
-        }
+      <SectionHeading meta={sections.about} spacing="tight" />
+
+      <SweepText
+        text={statement}
+        className="max-w-5xl text-[clamp(1.625rem,3.6vw,3rem)] font-medium leading-[1.22] tracking-[-0.03em]"
       />
+
+      <ul className="mt-14 grid grid-cols-2 gap-3 sm:gap-4 lg:mt-16 lg:grid-cols-4">
+        {facts.map((fact, index) => {
+          const Icon = fact.icon;
+          return (
+            <Reveal
+              as="li"
+              key={fact.label}
+              delay={index * 0.06}
+              className="spotlight rounded-3xl border border-line bg-elevated p-5 shadow-card sm:p-6"
+            >
+              <span className="inline-flex size-10 items-center justify-center rounded-2xl border border-line bg-bg text-accent">
+                <Icon aria-hidden className="size-[1.125rem]" strokeWidth={1.6} />
+              </span>
+              <p className="eyebrow mt-6 text-faint">{fact.label}</p>
+              <p className="mt-1.5 text-[0.9375rem] font-medium leading-snug tracking-[-0.01em] text-fg sm:text-[1.0625rem]">
+                {fact.value}
+              </p>
+            </Reveal>
+          );
+        })}
+      </ul>
+
+      <Reveal delay={0.1} className="mt-10">
+        <Link
+          href={pages.about.href}
+          className="group/more inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg hover:text-accent"
+        >
+          More about {person.name}
+          <ArrowRight
+            aria-hidden
+            className="size-4 transition-transform duration-300 group-hover/more:translate-x-0.5"
+          />
+        </Link>
+      </Reveal>
     </Section>
   );
 }
@@ -153,7 +195,7 @@ export function AboutHighlights() {
     <ul className="grid grid-cols-1 gap-5 md:grid-cols-3">
       {cards.map((card, index) => (
         <Reveal as="li" key={card.eyebrow} delay={index * 0.06} className="flex">
-          <article className="flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7">
+          <article className="spotlight flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7">
             <p className="eyebrow text-accent">{card.eyebrow}</p>
             <h3 className="mt-3 text-lg font-semibold leading-snug tracking-[-0.015em] text-fg">
               {card.title}

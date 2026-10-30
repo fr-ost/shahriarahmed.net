@@ -194,10 +194,10 @@ export function UniqueLabs({ as = "h2" }: UniqueLabsProps) {
                   <Placeholder tone="panel" />
                 )}
               </ProfileField>
-              <ProfileField label="Co-Founder" className="lg:col-span-2">
+              <ProfileField label="Co-Founder">
                 <span className="font-medium">{labs.founderName}</span>
               </ProfileField>
-              <ProfileField label="Contact" className="lg:col-span-2">
+              <ProfileField label="Contact">
                 <a
                   href={`mailto:${contactEmail}`}
                   className="inline-flex max-w-full items-center gap-2 break-all hover:text-panel-accent"
@@ -206,8 +206,9 @@ export function UniqueLabs({ as = "h2" }: UniqueLabsProps) {
                   {contactEmail}
                 </a>
               </ProfileField>
-              <ProfileField label="Website">
-                {labs.website ? (
+              {/* Shown once the company has them. */}
+              {labs.website ? (
+                <ProfileField label="Website" className="sm:col-span-2">
                   <SmartLink
                     href={labs.website}
                     className="group/w inline-flex items-center gap-1 hover:text-panel-accent"
@@ -215,12 +216,10 @@ export function UniqueLabs({ as = "h2" }: UniqueLabsProps) {
                     {prettyUrl(labs.website)}
                     <ArrowUpRight aria-hidden className="size-3.5" />
                   </SmartLink>
-                ) : (
-                  <Placeholder tone="panel" />
-                )}
-              </ProfileField>
-              <ProfileField label="GitHub">
-                {labs.github ? (
+                </ProfileField>
+              ) : null}
+              {labs.github ? (
+                <ProfileField label="GitHub" className="sm:col-span-2">
                   <SmartLink
                     href={labs.github}
                     className="inline-flex items-center gap-2 hover:text-panel-accent"
@@ -228,10 +227,8 @@ export function UniqueLabs({ as = "h2" }: UniqueLabsProps) {
                     <GitHubIcon size={15} />
                     {prettyUrl(labs.github).replace("github.com/", "")}
                   </SmartLink>
-                ) : (
-                  <Placeholder tone="panel" />
-                )}
-              </ProfileField>
+                </ProfileField>
+              ) : null}
             </dl>
           </Reveal>
         </div>

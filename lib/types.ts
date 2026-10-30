@@ -2,8 +2,8 @@
  * Content types for the portfolio.
  *
  * Convention: a value of `null` (or an empty array) means "not provided yet".
- * The UI renders a consistent placeholder for these instead of inventing
- * content, so you can fill them in later from `data/portfolio.ts`.
+ * The UI leaves it out rather than inventing content, so you can fill it in
+ * later from `data/portfolio.ts`.
  */
 
 export type IconKey =
@@ -103,14 +103,6 @@ export interface LabeledValue {
   value: string;
 }
 
-export interface IdentityItem {
-  label: string;
-  value: string;
-  detail?: string;
-  icon: IconKey;
-  href?: string;
-}
-
 /** Placeholder shown while current research is confidential. */
 export interface CurrentResearch {
   label: string;
@@ -175,7 +167,7 @@ export interface Project {
   technologies: string[];
   /**
    * e.g. "Live", "In development", "Completed". When `null`, projects with
-   * `items` show how many they contain; others show a placeholder.
+   * `items` show how many they contain; others show nothing.
    */
   status: string | null;
   /** Key facts shown as a short list, e.g. { label: "Type", value: "Web app" }. */
@@ -275,7 +267,7 @@ export interface UniqueLabsInfo {
   founderName: string;
   description: string;
   mission: string | null;
-  /** Services and lines of work. An empty list shows a placeholder. */
+  /** Services and lines of work. */
   whatWeBuild: UniqueLabsService[];
   products: UniqueLabsProduct[];
   focusAreas: string[];

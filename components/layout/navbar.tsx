@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import Link from "next/link";
@@ -21,6 +22,8 @@ import { ThemeToggle } from "./theme-toggle";
 
 interface NavbarProps {
   items: NavItem[];
+  /** Shown as a button on large screens and last in the mobile menu. */
+  cta: NavItem;
   name: string;
   title: string;
   email: string;
@@ -83,7 +86,7 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function Navbar({ items, name, title, email }: NavbarProps) {
+export function Navbar({ items, cta, name, title, email }: NavbarProps) {
   const pathname = usePathname();
   const onHome = pathname === "/";
   const scrolled = useScrolled();
@@ -218,7 +221,11 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
   }
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
+    <header
+      ref={headerRef}
+      className="fixed inset-x-0 top-0 z-50"
+      style={{ viewTransitionName: "site-header" }}
+    >
       <div
         className={cn(
           "relative z-10 mx-auto transition-[max-width,padding,margin] duration-500 ease-smooth",
@@ -279,6 +286,17 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
           </div>
 
           <div className="flex items-center gap-1">
+            <Link
+              href={cta.href}
+              aria-current={pathname === cta.href ? "page" : undefined}
+              className="group/cta mr-1.5 hidden h-9 items-center gap-1.5 rounded-full bg-fg pl-4 pr-3 text-sm font-medium text-bg shadow-card transition-[background-color,box-shadow] duration-300 hover:bg-fg/85 hover:shadow-float lg:inline-flex"
+            >
+              {cta.label}
+              <ArrowRight
+                aria-hidden
+                className="size-3.5 transition-transform duration-300 ease-smooth group-hover/cta:translate-x-0.5"
+              />
+            </Link>
             <ThemeToggle />
             <button
               ref={menuButtonRef}
@@ -319,7 +337,7 @@ export function Navbar({ items, name, title, email }: NavbarProps) {
             <div className="container-page relative flex min-h-full flex-col pb-10 pt-28">
               <nav aria-label="Mobile">
                 <ul className="flex flex-col">
-                  {items.map((item, index) => (
+                  {[...items, cta].map((item, index) => (
                     <m.li
                       key={item.href}
                       className="border-b border-line"

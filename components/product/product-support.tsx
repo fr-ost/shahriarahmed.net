@@ -52,7 +52,7 @@ export function SupportOptions({
             as="li"
             key={option.title}
             delay={index * 0.06}
-            className="flex flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7"
+            className="spotlight flex flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7"
           >
             <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-line bg-bg text-accent">
               <Icon aria-hidden className="size-5" strokeWidth={1.6} />

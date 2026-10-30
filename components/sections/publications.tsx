@@ -1,9 +1,9 @@
+import { Plus } from "lucide-react";
 import { Fragment, type ReactNode } from "react";
 import { socialIcons } from "@/components/icons";
 import { ButtonLink } from "@/components/ui/button";
 import { Chip } from "@/components/ui/chip";
 import { CopyButton } from "@/components/ui/copy-button";
-import { Placeholder } from "@/components/ui/placeholder";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
 import { person, publications, sections, socials } from "@/data/portfolio";
@@ -33,7 +33,16 @@ function Authors({ authors }: { authors: string[] }) {
   );
 }
 
-function PublicationCard({ publication, index }: { publication: Publication; index: number }) {
+function PublicationCard({
+  publication,
+  index,
+  compact = false,
+}: {
+  publication: Publication;
+  index: number;
+  /** Hide the abstract behind a "Read the abstract" toggle. */
+  compact?: boolean;
+}) {
   const featured = index === 0;
   const { published } = publication;
   const meta: { label: string; value: ReactNode; wide?: boolean }[] = [];
@@ -56,7 +65,7 @@ function PublicationCard({ publication, index }: { publication: Publication; ind
     <article
       aria-labelledby={`${publication.id}-title`}
       className={cn(
-        "grid grid-cols-1 overflow-hidden rounded-[2rem] border border-line bg-elevated shadow-card",
+        "spotlight grid grid-cols-1 overflow-hidden rounded-[2rem] border border-line bg-elevated shadow-card",
         featured ? "md:grid-cols-[11rem_1fr] lg:grid-cols-[13rem_1fr]" : "md:grid-cols-[9rem_1fr]",
       )}
     >
@@ -107,18 +116,30 @@ function PublicationCard({ publication, index }: { publication: Publication; ind
           </dl>
         ) : null}
 
-        <div className="mt-8 border-t border-line pt-6">
-          <p className="eyebrow text-faint">Abstract</p>
-          {publication.abstract ? (
-            <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-muted">
-              {publication.abstract}
-            </p>
+        {publication.abstract ? (
+          compact ? (
+            <details className="group/abstract mt-8 border-t border-line pt-6">
+              <summary className="eyebrow flex cursor-pointer list-none items-center gap-2 text-faint transition-colors hover:text-fg [&::-webkit-details-marker]:hidden">
+                <span className="group-open/abstract:hidden">Read the abstract</span>
+                <span className="hidden group-open/abstract:inline">Hide the abstract</span>
+                <Plus
+                  aria-hidden
+                  className="size-3.5 transition-transform duration-300 ease-smooth group-open/abstract:rotate-45"
+                />
+              </summary>
+              <p className="mt-4 max-w-3xl text-[0.9375rem] leading-relaxed text-muted">
+                {publication.abstract}
+              </p>
+            </details>
           ) : (
-            <div className="mt-3">
-              <Placeholder />
+            <div className="mt-8 border-t border-line pt-6">
+              <p className="eyebrow text-faint">Abstract</p>
+              <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-muted">
+                {publication.abstract}
+              </p>
             </div>
-          )}
-        </div>
+          )
+        ) : null}
 
         <div className="mt-8 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
@@ -152,13 +173,13 @@ const researchProfiles = socials.filter(
 );
 
 /** Publication cards followed by links to the research profiles. */
-export function PublicationList() {
+export function PublicationList({ compact = false }: { compact?: boolean }) {
   return (
     <>
       <ol className="space-y-6">
         {publications.map((publication, index) => (
           <Reveal as="li" key={publication.id} delay={index * 0.06}>
-            <PublicationCard publication={publication} index={index} />
+            <PublicationCard publication={publication} index={index} compact={compact} />
           </Reveal>
         ))}
       </ol>
@@ -206,7 +227,7 @@ export function Publications() {
   return (
     <Section meta={sections.publications}>
       <SectionHeading meta={sections.publications} aside={<PublicationCount />} />
-      <PublicationList />
+      <PublicationList compact />
     </Section>
   );
 }

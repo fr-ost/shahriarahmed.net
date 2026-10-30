@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AboutBody, AboutHighlights } from "@/components/sections/about";
 import { KeepExploring } from "@/components/sections/explore";
+import { SkillsGrid } from "@/components/sections/skills";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BlockHeading } from "@/components/ui/block-heading";
 import { ButtonLink } from "@/components/ui/button";
@@ -36,6 +37,16 @@ export default function AboutPage() {
             title="Research, education, and Unique Labs"
           />
           <AboutHighlights />
+        </section>
+
+        <section aria-labelledby="skills-title" className="mt-24 sm:mt-32">
+          <BlockHeading
+            id="skills-title"
+            eyebrow="Skills"
+            title="Skills & methods"
+            description="Laboratory techniques, programming tools, and blockchain development I work with."
+          />
+          <SkillsGrid />
         </section>
 
         <Reveal className="mt-16 flex flex-col gap-6 rounded-[2rem] border border-line p-6 sm:p-10 lg:flex-row lg:items-center lg:justify-between">

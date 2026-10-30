@@ -2,7 +2,6 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { contentIcons } from "@/components/icons";
 import { Reveal } from "@/components/ui/reveal";
-import { Section, SectionHeading } from "@/components/ui/section";
 import {
   achievements,
   collaborations,
@@ -10,7 +9,7 @@ import {
   pages,
   projects,
   publications,
-  sections,
+  web3Experience,
 } from "@/data/portfolio";
 import { contentPages } from "@/lib/pages";
 import type { PageMeta } from "@/lib/types";
@@ -32,9 +31,9 @@ function statFor(page: PageMeta): string {
     case pages.web3.href:
       return collaborations.length > 0
         ? count(collaborations.length, "collaboration")
-        : "Collaborations coming soon";
+        : count(web3Experience.length, "entry", "entries");
     case pages.achievements.href:
-      return achievements.length > 0 ? count(achievements.length, "achievement") : "Coming soon";
+      return count(achievements.length, "achievement");
     default:
       return "";
   }
@@ -47,7 +46,7 @@ function PageCard({ page, compact = false }: { page: PageMeta; compact?: boolean
   return (
     <article
       className={cn(
-        "group/page relative flex h-full flex-col rounded-3xl border border-line bg-elevated shadow-card transition-[border-color,box-shadow,transform] duration-500 ease-smooth hover:-translate-y-1 hover:border-line-strong hover:shadow-float has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-accent",
+        "spotlight group/page relative flex h-full flex-col rounded-3xl border border-line bg-elevated shadow-card transition-[border-color,box-shadow,transform] duration-500 ease-smooth hover:-translate-y-1 hover:border-line-strong hover:shadow-float has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-accent",
         compact ? "p-5 sm:p-6" : "p-6 sm:p-8",
       )}
     >
@@ -89,31 +88,6 @@ function PageCard({ page, compact = false }: { page: PageMeta; compact?: boolean
   );
 }
 
-/** Homepage section linking to the separate pages. */
-export function Explore() {
-  // Two wide cards on top, three below on large screens.
-  const spans = [
-    "lg:col-span-3",
-    "lg:col-span-3",
-    "lg:col-span-2",
-    "lg:col-span-2",
-    "md:col-span-2 lg:col-span-2",
-  ];
-
-  return (
-    <Section meta={sections.explore}>
-      <SectionHeading meta={sections.explore} />
-      <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-6">
-        {contentPages.map((page, index) => (
-          <Reveal as="li" key={page.href} delay={index * 0.06} className={spans[index]}>
-            <PageCard page={page} />
-          </Reveal>
-        ))}
-      </ul>
-    </Section>
-  );
-}
-
 /** Links to the other content pages, shown at the end of each page. */
 export function KeepExploring({ current }: { current: string }) {
   // Four cards fill one row on large screens.
@@ -126,7 +100,12 @@ export function KeepExploring({ current }: { current: string }) {
           <span aria-hidden className="h-px w-8 bg-line-strong" />
           Keep exploring
         </h2>
-        <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul
+          className={cn(
+            "mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2",
+            others.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4",
+          )}
+        >
           {others.map((page, index) => (
             <Reveal as="li" key={page.href} delay={index * 0.05}>
               <PageCard page={page} compact />

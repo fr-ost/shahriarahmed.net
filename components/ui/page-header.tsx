@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { Aurora } from "@/components/fx/aurora";
 import { breadcrumbTrail } from "@/lib/pages";
 import type { PageMeta } from "@/lib/types";
 import { Breadcrumbs } from "./breadcrumbs";
@@ -20,13 +21,10 @@ function rise(delay: number): CSSProperties {
 export function PageHeader({ page, parents = [], children }: PageHeaderProps) {
   return (
     <header id="top" className="relative isolate overflow-hidden pb-14 pt-32 sm:pb-20 sm:pt-40">
+      <Aurora fade className="opacity-80" />
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-grid [mask-image:radial-gradient(ellipse_75%_85%_at_25%_0%,black,transparent_75%)]"
-      />
-      <div
-        aria-hidden
-        className="absolute -right-48 -top-48 -z-10 size-[44rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent-bright)_9%,transparent),transparent)]"
       />
 
       <div className="container-page">
@@ -41,12 +39,14 @@ export function PageHeader({ page, parents = [], children }: PageHeaderProps) {
           {page.titleAccent ? (
             <>
               {" "}
-              <span className="text-accent">{page.titleAccent}</span>
+              <span className="text-gradient">{page.titleAccent}</span>
             </>
           ) : null}
         </h1>
+        {/* Blurs in rather than fading, so it paints at once (often the
+            largest element on small screens). */}
         <p
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-muted animate-rise sm:text-xl"
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-muted animate-focus-in sm:text-xl"
           style={rise(120)}
         >
           {page.description}

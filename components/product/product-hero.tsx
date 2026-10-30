@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { Aurora } from "@/components/fx/aurora";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ButtonLink } from "@/components/ui/button";
 import { pages } from "@/data/portfolio";
@@ -29,10 +30,7 @@ export function ProductHero({ page, parents, product, tourHref }: ProductHeroPro
         aria-hidden
         className="absolute inset-0 -z-10 bg-grid [mask-image:radial-gradient(ellipse_75%_85%_at_25%_0%,black,transparent_75%)]"
       />
-      <div
-        aria-hidden
-        className="absolute -right-48 -top-48 -z-10 size-[44rem] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent-bright)_9%,transparent),transparent)]"
-      />
+      <Aurora fade className="opacity-80" />
 
       <div className="container-page">
         <Breadcrumbs
@@ -70,12 +68,12 @@ export function ProductHero({ page, parents, product, tourHref }: ProductHeroPro
               {page.titleAccent ? (
                 <>
                   {" "}
-                  <span className="text-accent">{page.titleAccent}</span>
+                  <span className="text-gradient">{page.titleAccent}</span>
                 </>
               ) : null}
             </h1>
             <p
-              className="mt-6 max-w-2xl text-lg leading-relaxed text-muted animate-rise sm:text-xl"
+              className="mt-6 max-w-2xl text-lg leading-relaxed text-muted animate-focus-in sm:text-xl"
               style={rise(120)}
             >
               {page.description}

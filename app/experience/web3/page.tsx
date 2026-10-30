@@ -5,7 +5,7 @@ import { CollaborationList, Web3Aside } from "@/components/sections/web3";
 import { BlockHeading } from "@/components/ui/block-heading";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
-import { pages, web3Experience } from "@/data/portfolio";
+import { collaborations, pages, web3Experience } from "@/data/portfolio";
 import { buildPageJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -31,20 +31,23 @@ export default function Web3Page() {
           </div>
         </div>
 
-        <section
-          id="collaborations"
-          aria-labelledby="collaborations-title"
-          tabIndex={-1}
-          className="mt-24 outline-none sm:mt-32"
-        >
-          <BlockHeading
-            id="collaborations-title"
-            eyebrow="History"
-            title="Collaboration history"
-            description="Brands, projects, and teams I have worked with in Web3."
-          />
-          <CollaborationList />
-        </section>
+        {/* Listed once collaborations are added to data/portfolio.ts. */}
+        {collaborations.length > 0 ? (
+          <section
+            id="collaborations"
+            aria-labelledby="collaborations-title"
+            tabIndex={-1}
+            className="mt-24 outline-none sm:mt-32"
+          >
+            <BlockHeading
+              id="collaborations-title"
+              eyebrow="History"
+              title="Collaboration history"
+              description="Brands, projects, and teams I have worked with in Web3."
+            />
+            <CollaborationList />
+          </section>
+        ) : null}
       </div>
       <KeepExploring current={page.href} />
     </>

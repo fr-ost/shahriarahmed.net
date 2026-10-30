@@ -26,9 +26,9 @@ Privacy Policy and DMCA text, which is in **[`data/legal.ts`](data/legal.ts)**, 
 Unfollow page, which is in **[`data/x-mass-unfollow.ts`](data/x-mass-unfollow.ts)**. Components
 only render what is there, so you rarely need to touch anything else.
 
-Any field set to `null` (or an empty array) is treated as "not provided yet" and shows a
-consistent **Coming soon** placeholder. Replace the `null` with real content when you have it.
-Only add verified information.
+Any field set to `null` (or an empty array) is treated as "not provided yet" and is simply
+not shown: there are no "Coming soon" placeholders. Replace the `null` with real content when you
+have it, and it appears. Only add verified information.
 
 | What                      | Where in `data/portfolio.ts`                              |
 | ------------------------- | --------------------------------------------------------- |
@@ -39,34 +39,37 @@ Only add verified information.
 | Unique Labs               | `uniqueLabs` (mission, services, products, website, …)    |
 | Research placeholder      | `currentResearch` (shown until the research is published) |
 | Publications              | `publications` (add new papers to the top of the list)    |
-| Achievements              | `achievements` (an empty list shows "Coming soon")        |
+| Achievements              | `achievements` (the page appears once the list has items) |
 | Projects & filters        | `projects` (apps, links, key facts), `projectCategories`  |
 | Experience, education     | `experience`, `education`                                 |
 | Web3 experience           | `web3Experience`, `collaborations`                        |
 | Skills                    | `skillGroups`                                             |
+| Navigation                | `navigation`, `navigationCta` (the Contact button)        |
 | Homepage section headings | `sections`                                                |
 | Page headings, summaries  | `pages` (plus `seoTitle`, `seoDescription` for search)    |
 | SEO title, description    | `site`                                                    |
 
 ### Pages
 
-The homepage covers About, Unique Labs, Publications, Skills, the CV and Contact, and links to
-the other pages from its **Explore** section, the navigation and the footer (About, Contact,
-Privacy Policy and DMCA sit together at the bottom right):
+The homepage is a short tour: the hero, a ticker of focus areas and skills, an About statement
+with key facts, a **Work** grid (research, Unique Labs, experience, X Mass Unfollow, GrowX and the
+Telegram bots), the latest publication and a contact panel. Each part links to its page, and the
+navigation and footer link to every page (About, Contact, Privacy Policy and DMCA sit together in
+the footer):
 
-| Page                    | Route                               | Content                                            |
-| ----------------------- | ----------------------------------- | -------------------------------------------------- |
-| About                   | `/about`                            | `about`, `education`, `publications`               |
-| Contact                 | `/contact`                          | `socials`, `contact` (including `topics`)          |
-| Unique Labs             | `/unique-labs`                      | `uniqueLabs`                                       |
-| Research                | `/research`                         | `currentResearch` and `publications`               |
-| Projects                | `/projects`                         | `projects`                                         |
-| X Mass Unfollow         | `/projects/x-mass-unfollow`         | `data/x-mass-unfollow.ts` (`xMassUnfollow`)        |
-| X Mass Unfollow privacy | `/projects/x-mass-unfollow/privacy` | `data/x-mass-unfollow.ts` (`xMassUnfollowPrivacy`) |
-| Experience              | `/experience`                       | `experience`, `education`                          |
-| Web3 & Collaborations   | `/experience/web3`                  | `web3Experience`, `collaborations`                 |
-| Achievements            | `/achievements`                     | `achievements`                                     |
-| Privacy Policy and DMCA | `/privacy`, `/dmca`                 | `data/legal.ts` (update `legalUpdated` on edit)    |
+| Page                    | Route                               | Content                                             |
+| ----------------------- | ----------------------------------- | --------------------------------------------------- |
+| About                   | `/about`                            | `about`, `education`, `publications`, `skillGroups` |
+| Contact                 | `/contact`                          | `socials`, `contact` (including `topics`)           |
+| Unique Labs             | `/unique-labs`                      | `uniqueLabs`                                        |
+| Research                | `/research`                         | `currentResearch` and `publications`                |
+| Projects                | `/projects`                         | `projects`                                          |
+| X Mass Unfollow         | `/projects/x-mass-unfollow`         | `data/x-mass-unfollow.ts` (`xMassUnfollow`)         |
+| X Mass Unfollow privacy | `/projects/x-mass-unfollow/privacy` | `data/x-mass-unfollow.ts` (`xMassUnfollowPrivacy`)  |
+| Experience              | `/experience`                       | `experience`, `education`                           |
+| Web3 & Collaborations   | `/experience/web3`                  | `web3Experience`, `collaborations`                  |
+| Achievements            | `/achievements` (once it has items) | `achievements`                                      |
+| Privacy Policy and DMCA | `/privacy`, `/dmca`                 | `data/legal.ts` (update `legalUpdated` on edit)     |
 
 Each page's title, description and card summary come from `pages`. If you add a page, also list
 it in `app/sitemap.ts`.
@@ -104,8 +107,8 @@ What helps most beyond the site itself:
 ### Adding your CV
 
 Put the PDF at `public/Shahriar-Ahmed-CV.pdf` and redeploy. The site checks for the file at build
-time: when it exists, the "Download CV" buttons link to it; until then they fall back to a
-"Request CV" email link, so nothing ever points at a missing file.
+time: when it exists, a "Download CV" link appears in the hero; until then nothing is shown, so
+nothing ever points at a missing file.
 
 ### Social links
 
@@ -151,8 +154,8 @@ These are intentionally left empty rather than invented:
 
 - **Unique Labs**: website, GitHub, company contact email (falls back to your personal email);
   X Mass Unfollow is listed as its product, so add any other products
-- **Achievements**: none listed yet, so the page shows "Coming soon"
-- **Web3 collaborations**: `collaborations` is empty, so the Web3 page shows "Coming soon"
+- **Achievements**: none listed yet, so the page is hidden (it returns 404 and is not linked)
+- **Web3 collaborations**: `collaborations` is empty, so the Web3 page leaves that section out
 - **Projects**: GitHub links (`links.github`)
 - **Research**: the current research is confidential until published, so the Research section
   page shows a placeholder (`currentResearch`); add the project details there after publication
@@ -167,6 +170,7 @@ Please also verify the education status (`"Current"`).
 app/                  Routes and metadata files
   layout.tsx          Fonts, SEO metadata, theme script, navbar/footer
   page.tsx            Home page (composes the sections, JSON-LD)
+  template.tsx        Page transitions (React <ViewTransition>)
   about/, contact/, unique-labs/, research/, projects/, experience/ (+ web3/),
   achievements/, privacy/, dmca/
                       The other pages
@@ -182,8 +186,10 @@ components/
   layout/             Navbar (scroll-spy, mobile menu), footer, theme toggle, scroll progress
   sections/           Homepage sections and the content blocks of the other pages
   product/            Blocks of a product page (hero, features, screenshots, FAQ, …)
+  fx/                 Motion and light: aurora, molecule network, cursor spotlight, tilt,
+                      ticker, word reveals, timeline rail, scroll cue
   ui/                 Buttons, page and section headings, reveal animation, chips, …
-  visuals/            SVG visuals (molecular network, cell cycle, Unique Labs diagram)
+  visuals/            SVG visuals (cell cycle, Unique Labs diagram)
   icons/              Brand icons and the site mark
 data/portfolio.ts     All site content
 data/legal.ts         Privacy Policy and DMCA text
@@ -199,13 +205,18 @@ public/               Portrait, manifest icons, X Mass Unfollow images, (your CV
 ## Design notes
 
 - **Colours and theme**: tokens are CSS variables in `styles/globals.css` (`:root` for light,
-  `[data-theme="dark"]` for dark). Light is the default; the toggle remembers the visitor's
-  choice and an inline script applies it before first paint, so there is no flash.
+  `[data-theme="dark"]` for dark), including the aurora, gradient-text, spotlight and molecule
+  colours. The theme follows the visitor's system setting until they choose one with the toggle,
+  which is remembered; an inline script applies it before first paint, so there is no flash.
 - **Typography**: Apple's system font (SF Pro) on iPhone, iPad and Mac. SF Pro cannot be
   embedded on the web, so other devices use Inter, an open-source typeface in the same style
   (self-hosted through `next/font`; also used for the share image).
-- **Motion**: subtle, and disabled for visitors who prefer reduced motion. Content is fully
-  visible without JavaScript.
+- **Motion**: drifting aurora light, a molecular network in the hero that bonds to the
+  pointer, word-by-word headings, a statement that brightens as it scrolls into view, cards lit
+  by the cursor, a tilting portrait and screenshots, a self-drawing experience timeline, a
+  ticker, and soft page transitions. Animations use transforms and opacity, the canvas pauses
+  off screen, and everything holds still for visitors who prefer reduced motion. Content is
+  fully visible without JavaScript.
 - **Icons**: edit the mark in `scripts/generate-icons.mjs` and run `npm run icons` to regenerate
   the favicon and app icons.
 

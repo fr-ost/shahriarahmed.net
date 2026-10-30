@@ -1,6 +1,5 @@
-import { ArrowUpRight, Blocks, Handshake, Target } from "lucide-react";
+import { ArrowUpRight, Blocks, Target } from "lucide-react";
 import { Chip } from "@/components/ui/chip";
-import { ComingSoonCard } from "@/components/ui/coming-soon";
 import { Reveal } from "@/components/ui/reveal";
 import { SmartLink } from "@/components/ui/smart-link";
 import { collaborations, skillGroups, uniqueLabs } from "@/data/portfolio";
@@ -46,23 +45,13 @@ export function Web3Aside() {
   );
 }
 
-/** Past collaborations, or a placeholder until the list is added. */
+/** Past collaborations. */
 export function CollaborationList() {
-  if (collaborations.length === 0) {
-    return (
-      <ComingSoonCard
-        eyebrow="Collaborations"
-        icon={Handshake}
-        text="Past collaborations will be listed here soon."
-      />
-    );
-  }
-
   return (
     <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {collaborations.map((item, index) => (
         <Reveal as="li" key={item.id} delay={index * 0.05} className="flex">
-          <article className="flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7">
+          <article className="spotlight flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               {item.type ? <p className="eyebrow text-accent">{item.type}</p> : null}
               {item.period ? <p className="eyebrow text-faint">{item.period}</p> : null}

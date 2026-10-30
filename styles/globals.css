@@ -34,6 +34,18 @@
   --panel-border: rgb(255 255 255 / 0.1);
   --panel-grid: rgb(255 255 255 / 0.045);
   --panel-accent: #4fd1b2;
+
+  /* Ambient colour: aurora glows, gradient text, cursor spotlight, molecules */
+  --aurora-1: rgb(45 212 191 / 0.3);
+  --aurora-2: rgb(56 189 248 / 0.2);
+  --aurora-3: rgb(167 139 250 / 0.22);
+  --text-gradient: linear-gradient(100deg, #0b6b5c 0%, #0e7490 48%, #6d28d9 100%);
+  --spotlight: rgb(18 163 134 / 0.1);
+  --spotlight-edge: rgb(18 163 134 / 0.55);
+  --glow: rgb(18 163 134 / 0.28);
+  --molecule-node: 11 107 92;
+  --molecule-link: 11 107 92;
+  --molecule-glow: 18 163 134;
 }
 
 [data-theme="dark"] {
@@ -62,6 +74,17 @@
   --panel-border: rgb(79 209 178 / 0.14);
   --panel-grid: rgb(79 209 178 / 0.05);
   --panel-accent: #4fd1b2;
+
+  --aurora-1: rgb(45 212 191 / 0.2);
+  --aurora-2: rgb(56 189 248 / 0.13);
+  --aurora-3: rgb(139 92 246 / 0.2);
+  --text-gradient: linear-gradient(100deg, #5eead4 0%, #67e8f9 48%, #c4b5fd 100%);
+  --spotlight: rgb(79 209 178 / 0.09);
+  --spotlight-edge: rgb(94 234 212 / 0.6);
+  --glow: rgb(79 209 178 / 0.3);
+  --molecule-node: 94 234 212;
+  --molecule-link: 79 209 178;
+  --molecule-glow: 103 232 249;
 }
 
 @theme inline {
@@ -108,6 +131,9 @@
   --animate-orbit-b: rotate-ccw 32s linear infinite;
   --animate-orbit-c: rotate-cw 38s linear infinite;
   --animate-pulse-ring: pulse-ring 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-scroll-dot: scroll-dot 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-spin-ring: rotate-cw 12s linear infinite;
 
   @keyframes rise {
     from {
@@ -149,6 +175,33 @@
   @keyframes rotate-ccw {
     to {
       transform: rotate(-360deg);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -10px, 0);
+    }
+  }
+
+  @keyframes scroll-dot {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      transform: translateY(12px);
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
     }
   }
 
@@ -374,6 +427,264 @@
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ── Ambient effects ───────────────────────────────────────────────────── */
+
+/* Accent words: a gradient fill. `color` stays solid for contrast checks. */
+@utility text-gradient {
+  color: var(--accent);
+  background-image: var(--text-gradient);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Keep descenders inside the clipped background. */
+  padding-bottom: 0.06em;
+}
+
+/* Fine film grain, for depth on large glowing surfaces. */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Aurora: soft colour fields drifting behind a section (see Aurora). Radial
+   gradients rather than blur filters, and transforms only, so they stay on
+   the compositor. */
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+
+.aurora-blob-a {
+  top: -38%;
+  right: -18%;
+  width: min(56rem, 130vw);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, var(--aurora-1), transparent);
+  animation: aurora-a 24s ease-in-out infinite alternate;
+}
+
+.aurora-blob-b {
+  top: 10%;
+  left: -22%;
+  width: min(44rem, 110vw);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, var(--aurora-2), transparent);
+  animation: aurora-b 28s ease-in-out infinite alternate;
+}
+
+.aurora-blob-c {
+  bottom: -40%;
+  right: 18%;
+  width: min(40rem, 100vw);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, var(--aurora-3), transparent);
+  animation: aurora-c 32s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-a {
+  to {
+    transform: translate3d(-12%, 14%, 0) scale(1.12);
+  }
+}
+
+@keyframes aurora-b {
+  to {
+    transform: translate3d(18%, -8%, 0) scale(0.92);
+  }
+}
+
+@keyframes aurora-c {
+  to {
+    transform: translate3d(-16%, -18%, 0) scale(1.18);
+  }
+}
+
+/* Cursor spotlight: a soft glow and a lit edge that follow the pointer.
+   SpotlightTracker sets --spot-x/--spot-y on the card under the pointer. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::before,
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-smooth);
+}
+
+.spotlight::before {
+  z-index: -1;
+  background: radial-gradient(
+    32rem circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    var(--spotlight),
+    transparent 42%
+  );
+}
+
+.spotlight::after {
+  padding: 1px;
+  background: radial-gradient(
+    20rem circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    var(--spotlight-edge),
+    transparent 45%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Marquee: two identical tracks slide by their own width, so the loop is
+   seamless. The second track is hidden from assistive technology. */
+.marquee {
+  --marquee-duration: 48s;
+  --marquee-gap: 2.5rem;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--marquee-gap);
+  min-width: 100%;
+  padding-right: var(--marquee-gap);
+  animation: marquee var(--marquee-duration) linear infinite;
+}
+
+.marquee[data-reverse] .marquee-track {
+  animation-direction: reverse;
+}
+
+@media (hover: hover) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+/* Statement text: words brighten in sequence when the paragraph comes into
+   view. Both colours meet contrast requirements on their own. */
+.sweep-word {
+  color: var(--fg-subtle);
+  transition: color 0.6s var(--ease-smooth);
+  transition-delay: calc(var(--i, 0) * 28ms);
+}
+
+[data-sweep="on"] .sweep-word {
+  color: var(--fg);
+}
+
+/* Large name at the foot of every page. The text comes from a data
+   attribute through ::before, so it stays decorative. */
+.footer-wordmark::before {
+  content: attr(data-wordmark);
+  display: block;
+  padding-bottom: 0.08em;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--fg) 16%, transparent) 10%,
+    transparent 92%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gradient ring around the hero portrait: a conic field that rotates
+   behind the frame (transform only, so it stays on the compositor). */
+.ring-conic {
+  background: conic-gradient(
+    from 0deg,
+    var(--accent-bright),
+    #38bdf8,
+    #a78bfa,
+    transparent 62%,
+    var(--accent-bright)
+  );
+}
+
+/* The surname in the hero: sharpens into view, then its gradient drifts. */
+.animate-name {
+  animation:
+    focus-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 160ms both,
+    gradient-pan 7s ease-in-out 1.4s infinite alternate;
+}
+
+@keyframes gradient-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+/* Page transitions (app/template.tsx): the old page leaves quickly, the new
+   one settles in with a short blur and lift. The header stays put. */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.page) {
+  animation: 160ms cubic-bezier(0.4, 0, 1, 1) both page-out;
+}
+
+::view-transition-new(.page) {
+  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both page-in;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(14px);
+  }
+}
+
 /* ── Motion preferences ────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -389,5 +700,37 @@
   [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .marquee {
+    mask-image: none;
+  }
+
+  .marquee-track {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.75rem;
+    min-width: 0;
+    padding-right: 0;
+    animation: none;
+  }
+
+  .marquee-track[aria-hidden] {
+    display: none;
+  }
+
+  .aurora-blob {
+    animation: none;
+  }
+
+  .sweep-word {
+    color: var(--fg);
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
   }
 }

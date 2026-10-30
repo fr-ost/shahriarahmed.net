@@ -6,8 +6,8 @@
  *  Edit this file to update the site; components only render what is here.
  *
  *  Placeholders: any field set to `null` (or an empty array) is treated as
- *  "not provided yet" and renders a consistent "Coming soon" style
- *  placeholder. Replace the `null` with real content when it is available.
+ *  "not provided yet" and is not shown. Replace the `null` with real
+ *  content when it is available, and it appears.
  *
  *  Nothing below should be invented — only add verified information.
  */
@@ -18,7 +18,6 @@ import type {
   CurrentResearch,
   EducationEntry,
   ExperienceEntry,
-  IdentityItem,
   LabeledValue,
   NavItem,
   PageMeta,
@@ -196,14 +195,15 @@ export const socials: SocialLink[] = [
 /* ── Navigation ─────────────────────────────────────────────────────────── */
 
 export const navigation: NavItem[] = [
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
   { label: "Research", href: "/research" },
-  { label: "Unique Labs", href: "/#unique-labs" },
   { label: "Projects", href: "/projects" },
   { label: "Experience", href: "/experience" },
-  { label: "Publications", href: "/#publications" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Unique Labs", href: "/unique-labs" },
 ];
+
+/** The call to action beside the navigation (and last in the mobile menu). */
+export const navigationCta: NavItem = { label: "Contact", href: "/contact" };
 
 /* ── Homepage section headings ──────────────────────────────────────────── */
 
@@ -215,51 +215,35 @@ export const sections = {
     title: "About",
     titleAccent: "Me",
   },
-  uniqueLabs: {
-    id: "unique-labs",
+  work: {
+    id: "work",
     index: "02",
-    eyebrow: "Company",
-    title: "Unique",
-    titleAccent: "Labs",
-    description: "Building at the intersection of technology, AI, and experimentation.",
-  },
-  explore: {
-    id: "explore",
-    index: "03",
-    eyebrow: "Explore",
-    title: "More of",
-    titleAccent: "My Work",
-    description: "Research, projects, experience, and recognition — each on its own page.",
+    eyebrow: "Work",
+    title: "Research, ventures",
+    titleAccent: "& products",
+    description: "What I am working on — each links to more.",
   },
   publications: {
     id: "publications",
-    index: "04",
+    index: "03",
     eyebrow: "Publications",
     title: "Publications",
     description: "Published scientific work",
   },
-  skills: {
-    id: "skills",
-    index: "05",
-    eyebrow: "Skills",
-    title: "Skills &",
-    titleAccent: "Methods",
-    description:
-      "Laboratory techniques, programming tools, and blockchain development I work with.",
-  },
-  cv: {
-    id: "cv",
-    index: "06",
-    eyebrow: "CV",
-    title: "Curriculum",
-    titleAccent: "Vitae",
-  },
   contact: {
     id: "contact",
-    index: "07",
+    index: "04",
     eyebrow: "Contact",
     title: "Let’s",
     titleAccent: "Connect",
+  },
+  uniqueLabs: {
+    id: "unique-labs",
+    index: "",
+    eyebrow: "Company",
+    title: "Unique",
+    titleAccent: "Labs",
+    description: "Building at the intersection of technology, AI, and experimentation.",
   },
 } satisfies Record<string, SectionMeta>;
 
@@ -440,7 +424,7 @@ export const hero = {
     "Exploring the intersection of molecular biology, cancer research, computational tools, entrepreneurship, and emerging technology.",
   primaryActions: [
     { label: "Explore My Research", href: "/research" },
-    { label: "Explore Unique Labs", href: "#unique-labs" },
+    { label: "Explore Unique Labs", href: "/unique-labs" },
   ],
   workAction: { label: "View My Work", href: "/projects" },
 };
@@ -479,35 +463,6 @@ export const publications: Publication[] = [
       "An azo-hydrazone derivative, 4-((E)-phenyldiazenyl)-2-((E)-(2-phenylhydrazono)methyl)phenol (PDPMP), was synthesized and characterized using FT-IR, UV–Vis, NMR, and LC-MS. Its structural, electronic, and nonlinear optical (NLO) properties were examined via DFT and TD-DFT at the B3LYP/6–311++G(d,p) level with the IEFPCM solvent model. The influence of solvent polarity on electronic transitions, charge transfer, NLO response, and antagonist activity was explored systematically. Solvent polarity significantly altered UV–Vis absorption, HOMO–LUMO gap, charge-transfer behavior, and NLO efficiency. PDPMP exhibited first-order hyperpolarizability (βtotal) of 537 × 10⁻³¹ esu, which is approximately 69 times greater than the reference value for urea (βtotal = 7.803 × 10⁻³¹ esu) and 3.5 time than p-nitroaniline (βtotal = 155 × 10–31 esu) and increasing up to threefold in polar solvents with notable positive solvatochromism. NTO and TDM analyses confirmed solvent-induced intramolecular charge transfer, while NBO and RDG analyses revealed orbital delocalization and noncovalent interactions. Molecular docking against Mcl-1 (PDB IDs: 4HW3, 6GL8) suggested that PDPMP has higher binding affinity than the preclinical drug Obatoclax. These findings suggest that it may serve as a dual-function NLO material and merit additional investigation for its potential as an anticancer agent.",
     presentedAt:
       "2nd International Conference on “Recent Advances in Science and Technology” (ICRAST)",
-  },
-];
-
-/* ── Quick profile strip (below the hero) ───────────────────────────────── */
-
-export const identityStrip: IdentityItem[] = [
-  {
-    label: "Researcher",
-    value: "Biochemistry & Molecular Biology",
-    icon: "microscope",
-    href: "/research",
-  },
-  {
-    label: "Co-Founder",
-    value: "Unique Labs",
-    icon: "building",
-    href: "#unique-labs",
-  },
-  {
-    label: "Published Research",
-    value: `${publications.length} ${publications.length === 1 ? "Paper" : "Papers"}`,
-    icon: "paper",
-    href: "#publications",
-  },
-  {
-    label: "Based in",
-    value: `${person.location.city}, ${person.location.country}`,
-    detail: person.location.coordinates,
-    icon: "pin",
   },
 ];
 
@@ -614,7 +569,7 @@ export const currentResearch: CurrentResearch = {
 };
 
 /* ── Achievements ───────────────────────────────────────────────────────── */
-/*  The section shows a "Coming soon" card while this list is empty. The    */
+/*  The page is hidden (404, not linked) while this list is empty. The      */
 /*  first entry is displayed as the featured card, e.g.:                     */
 /*  { id: "award-2026", rank: "1st", placement: "1st Place",                 */
 /*    title: "…", event: "…", institution: "…", date: "1 January 2026",      */
@@ -817,7 +772,7 @@ export const web3Experience: ExperienceEntry[] = [
   },
 ];
 
-/*  Past collaborations. The page shows "Coming soon" while this is empty.   */
+/*  Past collaborations. The section is hidden while this is empty.        */
 /*  Example entry:                                                          */
 /*  { id: "project-x", name: "Project X", type: "KOC campaign",             */
 /*    period: "2025", description: null, href: "https://…" }                 */
@@ -892,12 +847,11 @@ export const skillGroups: SkillGroup[] = [
 
 /* ── Curriculum Vitae ───────────────────────────────────────────────────── */
 /*  Place the PDF at /public/Shahriar-Ahmed-CV.pdf and redeploy. Until the   */
-/*  file exists, the buttons fall back to requesting the CV by email.        */
+/*  file exists, no CV link is shown.                                        */
 
 export const cv = {
   fileName: "Shahriar-Ahmed-CV.pdf",
   href: "/Shahriar-Ahmed-CV.pdf",
-  text: "Download my CV for a detailed overview of my academic background, research experience, publications, entrepreneurship, and technical work.",
   requestSubject: "CV request",
 };
 

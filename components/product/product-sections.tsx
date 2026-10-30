@@ -80,7 +80,7 @@ export function Steps({ steps }: { steps: ProductShowcase["steps"] }) {
           as="li"
           key={step.title}
           delay={index * 0.08}
-          className="relative isolate overflow-hidden rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-8"
+          className="spotlight relative isolate overflow-hidden rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-8"
         >
           <span
             aria-hidden
@@ -109,7 +109,7 @@ export function FeatureGrid({ features }: { features: ProductFeature[] }) {
             as="li"
             key={feature.title}
             delay={(index % 3) * 0.06}
-            className="group/feature rounded-3xl border border-line bg-elevated p-6 shadow-card transition-[border-color,box-shadow] duration-500 ease-smooth hover:border-line-strong hover:shadow-float sm:p-7"
+            className="spotlight group/feature rounded-3xl border border-line bg-elevated p-6 shadow-card transition-[border-color,box-shadow] duration-500 ease-smooth hover:border-line-strong hover:shadow-float sm:p-7"
           >
             <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-line bg-bg text-accent transition-colors duration-500 group-hover/feature:border-accent/30 group-hover/feature:bg-accent/[0.07]">
               <Icon aria-hidden className="size-5" strokeWidth={1.6} />
@@ -291,7 +291,7 @@ export function WhatsNew({ items }: { items: string[] }) {
           as="li"
           key={item}
           delay={(index % 2) * 0.06}
-          className="flex gap-4 rounded-3xl border border-line bg-elevated p-6 shadow-card"
+          className="spotlight flex gap-4 rounded-3xl border border-line bg-elevated p-6 shadow-card"
         >
           <Sparkles aria-hidden className="mt-0.5 size-5 shrink-0 text-accent" strokeWidth={1.6} />
           <p className="leading-relaxed text-muted">{item}</p>

@@ -1,5 +1,4 @@
 import { Award, CalendarDays, Landmark } from "lucide-react";
-import { ComingSoonCard } from "@/components/ui/coming-soon";
 import { Reveal } from "@/components/ui/reveal";
 import { Rings } from "@/components/visuals/rings";
 import { achievements } from "@/data/portfolio";
@@ -76,14 +75,7 @@ export function AchievementsList() {
             </div>
           </article>
         </Reveal>
-      ) : (
-        <ComingSoonCard
-          eyebrow="Recognition"
-          icon={Award}
-          text="Awards and recognition will be listed here."
-          as="h2"
-        />
-      )}
+      ) : null}
 
       {rest.length > 0 ? (
         <ul className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">

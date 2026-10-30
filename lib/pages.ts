@@ -1,13 +1,16 @@
-import { pages } from "@/data/portfolio";
+import { achievements, pages } from "@/data/portfolio";
 import type { PageMeta } from "@/lib/types";
 
-/** Pages with their own content, in the order they are offered. */
+/**
+ * Pages with their own content, in the order they are offered. Achievements
+ * is listed only once there is something to show.
+ */
 export const contentPages: PageMeta[] = [
   pages.research,
   pages.projects,
   pages.experience,
   pages.web3,
-  pages.achievements,
+  ...(achievements.length > 0 ? [pages.achievements] : []),
 ];
 
 /** Pages about the site and its owner, listed beside the legal pages. */

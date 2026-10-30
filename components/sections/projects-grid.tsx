@@ -8,7 +8,6 @@ import { useState } from "react";
 import { contentIcons } from "@/components/icons";
 import { GitHubIcon } from "@/components/icons/brand-icons";
 import { Chip, StatusDot } from "@/components/ui/chip";
-import { Placeholder } from "@/components/ui/placeholder";
 import type { Project, ProjectCategory } from "@/lib/types";
 import { cn, isExternalHref, pad2, prettyUrl } from "@/lib/utils";
 
@@ -156,7 +155,7 @@ function ProjectCard({
   const hasItemIcons = items.some((item) => item.icon);
 
   return (
-    <article className="group/card relative flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card transition-[border-color,box-shadow,transform] duration-500 ease-smooth hover:-translate-y-1 hover:border-line-strong hover:shadow-float sm:p-8">
+    <article className="spotlight group/card relative flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card transition-[border-color,box-shadow,transform] duration-500 ease-smooth hover:-translate-y-1 hover:border-line-strong hover:shadow-float sm:p-8">
       <div className="flex items-start justify-between gap-4">
         <span className="inline-flex size-12 items-center justify-center rounded-2xl border border-line bg-bg text-fg transition-colors duration-500 group-hover/card:border-accent/30 group-hover/card:bg-accent/[0.07] group-hover/card:text-accent">
           <Icon aria-hidden className="size-5" strokeWidth={1.6} />
@@ -171,9 +170,7 @@ function ProjectCard({
             {pad2(items.length)} {project.itemNoun ?? "item"}
             {items.length === 1 ? "" : "s"}
           </span>
-        ) : (
-          <Placeholder>Status TBA</Placeholder>
-        )}
+        ) : null}
       </div>
 
       <div
@@ -297,7 +294,7 @@ function ProjectCard({
         </ul>
       ) : null}
 
-      {hasLinks || (items.length === 0 && !archived) ? (
+      {hasLinks ? (
         <div className="mt-auto pt-8">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 border-t border-line pt-5">
             {website ? (
@@ -331,7 +328,6 @@ function ProjectCard({
                 />
               </a>
             ) : null}
-            {!hasLinks ? <Placeholder>Links coming soon</Placeholder> : null}
           </div>
         </div>
       ) : null}

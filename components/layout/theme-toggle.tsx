@@ -2,7 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useLayoutEffect } from "react";
-import { applyTheme, readStoredTheme, type Theme } from "@/lib/theme";
+import { applyTheme, readSavedTheme, readStoredTheme, systemTheme, type Theme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 function currentTheme(): Theme {
@@ -15,6 +15,14 @@ export function ThemeToggle({ className }: { className?: string }) {
   // have existed yet when the inline head script ran.
   useLayoutEffect(() => {
     applyTheme(readStoredTheme(), false);
+
+    // Until the visitor picks a theme, follow changes to the system setting.
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => {
+      if (readSavedTheme() === null) applyTheme(systemTheme(), false);
+    };
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
   }, []);
 
   function toggle() {
