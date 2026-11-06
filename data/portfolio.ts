@@ -746,7 +746,9 @@ export const web3Experience: ExperienceEntry[] = [
 /*  where his posts use his invite links, "KOC" for Bitget's KOC links),     */
 /*  smaller projects are promotional partners. `period` runs from his first  */
 /*  to his last post about each. `handle` is the X account tagged in those   */
-/*  posts; `logo` is that account's picture in public/images/collaborations. */
+/*  posts, or its official account (SuperEx, Tenset, MetaTdex); it is left   */
+/*  out where unclear or suspended (Altura; OpenPad, Seedify, Unmarshal).    */
+/*  `logo` is that account's X picture, in public/images/collaborations.     */
 export const collaborations: Collaboration[] = [
   {
     id: "bitget",
@@ -756,6 +758,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "bitget",
+    logo: "/images/collaborations/bitget.webp",
   },
   {
     id: "superex",
@@ -764,7 +767,8 @@ export const collaborations: Collaboration[] = [
     period: "Sep 2024 – May 2026",
     description: null,
     href: null,
-    handle: null,
+    handle: "SuperEx",
+    logo: "/images/collaborations/superex.webp",
   },
   {
     id: "bitmart",
@@ -774,6 +778,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "BitMartExchange",
+    logo: "/images/collaborations/bitmart.webp",
   },
   {
     id: "lbank",
@@ -783,6 +788,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "LBank_Exchange",
+    logo: "/images/collaborations/lbank.webp",
   },
   {
     id: "gate",
@@ -792,6 +798,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Gate",
+    logo: "/images/collaborations/gate.webp",
   },
   {
     id: "trustfi",
@@ -801,6 +808,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "trustfiorg",
+    logo: "/images/collaborations/trustfi.webp",
   },
   {
     id: "mexc",
@@ -810,6 +818,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "MEXC",
+    logo: "/images/collaborations/mexc.webp",
   },
   {
     id: "weex",
@@ -819,6 +828,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "WEEX_Official",
+    logo: "/images/collaborations/weex.webp",
   },
   {
     id: "seedify",
@@ -827,7 +837,7 @@ export const collaborations: Collaboration[] = [
     period: "Dec 2023 – Sep 2025",
     description: null,
     href: null,
-    handle: "seedifyfund",
+    handle: null,
   },
   {
     id: "kucoin",
@@ -837,6 +847,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "kucoincom",
+    logo: "/images/collaborations/kucoin.webp",
   },
   {
     id: "seafi-seapad",
@@ -846,6 +857,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "SeaFi_AI",
+    logo: "/images/collaborations/seafi-seapad.webp",
   },
   {
     id: "ascendex",
@@ -855,6 +867,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "AscendEX_",
+    logo: "/images/collaborations/ascendex.webp",
   },
   {
     id: "bscs",
@@ -864,6 +877,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "BSCS_Global",
+    logo: "/images/collaborations/bscs.webp",
   },
   {
     id: "bitget-wallet",
@@ -873,6 +887,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "BitgetWallet",
+    logo: "/images/collaborations/bitget-wallet.webp",
   },
   {
     id: "bybit",
@@ -882,6 +897,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Bybit_Official",
+    logo: "/images/collaborations/bybit.webp",
   },
   {
     id: "openpad",
@@ -890,7 +906,7 @@ export const collaborations: Collaboration[] = [
     period: "Oct 2024 – Jan 2025",
     description: null,
     href: null,
-    handle: "Openpad_IO",
+    handle: null,
   },
   {
     id: "grvt",
@@ -900,6 +916,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "grvt_io",
+    logo: "/images/collaborations/grvt.webp",
   },
   {
     id: "kol-capital",
@@ -909,6 +926,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "KOLCapital",
+    logo: "/images/collaborations/kol-capital.webp",
   },
   {
     id: "cointerminal",
@@ -918,6 +936,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "CoinTerminal",
+    logo: "/images/collaborations/cointerminal.webp",
   },
   {
     id: "10set-ido",
@@ -926,7 +945,8 @@ export const collaborations: Collaboration[] = [
     period: "Sep – Dec 2024",
     description: null,
     href: null,
-    handle: null,
+    handle: "Tenset_io",
+    logo: "/images/collaborations/10set-ido.webp",
   },
   {
     id: "metatdex",
@@ -935,7 +955,8 @@ export const collaborations: Collaboration[] = [
     period: null,
     description: null,
     href: null,
-    handle: null,
+    handle: "MetaTdex",
+    logo: "/images/collaborations/metatdex.webp",
   },
   {
     id: "aidapp",
@@ -945,6 +966,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "aidappcom",
+    logo: "/images/collaborations/aidapp.webp",
   },
   {
     id: "aitech",
@@ -954,6 +976,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "AITECHio",
+    logo: "/images/collaborations/aitech.webp",
   },
   {
     id: "persistence",
@@ -963,6 +986,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "PersistenceOne",
+    logo: "/images/collaborations/persistence.webp",
   },
   {
     id: "0g-labs",
@@ -972,6 +996,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "0G_labs",
+    logo: "/images/collaborations/0g-labs.webp",
   },
   {
     id: "seedworld",
@@ -981,6 +1006,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "SeedworldMeta",
+    logo: "/images/collaborations/seedworld.webp",
   },
   {
     id: "cheelee",
@@ -990,6 +1016,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Cheelee_Tweet",
+    logo: "/images/collaborations/cheelee.webp",
   },
   {
     id: "velvet-capital",
@@ -999,6 +1026,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Velvet_Capital",
+    logo: "/images/collaborations/velvet-capital.webp",
   },
   {
     id: "matchain",
@@ -1008,6 +1036,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "matchain_io",
+    logo: "/images/collaborations/matchain.webp",
   },
   {
     id: "altura",
@@ -1026,6 +1055,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "VentureMindAI",
+    logo: "/images/collaborations/venturemind.webp",
   },
   {
     id: "unmarshal",
@@ -1034,7 +1064,7 @@ export const collaborations: Collaboration[] = [
     period: "Apr 2025",
     description: null,
     href: null,
-    handle: "unmarshalai",
+    handle: null,
   },
   {
     id: "inference-labs",
@@ -1044,6 +1074,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "inference_labs",
+    logo: "/images/collaborations/inference-labs.webp",
   },
   {
     id: "edu3labs",
@@ -1053,6 +1084,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Edu3Labs",
+    logo: "/images/collaborations/edu3labs.webp",
   },
   {
     id: "deeplink",
@@ -1062,6 +1094,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "DeepLinkGlobal",
+    logo: "/images/collaborations/deeplink.webp",
   },
   {
     id: "degpt",
@@ -1071,6 +1104,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "degpt_fun",
+    logo: "/images/collaborations/degpt.webp",
   },
   {
     id: "men-coin",
@@ -1080,6 +1114,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Men_x_Meme",
+    logo: "/images/collaborations/men-coin.webp",
   },
   {
     id: "world-of-dypians",
@@ -1089,6 +1124,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "worldofdypians",
+    logo: "/images/collaborations/world-of-dypians.webp",
   },
   {
     id: "rabbitx",
@@ -1098,6 +1134,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "rabbitx_io",
+    logo: "/images/collaborations/rabbitx.webp",
   },
   {
     id: "covalent",
@@ -1107,6 +1144,7 @@ export const collaborations: Collaboration[] = [
     description: null,
     href: null,
     handle: "Covalent_HQ",
+    logo: "/images/collaborations/covalent.webp",
   },
 ];
 

@@ -149,8 +149,9 @@ These are intentionally left empty rather than invented:
 - **Unique Labs**: website, GitHub, company contact email (falls back to your personal email);
   UnfollowX Pro is listed as its product, so add any other products
 - **Achievements**: none listed yet, so the page is hidden (it returns 404 and is not linked)
-- **Web3 collaborations**: listed on the Unique Labs page by name and X account; add a `type`, `period` or
-  `description` to any entry once confirmed
+- **Web3 collaborations**: listed on the Unique Labs page with type, period (from the posts),
+  X account and logo (`public/images/collaborations/<id>.webp`, the account's X picture, 96 px);
+  entries without a logo show initials
 - **Projects**: GitHub links (`links.github`)
 - **Research**: the current research is confidential until published, so the Research section
   page shows a placeholder (`currentResearch`); add the project details there after publication
