@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { ExperienceTabs, ExperienceTimeline } from "@/components/sections/experience";
 import { KeepExploring } from "@/components/sections/explore";
-import { CollaborationList, Web3Aside } from "@/components/sections/web3";
+import { Web3Aside } from "@/components/sections/web3";
 import { BlockHeading } from "@/components/ui/block-heading";
+import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
 import { collaborations, pages, web3Experience } from "@/data/portfolio";
@@ -31,21 +32,33 @@ export default function Web3Page() {
           </div>
         </div>
 
-        {/* Listed once collaborations are added to data/portfolio.ts. */}
+        {/* The full list is on the Unique Labs page. */}
         {collaborations.length > 0 ? (
           <section
-            id="collaborations"
             aria-labelledby="collaborations-title"
-            tabIndex={-1}
-            className="mt-24 outline-none sm:mt-32"
+            className="mt-24 flex flex-col gap-6 rounded-3xl border border-line bg-elevated p-6 shadow-card sm:mt-32 sm:flex-row sm:items-center sm:justify-between sm:p-8"
           >
-            <BlockHeading
-              id="collaborations-title"
-              eyebrow="History"
-              title="Collaboration history"
-              description={`Exchanges, launchpads, and projects I have worked with in Web3 — ${collaborations.length} so far.`}
-            />
-            <CollaborationList />
+            <div>
+              <p className="eyebrow text-faint">History</p>
+              <h2
+                id="collaborations-title"
+                className="mt-2 text-2xl font-semibold tracking-tight text-fg"
+              >
+                Collaboration history
+              </h2>
+              <p className="mt-2 leading-relaxed text-muted">
+                {collaborations.length} exchanges, launchpads, and projects — listed on the Unique
+                Labs page.
+              </p>
+            </div>
+            <ButtonLink
+              href={`${pages.uniqueLabs.href}#collaborations`}
+              variant="secondary"
+              icon="arrow-right"
+              className="shrink-0"
+            >
+              See all {collaborations.length}
+            </ButtonLink>
           </section>
         ) : null}
       </div>

@@ -1,4 +1,12 @@
-import { pages, person, projects, publications, site, socials } from "@/data/portfolio";
+import {
+  collaborations,
+  pages,
+  person,
+  projects,
+  publications,
+  site,
+  socials,
+} from "@/data/portfolio";
 import { unfollowX } from "@/data/unfollowx";
 import { contentPages } from "@/lib/pages";
 import { isExternalHref } from "@/lib/utils";
@@ -48,6 +56,10 @@ export function GET() {
     `- Website: ${unfollowX.website}`,
     `- Chrome Web Store: ${unfollowX.storeUrl}`,
     `- Privacy policy: ${absolute(pages.unfollowXPrivacy.href)}`,
+    "",
+    "## Web3 collaborations",
+    "",
+    `Listed on ${absolute(pages.uniqueLabs.href)}#collaborations: ${collaborations.map((item) => item.name).join(", ")}.`,
     "",
     "## Publications",
     "",

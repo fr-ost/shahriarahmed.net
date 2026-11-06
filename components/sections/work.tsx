@@ -332,9 +332,19 @@ export function Work() {
         {bots?.items?.length ? (
           <Card delay={0.12} className="md:col-span-2 lg:col-span-4">
             <div className="flex items-start justify-between gap-4">
-              <IconTile>
-                <BotMessageSquare aria-hidden className="size-5" strokeWidth={1.6} />
-              </IconTile>
+              {bots.items.length === 1 && bots.items[0].icon ? (
+                <Image
+                  src={bots.items[0].icon}
+                  alt=""
+                  width={44}
+                  height={44}
+                  className="size-11 rounded-xl"
+                />
+              ) : (
+                <IconTile>
+                  <BotMessageSquare aria-hidden className="size-5" strokeWidth={1.6} />
+                </IconTile>
+              )}
               <span className="eyebrow text-faint">
                 Telegram {bots.items.length === 1 ? "bot" : "bots"}
               </span>

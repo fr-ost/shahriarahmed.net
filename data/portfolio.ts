@@ -612,6 +612,7 @@ export const projects: Project[] = [
           "Daily current affairs for BCS exam preparation: notes in Bangla and three MCQs, delivered every day at 8 AM.",
         href: "https://t.me/BCSNWZ_bot",
         linkLabel: "@BCSNWZ_bot",
+        icon: "/images/bcs-news/bcs-news-icon.png",
       },
     ],
     itemNoun: "bot",
@@ -1102,8 +1103,8 @@ export const collaborations: Collaboration[] = [
     handle: null,
   },
   {
-    id: "metadex",
-    name: "MetaDex",
+    id: "metatdex",
+    name: "MetaTDex",
     type: null,
     period: null,
     description: null,

@@ -61,12 +61,12 @@ the footer):
 | ----------------------- | ----------------------------------- | --------------------------------------------------- |
 | About                   | `/about`                            | `about`, `education`, `publications`, `skillGroups` |
 | Contact                 | `/contact`                          | `socials`, `contact` (including `topics`)           |
-| Unique Labs             | `/unique-labs`                      | `uniqueLabs`                                        |
+| Unique Labs             | `/unique-labs`                      | `uniqueLabs`, `collaborations`                      |
 | Research                | `/research`                         | `currentResearch` and `publications`                |
 | Projects                | `/projects`                         | `projects`                                          |
 | UnfollowX Pro privacy   | `/projects/x-mass-unfollow/privacy` | `data/unfollowx.ts` (`unfollowXPrivacy`)            |
 | Experience              | `/experience`                       | `experience`, `education`                           |
-| Web3 & Collaborations   | `/experience/web3`                  | `web3Experience`, `collaborations`                  |
+| Web3 & Collaborations   | `/experience/web3`                  | `web3Experience` (links to the collaborations)      |
 | Achievements            | `/achievements` (once it has items) | `achievements`                                      |
 | Privacy Policy and DMCA | `/privacy`, `/dmca`                 | `data/legal.ts` (update `legalUpdated` on edit)     |
 
@@ -149,7 +149,7 @@ These are intentionally left empty rather than invented:
 - **Unique Labs**: website, GitHub, company contact email (falls back to your personal email);
   UnfollowX Pro is listed as its product, so add any other products
 - **Achievements**: none listed yet, so the page is hidden (it returns 404 and is not linked)
-- **Web3 collaborations**: listed by name and X account; add a `type`, `period` or
+- **Web3 collaborations**: listed on the Unique Labs page by name and X account; add a `type`, `period` or
   `description` to any entry once confirmed
 - **Projects**: GitHub links (`links.github`)
 - **Research**: the current research is confidential until published, so the Research section

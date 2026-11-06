@@ -4,7 +4,6 @@ import { contentIcons } from "@/components/icons";
 import { Reveal } from "@/components/ui/reveal";
 import {
   achievements,
-  collaborations,
   experience,
   pages,
   projects,
@@ -29,9 +28,7 @@ function statFor(page: PageMeta): string {
     case pages.experience.href:
       return count(experience.length, "entry", "entries");
     case pages.web3.href:
-      return collaborations.length > 0
-        ? count(collaborations.length, "collaboration")
-        : count(web3Experience.length, "entry", "entries");
+      return count(web3Experience.length, "entry", "entries");
     case pages.achievements.href:
       return count(achievements.length, "achievement");
     default:
