@@ -229,7 +229,10 @@ export interface Collaboration {
   type: string | null;
   period: string | null;
   description: string | null;
+  /** The project's website. */
   href: string | null;
+  /** The project's X handle, without the @; links to its profile. */
+  handle: string | null;
 }
 
 /** A block of text on the privacy and DMCA pages. */

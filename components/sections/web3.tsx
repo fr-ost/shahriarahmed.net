@@ -46,38 +46,52 @@ export function Web3Aside() {
 }
 
 /** Past collaborations. */
+/** Collaborations as a dense grid of small tiles: name, type and X account. */
 export function CollaborationList() {
   return (
-    <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {collaborations.map((item, index) => (
-        <Reveal as="li" key={item.id} delay={index * 0.05} className="flex">
-          <article className="spotlight flex w-full flex-col rounded-3xl border border-line bg-elevated p-6 shadow-card sm:p-7">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              {item.type ? <p className="eyebrow text-accent">{item.type}</p> : null}
-              {item.period ? <p className="eyebrow text-faint">{item.period}</p> : null}
-            </div>
-            <h3 className="mt-3 text-xl font-semibold tracking-tight text-fg">{item.name}</h3>
+    <Reveal>
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {collaborations.map((item) => (
+          <li
+            key={item.id}
+            className="flex min-w-0 flex-col rounded-2xl border border-line bg-elevated/70 px-4 py-3.5 transition-colors duration-300 hover:border-line-strong"
+          >
+            {item.type || item.period ? (
+              <p className="eyebrow truncate text-accent">
+                {[item.type, item.period].filter(Boolean).join(" · ")}
+              </p>
+            ) : null}
+            <h3 className="text-[0.9375rem] font-semibold leading-snug tracking-tight text-fg">
+              {item.name}
+            </h3>
             {item.description ? (
-              <p className="mt-2 leading-relaxed text-muted">{item.description}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">{item.description}</p>
             ) : null}
-            {item.href ? (
-              <div className="mt-auto pt-6">
-                <SmartLink
-                  href={item.href}
-                  className="group/link inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent"
-                >
-                  Visit
-                  <ArrowUpRight
-                    aria-hidden
-                    className="size-3.5 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
-                  />
-                  <span className="sr-only"> {item.name}</span>
-                </SmartLink>
-              </div>
+            {item.handle ? (
+              <a
+                href={`https://x.com/${item.handle}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tap group/link mt-auto flex min-w-0 items-center gap-1 pt-1.5 text-xs font-medium text-muted transition-colors hover:text-accent"
+              >
+                <span className="truncate">@{item.handle}</span>
+                <ArrowUpRight
+                  aria-hidden
+                  className="size-3 shrink-0 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+                />
+                <span className="sr-only"> — {item.name} on X (opens in a new tab)</span>
+              </a>
+            ) : item.href ? (
+              <SmartLink
+                href={item.href}
+                className="tap mt-auto pt-1.5 text-xs font-medium text-muted hover:text-accent"
+              >
+                Website<span className="sr-only"> of {item.name}</span>
+              </SmartLink>
             ) : null}
-          </article>
-        </Reveal>
-      ))}
-    </ul>
+          </li>
+        ))}
+      </ul>
+    </Reveal>
   );
 }

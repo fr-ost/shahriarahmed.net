@@ -43,7 +43,7 @@ export default function Web3Page() {
               id="collaborations-title"
               eyebrow="History"
               title="Collaboration history"
-              description="Brands, projects, and teams I have worked with in Web3."
+              description={`Exchanges, launchpads, and projects I have worked with in Web3 — ${collaborations.length} so far.`}
             />
             <CollaborationList />
           </section>
