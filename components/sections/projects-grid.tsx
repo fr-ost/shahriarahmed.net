@@ -8,7 +8,7 @@ import { useState } from "react";
 import { contentIcons } from "@/components/icons";
 import { GitHubIcon } from "@/components/icons/brand-icons";
 import { Chip, StatusDot } from "@/components/ui/chip";
-import type { Project, ProjectCategory } from "@/lib/types";
+import type { ArchivedProject, Project, ProjectCategory } from "@/lib/types";
 import { cn, isExternalHref, pad2, prettyUrl } from "@/lib/utils";
 
 type Filter = "All" | ProjectCategory;
@@ -100,23 +100,30 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
   );
 }
 
-/** Projects that are no longer running, shown without filters. */
-export function ArchivedProjects({ projects }: { projects: Project[] }) {
+/** Projects that are no longer running: small boxes, without links. */
+export function ArchivedProjects({ projects }: { projects: ArchivedProject[] }) {
   return (
-    <ul className="grid grid-cols-1 gap-5 md:grid-cols-2">
-      {projects.map((project, index) => (
-        <m.li
-          key={project.id}
-          data-reveal=""
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-          transition={{ duration: 0.6, delay: index * 0.07, ease }}
-          className="flex"
-        >
-          <ProjectCard project={project} wide={false} archived />
-        </m.li>
-      ))}
+    <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {projects.map((project) => {
+        const Icon = contentIcons[project.icon];
+        return (
+          <li
+            key={project.id}
+            className="flex gap-3.5 rounded-2xl border border-line bg-elevated/60 p-4"
+          >
+            <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-xl border border-line bg-bg text-faint">
+              <Icon aria-hidden className="size-4" strokeWidth={1.6} />
+            </span>
+            <div className="min-w-0">
+              <h3 className="text-[0.9375rem] font-semibold leading-snug tracking-tight text-fg">
+                {project.name}
+              </h3>
+              <p className="mt-0.5 text-xs text-faint">{project.kind} · Discontinued</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{project.description}</p>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -125,7 +132,7 @@ const linkClass =
   "group/link inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent";
 
 const itemLinkClass =
-  "group/link inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-fg";
+  "tap group/link inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-fg";
 
 function ExternalArrow() {
   return (
@@ -136,15 +143,7 @@ function ExternalArrow() {
   );
 }
 
-function ProjectCard({
-  project,
-  wide,
-  archived = false,
-}: {
-  project: Project;
-  wide: boolean;
-  archived?: boolean;
-}) {
+function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
   const Icon = contentIcons[project.icon];
   const { github, demo, website, internal } = project.links;
   const hasLinks = Boolean(github || demo || website || internal);
@@ -162,7 +161,7 @@ function ProjectCard({
         </span>
         {project.status ? (
           <span className="inline-flex items-center gap-2 text-sm text-muted">
-            {archived ? null : <StatusDot />}
+            <StatusDot />
             {project.status}
           </span>
         ) : items.length > 0 ? (

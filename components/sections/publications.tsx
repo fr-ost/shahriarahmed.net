@@ -119,7 +119,7 @@ function PublicationCard({
         {publication.abstract ? (
           compact ? (
             <details className="group/abstract mt-8 border-t border-line pt-6">
-              <summary className="eyebrow flex cursor-pointer list-none items-center gap-2 text-faint transition-colors hover:text-fg [&::-webkit-details-marker]:hidden">
+              <summary className="tap eyebrow flex cursor-pointer list-none items-center gap-2 text-faint transition-colors hover:text-fg [&::-webkit-details-marker]:hidden">
                 <span className="group-open/abstract:hidden">Read the abstract</span>
                 <span className="hidden group-open/abstract:inline">Hide the abstract</span>
                 <Plus
@@ -148,7 +148,7 @@ function PublicationCard({
               href={publication.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1.5 block break-all text-[0.9375rem] font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
+              className="mt-1.5 block break-all text-[0.9375rem] font-medium text-accent underline pointer-coarse:-mb-2 pointer-coarse:mt-0 pointer-coarse:py-2 decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
             >
               {publication.doi}
               <span className="sr-only"> (opens in a new tab)</span>

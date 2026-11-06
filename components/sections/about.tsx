@@ -149,7 +149,7 @@ export function About() {
       <Reveal delay={0.1} className="mt-10">
         <Link
           href={pages.about.href}
-          className="group/more inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg hover:text-accent"
+          className="tap group/more inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg hover:text-accent"
         >
           More about {person.name}
           <ArrowRight
@@ -204,7 +204,7 @@ export function AboutHighlights() {
             <div className="mt-auto pt-6">
               <Link
                 href={card.link.href}
-                className="group/more inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent"
+                className="tap group/more inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent"
               >
                 {card.link.label}
                 <ArrowRight

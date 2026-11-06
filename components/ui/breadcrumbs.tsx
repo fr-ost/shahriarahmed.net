@@ -22,7 +22,7 @@ export function Breadcrumbs({ trail, className, style }: BreadcrumbsProps) {
                   {item.label}
                 </span>
               ) : (
-                <Link href={item.href} className="transition-colors hover:text-fg">
+                <Link href={item.href} className="tap transition-colors hover:text-fg">
                   {item.label}
                 </Link>
               )}

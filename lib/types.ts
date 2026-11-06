@@ -151,7 +151,7 @@ export interface ProjectItem {
   name: string;
   description: string;
   href: string | null;
-  /** Link text, e.g. "@sfchecker_bot" or "Chrome Web Store". */
+  /** Link text, e.g. "@BCSNWZ_bot" or "Chrome Web Store". */
   linkLabel: string;
   /** The app's own page (on this site or its own website), if it has one. */
   page?: Link;
@@ -184,6 +184,17 @@ export interface Project {
     /** Optional link within the site, e.g. "/research". */
     internal?: Link | null;
   };
+  icon: IconKey;
+}
+
+/** A discontinued project: shown small, under "Archived projects". */
+export interface ArchivedProject {
+  id: string;
+  name: string;
+  /** What it was, e.g. "Telegram bot". */
+  kind: string;
+  /** One short sentence. */
+  description: string;
   icon: IconKey;
 }
 
@@ -277,22 +288,7 @@ export interface UniqueLabsInfo {
   contactEmail: string | null;
 }
 
-/* ── Product pages ─────────────────────────────────────────────────────── */
-
-/** Icons for product features; see components/product/icons.ts. */
-export type ProductIconKey =
-  | "scan"
-  | "unfollow"
-  | "filter"
-  | "shield"
-  | "rules"
-  | "background"
-  | "pacing"
-  | "history"
-  | "csv"
-  | "lock"
-  | "theme"
-  | "stop";
+/* ── Browser extensions ────────────────────────────────────────────────── */
 
 /** An image in /public, with its intrinsic size. */
 export interface ImageAsset {
@@ -302,90 +298,21 @@ export interface ImageAsset {
   height: number;
 }
 
-export interface ProductFeature {
-  title: string;
-  description: string;
-  icon: ProductIconKey;
-}
-
-/** A feature shown large, beside a screenshot. */
-export interface ProductSpotlight {
-  id: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  points: string[];
-  image: ImageAsset;
-}
-
-/** A speed setting, e.g. "Balanced: 8–20 s apart, 400 a day". */
-export interface SpeedPreset {
-  name: string;
-  /** Short tag, e.g. "Recommended". */
-  tag: string | null;
-  /** Highlights the preset. */
-  recommended?: boolean;
-  delay: string;
-  breaks: string;
-  dailyLimit: string;
-}
-
 export interface ProductPermission {
   name: string;
   reason: string;
 }
 
-export interface Faq {
-  question: string;
-  answer: string;
-}
-
-export interface DonationAddress {
-  network: string;
-  coins: string;
-  address: string;
-  note: string;
-}
-
-/** Everything shown on a product's page. */
-export interface ProductShowcase {
-  /** Short name, as shown in the product itself. */
+/** A Chrome extension with its own website, e.g. UnfollowX Pro. */
+export interface BrowserExtension {
   name: string;
-  /** Full name, e.g. the Chrome Web Store title. */
-  fullName: string;
-  tagline: string;
-  /** One-sentence description, as in the store listing. */
+  /** Name it was published under before, if it was renamed. */
+  formerName?: string;
+  /** One sentence, as in the store listing. */
   description: string;
-  version: string;
-  /** Oldest supported Chrome version, e.g. "116". */
-  minimumChrome: string;
+  website: string;
   storeUrl: string;
-  /** Where to get help and report bugs. */
-  support: Link;
   logo: ImageAsset;
   /** Raster icon, for structured data. */
   icon: ImageAsset;
-  /** Shown at the top of the page. */
-  hero: ImageAsset;
-  /** 1200 × 630 image for link previews. */
-  shareImage: ImageAsset;
-  facts: LabeledValue[];
-  steps: { title: string; description: string }[];
-  features: ProductFeature[];
-  spotlights: ProductSpotlight[];
-  presets: SpeedPreset[];
-  /** Shown with the speed presets. */
-  presetsNote: string;
-  /** How the product pays for itself, shown with the privacy summary. */
-  adsNote: string;
-  permissions: ProductPermission[];
-  whatsNew: string[];
-  faqs: Faq[];
-  /** Why donations matter, shown above the addresses. */
-  donationsIntro: string;
-  donations: DonationAddress[];
-  /** Warning shown below the addresses. */
-  donationsNote: string;
-  /** Statement of independence from the platform it works with. */
-  disclaimer: string;
 }

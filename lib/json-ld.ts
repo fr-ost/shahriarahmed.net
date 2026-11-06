@@ -10,8 +10,7 @@ import {
   uniqueLabs,
 } from "@/data/portfolio";
 import { breadcrumbTrail, pageTitle } from "@/lib/pages";
-import { productScreenshots } from "@/lib/products";
-import type { Faq, ImageAsset, PageMeta, ProductShowcase } from "@/lib/types";
+import type { BrowserExtension, ImageAsset, PageMeta } from "@/lib/types";
 
 /**
  * schema.org structured data (JSON-LD). Every page describes itself and
@@ -184,74 +183,25 @@ export function buildHomeJsonLd() {
   };
 }
 
-/** `@id` of the software a product page describes. */
-export function softwareId(page: PageMeta) {
-  return `${absolute(page.href)}#software`;
-}
-
 /**
- * A browser extension, as a SoftwareApplication. There is no rating: Google
- * does not accept ratings copied from another site, such as a web store.
+ * A browser extension, as a SoftwareApplication. Its own website is the
+ * canonical page about it; pages here (such as its privacy policy) refer to it.
  */
-export function softwareNode(product: ProductShowcase, page: PageMeta) {
+export function softwareNode(extension: BrowserExtension) {
   return {
     "@type": "SoftwareApplication",
-    "@id": softwareId(page),
-    name: product.name,
-    alternateName: [product.fullName],
-    description: product.description,
-    url: absolute(page.href),
-    image: absolute(product.icon.src),
-    screenshot: productScreenshots(product).map((image) => ({
-      "@type": "ImageObject",
-      url: absolute(image.src),
-      caption: image.alt,
-      width: image.width,
-      height: image.height,
-    })),
+    "@id": `${extension.website}#software`,
+    name: extension.name,
+    ...(extension.formerName ? { alternateName: [extension.formerName] } : {}),
+    description: extension.description,
+    url: extension.website,
+    image: absolute(extension.icon.src),
     applicationCategory: "BrowserApplication",
     applicationSubCategory: "Chrome extension",
-    operatingSystem: "Windows, macOS, Linux, ChromeOS",
-    browserRequirements: `Requires Google Chrome ${product.minimumChrome} or later`,
-    softwareVersion: product.version,
-    releaseNotes: product.whatsNew.join(" "),
-    featureList: product.features.map((feature) => feature.title),
-    permissions: product.permissions.map((permission) => permission.name).join(", "),
-    installUrl: product.storeUrl,
-    downloadUrl: product.storeUrl,
-    sameAs: [product.storeUrl],
-    isAccessibleForFree: true,
-    offers: { "@type": "Offer", price: "0", priceCurrency: "USD", url: product.storeUrl },
-    inLanguage: "en",
+    installUrl: extension.storeUrl,
+    sameAs: [extension.storeUrl],
     author: { "@id": ids.person },
     publisher: { "@type": "Organization", "@id": ids.organization, name: uniqueLabs.name },
-  };
-}
-
-/** Short reference to the software, for pages about it such as its privacy policy. */
-export function softwareReference(product: ProductShowcase, page: PageMeta) {
-  return {
-    "@type": "SoftwareApplication",
-    "@id": softwareId(page),
-    name: product.name,
-    url: absolute(page.href),
-  };
-}
-
-/** Questions answered on a page; the answers must also be visible on it. */
-export function faqNode(page: PageMeta, faqs: Faq[]) {
-  const url = absolute(page.href);
-  return {
-    "@type": "FAQPage",
-    "@id": `${url}#faq`,
-    name: `${page.label}: questions & answers`,
-    inLanguage: "en",
-    isPartOf: { "@id": `${url}#webpage` },
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: { "@type": "Answer", text: faq.answer },
-    })),
   };
 }
 

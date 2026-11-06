@@ -38,7 +38,7 @@ function EntryLink({ entry, className }: { entry: ExperienceEntry; className: st
     <SmartLink
       href={entry.link.href}
       className={cn(
-        "group/xp inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent",
+        "tap group/xp inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent",
         className,
       )}
     >

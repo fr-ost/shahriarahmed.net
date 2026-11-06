@@ -23,7 +23,7 @@ export default function ProjectsPage() {
       <section
         id="archived"
         aria-labelledby="archived-title"
-        className="border-t border-line py-20 sm:py-24"
+        className="border-t border-line py-16 sm:py-20"
       >
         <div className="container-page">
           <BlockHeading

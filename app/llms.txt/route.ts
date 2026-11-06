@@ -1,6 +1,7 @@
 import { pages, person, projects, publications, site, socials } from "@/data/portfolio";
-import { xMassUnfollow } from "@/data/x-mass-unfollow";
+import { unfollowX } from "@/data/unfollowx";
 import { contentPages } from "@/lib/pages";
+import { isExternalHref } from "@/lib/utils";
 
 // A plain-text summary of the site for AI assistants (llmstxt.org),
 // generated at build time from the same data as the pages.
@@ -19,7 +20,7 @@ export function GET() {
     "## Pages",
     "",
     `- [Home](${site.url}): ${site.description}`,
-    ...[pages.about, pages.uniqueLabs, ...contentPages, pages.xMassUnfollow, pages.contact].map(
+    ...[pages.about, pages.uniqueLabs, ...contentPages, pages.contact].map(
       (page) => `- [${page.label}](${absolute(page.href)}): ${page.description}`,
     ),
     "",
@@ -30,22 +31,23 @@ export function GET() {
       return [
         `- ${project.name}${link}: ${project.description}`,
         ...(project.items ?? []).map((item) => {
-          const itemLink = item.page ? absolute(item.page.href) : item.href;
+          const itemLink = item.page
+            ? isExternalHref(item.page.href)
+              ? item.page.href
+              : absolute(item.page.href)
+            : item.href;
           return `  - ${item.name}${itemLink ? ` (${itemLink})` : ""}: ${item.description}`;
         }),
       ];
     }),
     "",
-    `## ${xMassUnfollow.name}`,
+    `## ${unfollowX.name}`,
     "",
-    `${xMassUnfollow.description} A Chrome extension by ${person.name}, a product of Unique Labs.`,
+    `${unfollowX.description} A Chrome extension by ${person.name}, a product of Unique Labs; formerly ${unfollowX.formerName}.`,
     "",
-    `- Page: ${absolute(pages.xMassUnfollow.href)}`,
-    `- Chrome Web Store: ${xMassUnfollow.storeUrl}`,
-    `- Privacy policy: ${absolute(pages.xMassUnfollowPrivacy.href)}`,
-    `- Version ${xMassUnfollow.version}; requires Google Chrome ${xMassUnfollow.minimumChrome} or later; free.`,
-    `- Features: ${xMassUnfollow.features.map((feature) => feature.title).join("; ")}.`,
-    `- Support: ${xMassUnfollow.support.label} (${xMassUnfollow.support.href})`,
+    `- Website: ${unfollowX.website}`,
+    `- Chrome Web Store: ${unfollowX.storeUrl}`,
+    `- Privacy policy: ${absolute(pages.unfollowXPrivacy.href)}`,
     "",
     "## Publications",
     "",

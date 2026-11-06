@@ -24,15 +24,20 @@ interface MoleculeFieldProps {
 
 /** Distance within which atoms bond to the pointer. */
 const POINTER_REACH = 180;
+/** Bonds are drawn in this many opacity bands, one stroke per band. */
+const BANDS = 4;
+/** How long after the last scroll event the network stays still. */
+const SCROLL_PAUSE = 160;
 
 /**
  * A living molecular network: atoms drift and bond when they pass close to
  * each other, and bond to the pointer as it moves across. Colours follow the
  * theme (`--molecule-*` in styles/globals.css).
  *
- * It starts once the page is idle, pauses off screen and in background
- * tabs, and draws a single still frame for visitors who prefer reduced
- * motion. Purely decorative.
+ * It starts once the page is idle, pauses off screen, in background tabs
+ * and while the page scrolls, runs at 30 fps on touch screens, and draws a
+ * single still frame for visitors who prefer reduced motion. Purely
+ * decorative.
  */
 export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -44,6 +49,12 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const finePointer = window.matchMedia("(pointer: fine)").matches;
+    // Phones and tablets: fewer frames and pixels, the same look.
+    const frameInterval = finePointer ? 0 : 1000 / 30;
+    const maxPixelRatio = finePointer ? 2 : 1.5;
+    const bands: number[][] = Array.from({ length: BANDS }, () => []);
+    let lastDraw = 0;
+    let stillUntil = 0;
     const pointer = { x: 0, y: 0, active: false };
     let width = 0;
     let height = 0;
@@ -81,7 +92,7 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       const rect = canvas.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
       canvas.width = Math.max(1, Math.round(width * dpr));
       canvas.height = Math.max(1, Math.round(height * dpr));
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -95,15 +106,17 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       while (atoms.length < count) atoms.push(spawn());
     };
 
-    const draw = (time: number) => {
+    /** `step` is the time since the last frame, in 60 fps frames. */
+    const draw = (time: number, step = 1) => {
       ctx.clearRect(0, 0, width, height);
       const reach = Math.max(90, Math.min(150, width / 8));
+      const reachSquared = reach * reach;
       const moving = !reducedMotion.matches;
 
       if (moving) {
         for (const atom of atoms) {
-          atom.x += atom.vx;
-          atom.y += atom.vy;
+          atom.x += atom.vx * step;
+          atom.y += atom.vy * step;
           if (atom.x < -12) atom.x = width + 12;
           else if (atom.x > width + 12) atom.x = -12;
           if (atom.y < -12) atom.y = height + 12;
@@ -111,24 +124,33 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
         }
       }
 
-      // Bonds between nearby atoms, fading with distance.
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = colors.link;
+      // Bonds between nearby atoms, fading with distance: sorted into a few
+      // opacity bands so that each band is a single stroke.
+      for (const band of bands) band.length = 0;
       for (let i = 0; i < atoms.length; i++) {
         const a = atoms[i];
         for (let j = i + 1; j < atoms.length; j++) {
           const b = atoms[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance > reach) continue;
-          ctx.globalAlpha = (1 - distance / reach) * 0.4;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
+          const squared = dx * dx + dy * dy;
+          if (squared > reachSquared) continue;
+          const closeness = 1 - Math.sqrt(squared) / reach;
+          bands[Math.min(BANDS - 1, Math.floor(closeness * BANDS))].push(a.x, a.y, b.x, b.y);
         }
       }
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = colors.link;
+      bands.forEach((band, index) => {
+        if (band.length === 0) return;
+        ctx.globalAlpha = ((index + 0.5) / BANDS) * 0.4;
+        ctx.beginPath();
+        for (let k = 0; k < band.length; k += 4) {
+          ctx.moveTo(band[k], band[k + 1]);
+          ctx.lineTo(band[k + 2], band[k + 3]);
+        }
+        ctx.stroke();
+      });
 
       // The pointer acts as one more atom: a soft glow that bonds to its neighbours.
       if (pointer.active && moving) {
@@ -166,7 +188,16 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
         }
       }
 
-      // Atoms; hubs pulse with a soft halo.
+      // Atoms: the small ones in one fill; hubs pulse with a soft halo.
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle = colors.node;
+      ctx.beginPath();
+      for (const atom of atoms) {
+        if (atom.hub) continue;
+        ctx.moveTo(atom.x + atom.r, atom.y);
+        ctx.arc(atom.x, atom.y, atom.r, 0, Math.PI * 2);
+      }
+      ctx.fill();
       for (const atom of atoms) {
         if (atom.hub) {
           const pulse = 0.5 + 0.5 * Math.sin(time * 0.0016 + atom.phase);
@@ -180,20 +211,18 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
           ctx.beginPath();
           ctx.arc(atom.x, atom.y, atom.r * 1.7, 0, Math.PI * 2);
           ctx.fill();
-        } else {
-          ctx.globalAlpha = 0.7;
-          ctx.fillStyle = colors.node;
-          ctx.beginPath();
-          ctx.arc(atom.x, atom.y, atom.r, 0, Math.PI * 2);
-          ctx.fill();
         }
       }
       ctx.globalAlpha = 1;
     };
 
     const loop = (time: number) => {
-      draw(time);
       frame = requestAnimationFrame(loop);
+      // Hold still while the page scrolls, and keep to the frame budget.
+      if (time < stillUntil || time - lastDraw < frameInterval - 1) return;
+      const step = lastDraw ? Math.min(time - lastDraw, 50) / (1000 / 60) : 1;
+      lastDraw = time;
+      draw(time, step);
     };
     const start = () => {
       if (!ready || frame || reducedMotion.matches || !inView || document.hidden) return;
@@ -202,6 +231,7 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
     const stop = () => {
       cancelAnimationFrame(frame);
       frame = 0;
+      lastDraw = 0;
     };
     const redraw = () => {
       if (ready && !frame) draw(performance.now());
@@ -217,6 +247,9 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
     };
     const onPointerLeave = () => {
       pointer.active = false;
+    };
+    const onScroll = () => {
+      stillUntil = performance.now() + SCROLL_PAUSE;
     };
     const onVisibility = () => (document.hidden ? stop() : start());
     const onMotionChange = () => {
@@ -261,6 +294,7 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       attributeFilter: ["data-theme"],
     });
     document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("scroll", onScroll, { passive: true });
     reducedMotion.addEventListener("change", onMotionChange);
     if (finePointer) {
       window.addEventListener("pointermove", onPointerMove, { passive: true });
@@ -275,6 +309,7 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       viewObserver.disconnect();
       themeObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("scroll", onScroll);
       reducedMotion.removeEventListener("change", onMotionChange);
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("pointerleave", onPointerLeave);

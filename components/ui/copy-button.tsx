@@ -44,8 +44,8 @@ export function CopyButton({
       onClick={copy}
       {...(iconOnly ? { "aria-label": label, title: copied ? "Copied" : label } : {})}
       className={cn(
-        "inline-flex h-9 shrink-0 items-center gap-2 rounded-full border text-sm transition-colors duration-300",
-        iconOnly ? "w-9 justify-center" : "px-3.5",
+        "inline-flex h-9 shrink-0 items-center gap-2 rounded-full border text-sm transition-colors duration-300 pointer-coarse:h-11",
+        iconOnly ? "w-9 justify-center pointer-coarse:w-11" : "px-3.5",
         tone === "panel"
           ? "border-panel-line text-panel-muted hover:text-panel-fg"
           : "border-line text-muted hover:border-line-strong hover:text-fg",

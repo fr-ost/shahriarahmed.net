@@ -15,8 +15,17 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     formats: ["image/avif", "image/webp"],
-    // 90 keeps the small text in product screenshots sharp.
-    qualities: [75, 90],
+  },
+  async redirects() {
+    // X Mass Unfollow became UnfollowX Pro, with its own website. Its privacy
+    // policy stays here, at /projects/x-mass-unfollow/privacy.
+    return [
+      {
+        source: "/projects/x-mass-unfollow",
+        destination: "https://www.unfollowx.com/",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

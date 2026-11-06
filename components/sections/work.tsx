@@ -9,7 +9,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Tilt } from "@/components/fx/tilt";
 import { contentIcons } from "@/components/icons";
 import { StatusDot } from "@/components/ui/chip";
 import { Reveal } from "@/components/ui/reveal";
@@ -23,7 +22,6 @@ import {
   sections,
   uniqueLabs,
 } from "@/data/portfolio";
-import { xMassUnfollow } from "@/data/x-mass-unfollow";
 import type { ProjectItem } from "@/lib/types";
 import { cn, isExternalHref } from "@/lib/utils";
 
@@ -79,7 +77,7 @@ function IconTile({ children, panel = false }: { children: ReactNode; panel?: bo
 
 const extensionLinkClass = cn(
   aboveStretched,
-  "group/link inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-fg",
+  "tap group/link inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-fg",
 );
 
 function ExternalArrow() {
@@ -134,6 +132,38 @@ function ExtensionLinks({ item, className }: { item: ProjectItem; className?: st
   );
 }
 
+/** A Chrome extension: its name links to its website, then its two links. */
+function ExtensionCard({ item, delay }: { item: ProjectItem; delay: number }) {
+  const href = item.page?.href ?? item.href;
+  const external = href ? isExternalHref(href) : false;
+  return (
+    <Card delay={delay} className="lg:col-span-4">
+      <div className="flex items-start justify-between gap-4">
+        {item.icon ? (
+          <Image src={item.icon} alt="" width={44} height={44} className="size-11 rounded-xl" />
+        ) : null}
+        <span className="eyebrow text-faint">Chrome extension</span>
+      </div>
+      <h3 className="mt-8 text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">
+        {href ? (
+          <a
+            href={href}
+            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            className={stretched}
+          >
+            {item.name}
+            {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
+          </a>
+        ) : (
+          item.name
+        )}
+      </h3>
+      <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{item.description}</p>
+      <ExtensionLinks item={item} className="mt-auto pt-6" />
+    </Card>
+  );
+}
+
 function MoreArrow() {
   return (
     <span
@@ -151,9 +181,7 @@ export function Work() {
   const extensions = projects.find((project) => project.id === "x-chrome-extensions");
   const bots = projects.find((project) => project.id === "telegram-bots");
   const growX = extensions?.items?.find((item) => item.name.startsWith("GrowX"));
-  const massUnfollow = extensions?.items?.find(
-    (item) => item.page?.href === pages.xMassUnfollow.href,
-  );
+  const unfollowX = extensions?.items?.find((item) => item.name.startsWith("UnfollowX"));
   const recent = experience.slice(0, 3);
 
   return (
@@ -163,7 +191,7 @@ export function Work() {
         aside={
           <Link
             href={pages.projects.href}
-            className="group/all inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg hover:text-accent"
+            className="tap group/all inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg hover:text-accent"
           >
             All projects
             <ArrowRight
@@ -297,132 +325,49 @@ export function Work() {
           </div>
         </Card>
 
-        {/* X Mass Unfollow */}
-        <Card delay={0.04} className="md:col-span-2 lg:col-span-7 lg:row-span-2">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -left-20 bottom-0 -z-10 size-96 rounded-full bg-[radial-gradient(closest-side,rgb(99_102_241/0.16),transparent)]"
-          />
-          <div className="flex items-start justify-between gap-4">
-            <Image
-              src={xMassUnfollow.logo.src}
-              alt=""
-              width={44}
-              height={44}
-              className="size-11 drop-shadow-[0_6px_14px_rgb(79_70_229/0.3)]"
-            />
-            <span className="eyebrow text-faint">Chrome extension · Free</span>
-          </div>
-          <div className="mt-8 max-w-md">
-            <h3 className="text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-none tracking-[-0.04em] text-fg">
-              <Link href={pages.xMassUnfollow.href} className={stretched}>
-                {xMassUnfollow.name}
-              </Link>
-            </h3>
-            <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
-              {xMassUnfollow.description}
-            </p>
-            {massUnfollow ? <ExtensionLinks item={massUnfollow} className="mt-5" /> : null}
-          </div>
-          <Tilt max={5} className="mt-8 lg:mt-auto lg:pt-8">
-            <Image
-              src={xMassUnfollow.hero.src}
-              alt={xMassUnfollow.hero.alt}
-              width={xMassUnfollow.hero.width}
-              height={xMassUnfollow.hero.height}
-              quality={90}
-              sizes="(min-width: 1216px) 640px, (min-width: 1024px) 54vw, 90vw"
-              className="h-auto w-full rounded-2xl shadow-float ring-1 ring-line dark:brightness-[0.92]"
-            />
-          </Tilt>
-        </Card>
-
-        {/* GrowX */}
-        {growX ? (
-          <Card delay={0.08} className="lg:col-span-5">
-            <div className="flex items-start justify-between gap-4">
-              {growX.icon ? (
-                <Image
-                  src={growX.icon}
-                  alt=""
-                  width={44}
-                  height={44}
-                  className="size-11 rounded-xl"
-                />
-              ) : null}
-              <span className="eyebrow text-faint">Chrome extension</span>
-            </div>
-            <h3 className="mt-8 text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">
-              {growX.page ? (
-                <a
-                  href={growX.page.href}
-                  {...(isExternalHref(growX.page.href)
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className={stretched}
-                >
-                  {growX.name}
-                  {isExternalHref(growX.page.href) ? (
-                    <span className="sr-only"> (opens in a new tab)</span>
-                  ) : null}
-                </a>
-              ) : (
-                growX.name
-              )}
-            </h3>
-            <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{growX.description}</p>
-            <ExtensionLinks item={growX} className="mt-auto pt-6" />
-          </Card>
-        ) : null}
+        {unfollowX ? <ExtensionCard item={unfollowX} delay={0.04} /> : null}
+        {growX ? <ExtensionCard item={growX} delay={0.08} /> : null}
 
         {/* Telegram bots */}
-        {bots?.items ? (
-          <Card delay={0.12} className="lg:col-span-5">
+        {bots?.items?.length ? (
+          <Card delay={0.12} className="md:col-span-2 lg:col-span-4">
             <div className="flex items-start justify-between gap-4">
               <IconTile>
                 <BotMessageSquare aria-hidden className="size-5" strokeWidth={1.6} />
               </IconTile>
-              <span className="eyebrow text-faint">{bots.items.length} bots</span>
+              <span className="eyebrow text-faint">
+                Telegram {bots.items.length === 1 ? "bot" : "bots"}
+              </span>
             </div>
-            <h3 className="mt-8 text-xl font-semibold tracking-[-0.02em] text-fg">
-              <Link href={pages.projects.href} className={stretched}>
-                {bots.name}
-              </Link>
-            </h3>
-            <ul className="mt-5 space-y-2">
+            <ul className="mt-8 flex flex-1 flex-col gap-6">
               {bots.items.map((bot) => (
-                <li key={bot.name}>
+                <li key={bot.name} className="flex flex-1 flex-col">
+                  <h3 className="text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">
+                    {bot.name}
+                  </h3>
+                  <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">
+                    {bot.description}
+                  </p>
                   {bot.href ? (
-                    <a
-                      href={bot.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={cn(
-                        aboveStretched,
-                        "group/bot flex items-center justify-between gap-4 rounded-xl border border-line bg-bg/60 px-3.5 py-2.5 transition-colors hover:border-accent/40",
-                      )}
-                    >
-                      <span className="min-w-0">
-                        <span className="block truncate text-sm font-medium text-fg">
-                          {bot.name}
+                    <div className="mt-auto pt-6">
+                      <a
+                        href={bot.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={extensionLinkClass}
+                      >
+                        {bot.linkLabel}
+                        <ExternalArrow />
+                        <span className="sr-only">
+                          {" "}
+                          — {bot.name} on Telegram (opens in a new tab)
                         </span>
-                        <span className="block truncate text-xs text-accent">{bot.linkLabel}</span>
-                      </span>
-                      <ArrowUpRight
-                        aria-hidden
-                        className="size-3.5 shrink-0 text-faint transition-transform group-hover/bot:-translate-y-0.5 group-hover/bot:translate-x-0.5 group-hover/bot:text-accent"
-                      />
-                      <span className="sr-only"> (opens in a new tab)</span>
-                    </a>
-                  ) : (
-                    <span className="text-sm text-muted">{bot.name}</span>
-                  )}
+                      </a>
+                    </div>
+                  ) : null}
                 </li>
               ))}
             </ul>
-            <div className="mt-auto flex justify-end pt-6 text-fg">
-              <MoreArrow />
-            </div>
           </Card>
         ) : null}
       </ul>

@@ -75,7 +75,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
       <div className="container-page grid flex-1 grid-cols-1 items-center gap-14 pb-10 lg:grid-cols-12 lg:gap-8 lg:pb-6">
         <div className="lg:col-span-7">
           <p
-            className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-line bg-elevated/60 py-1.5 pl-3 pr-4 text-sm text-muted shadow-card backdrop-blur-md animate-rise"
+            className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-line bg-elevated/85 py-1.5 pl-3 pr-4 text-sm text-muted shadow-card animate-rise"
             style={rise(0)}
           >
             <StatusDot />
@@ -138,7 +138,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
           >
             <Link
               href={hero.workAction.href}
-              className="group/work inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg"
+              className="tap group/work inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg"
             >
               <span className="link-underline">{hero.workAction.label}</span>
               <ArrowRight

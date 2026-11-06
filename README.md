@@ -22,8 +22,8 @@ npm run start      # serve the production build
 ## Editing content
 
 All text, links and facts live in **[`data/portfolio.ts`](data/portfolio.ts)**, apart from the
-Privacy Policy and DMCA text, which is in **[`data/legal.ts`](data/legal.ts)**, and the X Mass
-Unfollow page, which is in **[`data/x-mass-unfollow.ts`](data/x-mass-unfollow.ts)**. Components
+Privacy Policy and DMCA text, which is in **[`data/legal.ts`](data/legal.ts)**, and UnfollowX
+Pro and its privacy policy, which are in **[`data/unfollowx.ts`](data/unfollowx.ts)**. Components
 only render what is there, so you rarely need to touch anything else.
 
 Any field set to `null` (or an empty array) is treated as "not provided yet" and is simply
@@ -52,8 +52,8 @@ have it, and it appears. Only add verified information.
 ### Pages
 
 The homepage is a short tour: the hero, a ticker of focus areas and skills, an About statement
-with key facts, a **Work** grid (research, Unique Labs, experience, X Mass Unfollow, GrowX and the
-Telegram bots), the latest publication and a contact panel. Each part links to its page, and the
+with key facts, a **Work** grid (research, Unique Labs, experience, UnfollowX Pro, GrowX and the
+Telegram bot), the latest publication and a contact panel. Each part links to its page, and the
 navigation and footer link to every page (About, Contact, Privacy Policy and DMCA sit together in
 the footer):
 
@@ -64,8 +64,7 @@ the footer):
 | Unique Labs             | `/unique-labs`                      | `uniqueLabs`                                        |
 | Research                | `/research`                         | `currentResearch` and `publications`                |
 | Projects                | `/projects`                         | `projects`                                          |
-| X Mass Unfollow         | `/projects/x-mass-unfollow`         | `data/x-mass-unfollow.ts` (`xMassUnfollow`)         |
-| X Mass Unfollow privacy | `/projects/x-mass-unfollow/privacy` | `data/x-mass-unfollow.ts` (`xMassUnfollowPrivacy`)  |
+| UnfollowX Pro privacy   | `/projects/x-mass-unfollow/privacy` | `data/unfollowx.ts` (`unfollowXPrivacy`)            |
 | Experience              | `/experience`                       | `experience`, `education`                           |
 | Web3 & Collaborations   | `/experience/web3`                  | `web3Experience`, `collaborations`                  |
 | Achievements            | `/achievements` (once it has items) | `achievements`                                      |
@@ -82,13 +81,9 @@ it in `app/sitemap.ts`.
 - **Structured data**: every page describes itself and points to the same person, website and
   company (`lib/json-ld.ts`), including the alternative name `person.fullName`, the profile
   links, the ORCID iD, the University of Rajshahi and Unique Labs, plus a breadcrumb.
-- **Product page**: `/projects/x-mass-unfollow` describes the extension as a
-  `SoftwareApplication` (free, version, Chrome requirement, screenshots, author and publisher) and
-  its questions as an `FAQPage`, and has its own share image. It has no star rating on purpose:
-  Google does not accept ratings copied from another site such as the Chrome Web Store, so
-  rating stars cannot be shown in search for it.
-- **Sitemap and robots**: `/sitemap.xml` lists every page (and the portrait and product
-  screenshots for image search);
+- **UnfollowX Pro**: its privacy page describes the extension as a `SoftwareApplication` whose
+  canonical page is its own website, www.unfollowx.com.
+- **Sitemap and robots**: `/sitemap.xml` lists every page (and the portrait for image search);
   `/robots.txt` allows all crawlers and points to the sitemap. Sitemaps list pages, not
   keywords: keywords belong in titles, headings, text and structured data, which is where they
   are.
@@ -123,23 +118,22 @@ ORCID iD is included as an identifier.
 
 A project can link to its live site (`links.website`), list key facts (`details`) and group several
 apps under one card (`items`, each with its own link: the Chrome extensions and Telegram bots work
-this way). An item can also link to its own page on this site (`page`), as X Mass Unfollow does.
-Cards with items show how many they contain (`itemNoun`, e.g. "03 bots") instead of a status. When
-the number of visible cards is odd, the first one spans the full width.
+this way). An item can also link to its own website (`page`, shown as "Product page" before the
+store link), as GrowX and UnfollowX Pro do. Cards with items show how many they contain
+(`itemNoun`, e.g. "02 extensions") instead of a status. When the number of visible cards is odd,
+the first one spans the full width.
 
-### X Mass Unfollow
+Discontinued projects go in `archivedProjects`: a name, what it was (`kind`), one short sentence
+and an icon. They are shown as small boxes under "Archived projects (discontinued)", without
+links.
 
-The extension's page (`/projects/x-mass-unfollow`) and its privacy policy
-(`/projects/x-mass-unfollow/privacy`) are written from the extension itself (version 7.0.0): its
-manifest, settings, help text, donate page and privacy policy. With each release:
+### UnfollowX Pro
 
-1. Update `version` (and anything that changed) in `data/x-mass-unfollow.ts`.
-2. If the privacy policy changed, update `xMassUnfollowPrivacy` and `xMassUnfollowPrivacyUpdated`.
-3. Replace screenshots in `public/images/x-mass-unfollow/`, keeping the file names: 1280 × 800
-   WebP images, and a 1200 × 630 JPEG (`x-mass-unfollow-og.jpg`) for link previews.
-
-The privacy page can be used as the privacy policy link in the Chrome Web Store listing, and the
-extension's `homepage_url` and "Developed by" link can point to the product page.
+UnfollowX Pro (formerly X Mass Unfollow) has its own website, www.unfollowx.com. The old product
+page, `/projects/x-mass-unfollow`, redirects there permanently (`next.config.ts`), so old links
+keep working. Its privacy policy stays at `/projects/x-mass-unfollow/privacy`, the address the
+Chrome Web Store listing may use; if the policy changes, update `unfollowXPrivacy` and
+`unfollowXPrivacyUpdated` in `data/unfollowx.ts`.
 
 ### Publications
 
@@ -153,7 +147,7 @@ the page's structured data (JSON-LD).
 These are intentionally left empty rather than invented:
 
 - **Unique Labs**: website, GitHub, company contact email (falls back to your personal email);
-  X Mass Unfollow is listed as its product, so add any other products
+  UnfollowX Pro is listed as its product, so add any other products
 - **Achievements**: none listed yet, so the page is hidden (it returns 404 and is not linked)
 - **Web3 collaborations**: `collaborations` is empty, so the Web3 page leaves that section out
 - **Projects**: GitHub links (`links.github`)
@@ -174,7 +168,7 @@ app/                  Routes and metadata files
   about/, contact/, unique-labs/, research/, projects/, experience/ (+ web3/),
   achievements/, privacy/, dmca/
                       The other pages
-  projects/x-mass-unfollow/ (+ privacy/)
+  projects/x-mass-unfollow/privacy/   UnfollowX Pro privacy policy (old address)
                       The extension's page and its privacy policy
   llms.txt/           Plain-text summary for AI assistants
   not-found.tsx       404 page
@@ -185,7 +179,6 @@ app/                  Routes and metadata files
 components/
   layout/             Navbar (scroll-spy, mobile menu), footer, theme toggle, scroll progress
   sections/           Homepage sections and the content blocks of the other pages
-  product/            Blocks of a product page (hero, features, screenshots, FAQ, …)
   fx/                 Motion and light: aurora, molecule network, cursor spotlight, tilt,
                       ticker, word reveals, timeline rail, scroll cue
   ui/                 Buttons, page and section headings, reveal animation, chips, …
@@ -193,13 +186,12 @@ components/
   icons/              Brand icons and the site mark
 data/portfolio.ts     All site content
 data/legal.ts         Privacy Policy and DMCA text
-data/x-mass-unfollow.ts
-                      X Mass Unfollow page and privacy policy
+data/unfollowx.ts     UnfollowX Pro and its privacy policy
 lib/                  Types, page metadata and structured data, theme, CV lookup, utilities
 styles/globals.css    Design tokens (light/dark), Tailwind theme, base styles
 assets/               Fonts and portrait used only by the share image
 scripts/              generate-icons.mjs (regenerates favicon and app icons)
-public/               Portrait, manifest icons, X Mass Unfollow images, (your CV)
+public/               Portrait, manifest icons, extension icons, (your CV)
 ```
 
 ## Design notes
@@ -213,10 +205,14 @@ public/               Portrait, manifest icons, X Mass Unfollow images, (your CV
   (self-hosted through `next/font`; also used for the share image).
 - **Motion**: drifting aurora light, a molecular network in the hero that bonds to the
   pointer, word-by-word headings, a statement that brightens as it scrolls into view, cards lit
-  by the cursor, a tilting portrait and screenshots, a self-drawing experience timeline, a
-  ticker, and soft page transitions. Animations use transforms and opacity, the canvas pauses
-  off screen, and everything holds still for visitors who prefer reduced motion. Content is
-  fully visible without JavaScript.
+  by the cursor, a tilting portrait, a self-drawing experience timeline, a ticker, and soft page
+  transitions. Animations use transforms and opacity, and everything holds still for visitors
+  who prefer reduced motion. Content is fully visible without JavaScript.
+- **Smoothness on phones**: the molecular network batches its drawing, pauses off screen and
+  while the page scrolls, and runs at 30 fps on touch screens. On touch screens the aurora holds
+  still, the film grain (a costly blend) is left out, the scrolled navbar is solid rather than
+  blurred, and the surname's gradient does not drift. Page transitions use no blur. Small text
+  links get a taller hit area on touch screens (the `tap` utility).
 - **Icons**: edit the mark in `scripts/generate-icons.mjs` and run `npm run icons` to regenerate
   the favicon and app icons.
 

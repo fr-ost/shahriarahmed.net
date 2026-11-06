@@ -29,7 +29,7 @@ export function SocialLinks({ links, className, size = "md" }: SocialLinksProps)
               title={link.label}
               className={cn(
                 "inline-flex items-center justify-center rounded-full text-muted transition-[color,background-color,transform] duration-300 ease-smooth hover:-translate-y-0.5 hover:bg-subtle hover:text-fg",
-                size === "sm" ? "size-9" : "size-10",
+                size === "sm" ? "size-11 sm:size-9" : "size-11 sm:size-10",
               )}
             >
               <Icon size={size === "sm" ? 16 : 18} />

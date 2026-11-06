@@ -96,7 +96,7 @@ export function LegalDocument({ sections, updated }: LegalDocumentProps) {
                   <li key={link.href}>
                     <SmartLink
                       href={link.href}
-                      className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
+                      className="tap font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
                     >
                       {link.label}
                     </SmartLink>

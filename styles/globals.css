@@ -442,6 +442,15 @@
   padding-bottom: 0.06em;
 }
 
+/* A taller hit area for a small text link on touch screens: the padding
+   and the negative margin cancel out, so nothing moves. */
+@utility tap {
+  @media (pointer: coarse) {
+    padding-block: 0.625rem;
+    margin-block: -0.625rem;
+  }
+}
+
 /* Fine film grain, for depth on large glowing surfaces. */
 @utility bg-noise {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -481,6 +490,14 @@
   aspect-ratio: 1;
   background: radial-gradient(closest-side, var(--aurora-3), transparent);
   animation: aurora-c 32s ease-in-out infinite alternate;
+}
+
+/* Touch screens: the colour stays, the drift stops, and the layers flatten. */
+@media (pointer: coarse) {
+  .aurora-blob {
+    animation: none;
+    will-change: auto;
+  }
 }
 
 @keyframes aurora-a {
@@ -629,9 +646,16 @@
 
 /* The surname in the hero: sharpens into view, then its gradient drifts. */
 .animate-name {
-  animation:
-    focus-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 160ms both,
-    gradient-pan 7s ease-in-out 1.4s infinite alternate;
+  animation: focus-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+}
+
+/* The drift repaints the whole word every frame: only where there is a mouse. */
+@media (hover: hover) and (pointer: fine) {
+  .animate-name {
+    animation:
+      focus-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 160ms both,
+      gradient-pan 7s ease-in-out 1.4s infinite alternate;
+  }
 }
 
 @keyframes gradient-pan {
@@ -644,7 +668,8 @@
 }
 
 /* Page transitions (app/template.tsx): the old page leaves quickly, the new
-   one settles in with a short blur and lift. The header stays put. */
+   one settles in with a short lift. Opacity and transform only: a blur over
+   the whole page is too costly on phones. The header stays put. */
 ::view-transition {
   pointer-events: none;
 }
@@ -673,14 +698,12 @@
 @keyframes page-out {
   to {
     opacity: 0;
-    filter: blur(4px);
   }
 }
 
 @keyframes page-in {
   from {
     opacity: 0;
-    filter: blur(6px);
     transform: translateY(14px);
   }
 }

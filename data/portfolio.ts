@@ -14,6 +14,7 @@
 
 import type {
   Achievement,
+  ArchivedProject,
   Collaboration,
   CurrentResearch,
   EducationEntry,
@@ -30,7 +31,7 @@ import type {
   SocialLink,
   UniqueLabsInfo,
 } from "@/lib/types";
-import { xMassUnfollow } from "./x-mass-unfollow";
+import { unfollowX } from "./unfollowx";
 
 /* ── Site & SEO ─────────────────────────────────────────────────────────── */
 
@@ -305,9 +306,9 @@ export const pages = {
     titleAccent: "Projects",
     seoTitle: "Projects by Shahriar Ahmed — Chrome Extensions for X & Telegram Bots",
     seoDescription:
-      "Projects by Shahriar Ahmed: GrowX and X Mass Unfollow, Chrome extensions for X (Twitter); Telegram bots for follower checks, downloads, and SMM; and archived work.",
+      "Projects by Shahriar Ahmed: GrowX and UnfollowX Pro, Chrome extensions for X (Twitter); a daily BCS current-affairs Telegram bot; and archived work.",
     description: "Technology work across AI, automation, and the web — alongside research.",
-    summary: "Chrome extensions for X, Telegram bots, and archived projects.",
+    summary: "Chrome extensions for X, a Telegram bot, and archived projects.",
     icon: "code",
   },
   experience: {
@@ -333,46 +334,18 @@ export const pages = {
     summary: "Web3 work through Unique Labs, and past collaborations.",
     icon: "blocks",
   },
-  xMassUnfollow: {
-    href: "/projects/x-mass-unfollow",
-    label: "X Mass Unfollow",
-    eyebrow: "Chrome extension",
-    title: "X Mass",
-    titleAccent: "Unfollow",
-    seoTitle: "X (Twitter) Mass Unfollow Tool — Free Chrome Extension",
-    seoDescription:
-      "Free, unlimited Chrome extension to mass unfollow on X (Twitter): see who doesn’t follow you back, bulk unfollow non-followers safely, and whitelist friends.",
-    description:
-      "The free & unlimited mass unfollow tool for X (Twitter). See who doesn’t follow you back and unfollow them in one click — or pick exactly who goes — at a safe, human pace.",
-    summary: "Free & unlimited mass unfollow tool for X (Twitter).",
-    icon: "puzzle",
-    keywords: [
-      "X Mass Unfollow",
-      "X mass unfollow tool",
-      "Twitter mass unfollow",
-      "mass unfollow on X",
-      "unfollow non-followers",
-      "who doesn’t follow me back on X",
-      "bulk unfollow Twitter",
-      "Twitter unfollow tool",
-      "X unfollow Chrome extension",
-      "unfollow everyone on X",
-      "following cleaner",
-      "Unique Labs",
-      "Shahriar Ahmed",
-    ],
-  },
-  xMassUnfollowPrivacy: {
+  // The address predates the rename; the Chrome Web Store listing may link to it.
+  unfollowXPrivacy: {
     href: "/projects/x-mass-unfollow/privacy",
-    label: "Privacy Policy",
-    eyebrow: "X Mass Unfollow",
-    title: "X Mass Unfollow",
+    label: "UnfollowX Pro Privacy Policy",
+    eyebrow: "UnfollowX Pro",
+    title: "UnfollowX Pro",
     titleAccent: "Privacy Policy",
-    seoTitle: "X Mass Unfollow Privacy Policy — Chrome Extension for X",
+    seoTitle: "UnfollowX Pro Privacy Policy — Chrome Extension for X",
     seoDescription:
-      "Privacy policy of the X Mass Unfollow Chrome extension: what stays on your device, what is sent to X, how the AdsOnBread ads work, and each permission.",
+      "Privacy policy of UnfollowX Pro (formerly X Mass Unfollow), the Chrome extension for X: what stays on your device, what is sent to X, ads, and each permission.",
     description:
-      "How the X Mass Unfollow Chrome extension handles your data. This policy applies to version 7.0.0.",
+      "How UnfollowX Pro (formerly X Mass Unfollow) handles your data. This policy applies to version 7.0.0.",
   },
   achievements: {
     href: "/achievements",
@@ -537,9 +510,9 @@ export const uniqueLabs: UniqueLabsInfo = {
   ],
   products: [
     {
-      name: xMassUnfollow.name,
-      description: "Free & unlimited mass unfollow tool for X (Twitter), as a Chrome extension.",
-      href: pages.xMassUnfollow.href,
+      name: unfollowX.name,
+      description: "Mass unfollow tool for X (Twitter), as a Chrome extension.",
+      href: unfollowX.website,
     },
   ],
   focusAreas: [
@@ -594,8 +567,7 @@ export const projectCategories: ProjectCategory[] = [
 export const projects: Project[] = [
   {
     // GrowX: title as listed on the Chrome Web Store.
-    // X Mass Unfollow: name and description from the extension itself,
-    // which has its own page (data/x-mass-unfollow.ts).
+    // UnfollowX Pro: see data/unfollowx.ts.
     id: "x-chrome-extensions",
     name: "Chrome Extensions for X",
     description:
@@ -614,12 +586,12 @@ export const projects: Project[] = [
         icon: "/images/growx/growx-icon.png",
       },
       {
-        name: xMassUnfollow.name,
-        description: xMassUnfollow.description,
-        href: xMassUnfollow.storeUrl,
+        name: unfollowX.name,
+        description: unfollowX.description,
+        href: unfollowX.storeUrl,
         linkLabel: "Chrome Web Store",
-        page: { label: "Product page", href: pages.xMassUnfollow.href },
-        icon: xMassUnfollow.icon.src,
+        page: { label: "Product page", href: unfollowX.website },
+        icon: unfollowX.icon.src,
       },
     ],
     itemNoun: "extension",
@@ -629,32 +601,17 @@ export const projects: Project[] = [
   {
     id: "telegram-bots",
     name: "Telegram Bots",
-    description:
-      "Bots for everyday social media tasks — follower checks, Instagram video downloads, and social media marketing, each inside a Telegram chat.",
+    description: "Bots that bring useful, timely content straight into a Telegram chat.",
     categories: ["Automation", "Tools"],
-    technologies: ["Telegram", "Automation", "Social media"],
+    technologies: ["Telegram", "Automation"],
     status: null,
     items: [
       {
-        name: "Smart Follower Checker",
+        name: "Newspaper Brief Daily for BCS",
         description:
-          "On-demand follower checks: the bot analyses an account’s followers and sends the results straight back to your chat.",
-        href: "https://t.me/sfchecker_bot",
-        linkLabel: "@sfchecker_bot",
-      },
-      {
-        name: "Instagram Video Downloader",
-        description:
-          "Send an Instagram post or reel link and get the video back, ready to save — no extra app or website needed.",
-        href: "https://t.me/uniquelabs_igbot",
-        linkLabel: "@uniquelabs_igbot",
-      },
-      {
-        name: "SMM Agent",
-        description:
-          "A social media marketing (SMM) assistant that brings growth services and campaign tasks into a single Telegram chat.",
-        href: "https://t.me/smmagentprobot",
-        linkLabel: "@smmagentprobot",
+          "Daily current affairs for BCS exam preparation: notes in Bangla and three MCQs, delivered every day at 8 AM.",
+        href: "https://t.me/BCSNWZ_bot",
+        linkLabel: "@BCSNWZ_bot",
       },
     ],
     itemNoun: "bot",
@@ -666,23 +623,34 @@ export const projects: Project[] = [
 /*  Projects that are no longer running. They appear under "Archived         */
 /*  projects" on the Projects page.                                          */
 
-export const archivedProjects: Project[] = [
+export const archivedProjects: ArchivedProject[] = [
   {
     id: "signova",
     name: "Signova",
-    description:
-      "AI-assisted crypto market analysis and signal-generation platform. Signova analysed market data and turned it into trading signals, delivered through a web app.",
-    categories: ["AI", "Web", "Tools"],
-    technologies: ["AI", "Market data", "Signal generation", "Web app"],
-    status: "Discontinued",
-    details: [
-      { label: "Type", value: "Web platform" },
-      { label: "Market", value: "Cryptocurrency" },
-      { label: "Analysis", value: "AI-assisted" },
-      { label: "Output", value: "Trading signals" },
-    ],
-    links: { github: null, demo: null },
+    kind: "AI web platform",
+    description: "AI-assisted crypto market analysis that turned market data into trading signals.",
     icon: "chart",
+  },
+  {
+    id: "smart-follower-checker",
+    name: "Smart Follower Checker",
+    kind: "Telegram bot",
+    description: "Analysed an account’s followers and sent the results back to the chat.",
+    icon: "bot",
+  },
+  {
+    id: "instagram-video-downloader",
+    name: "Instagram Video Downloader",
+    kind: "Telegram bot",
+    description: "Turned an Instagram post or reel link into a video, ready to save.",
+    icon: "bot",
+  },
+  {
+    id: "smm-agent",
+    name: "SMM Agent",
+    kind: "Telegram bot",
+    description: "Social media marketing services and campaign tasks in one chat.",
+    icon: "bot",
   },
 ];
 

@@ -8,7 +8,7 @@ import { contentPages, infoPages } from "@/lib/pages";
 const pageLinks = [pages.uniqueLabs, ...contentPages];
 
 const linkClass =
-  "inline-flex items-center gap-1.5 text-[0.9375rem] text-muted transition-colors duration-300 hover:text-fg";
+  "tap inline-flex items-center gap-1.5 text-[0.9375rem] text-muted transition-colors duration-300 hover:text-fg";
 
 // Evaluated when the page is built, so the year stays current on redeploy.
 const year = new Date().getFullYear();
@@ -32,7 +32,7 @@ export function Footer() {
           </p>
           <a
             href={`mailto:${person.email}`}
-            className="group/mail mt-6 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg"
+            className="tap group/mail mt-6 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-fg"
           >
             <span className="link-underline">{person.email}</span>
             <ArrowUpRight
@@ -49,7 +49,7 @@ export function Footer() {
 
         <nav aria-label="Pages" className="lg:col-span-3 lg:col-start-7">
           <p className="eyebrow text-faint">Explore</p>
-          <ul className="mt-5 space-y-3">
+          <ul className="mt-5 space-y-3 pointer-coarse:space-y-5">
             {pageLinks.map((page) => (
               <li key={page.href}>
                 <Link href={page.href} className={linkClass}>
@@ -62,7 +62,7 @@ export function Footer() {
 
         <nav aria-label="About this site" className="lg:col-span-3">
           <p className="eyebrow text-faint">This site</p>
-          <ul className="mt-5 space-y-3">
+          <ul className="mt-5 space-y-3 pointer-coarse:space-y-5">
             {infoPages.map((page) => (
               <li key={page.href}>
                 <Link href={page.href} className={linkClass}>
@@ -93,7 +93,7 @@ export function Footer() {
           </p>
           <a
             href="#top"
-            className="eyebrow group/top inline-flex items-center gap-2 self-start rounded-full transition-colors hover:text-fg sm:self-auto"
+            className="tap eyebrow group/top inline-flex items-center gap-2 self-start rounded-full transition-colors hover:text-fg sm:self-auto"
           >
             Back to top
             <ArrowUp

@@ -223,7 +223,7 @@ export function ContactTopics() {
             <div className="mt-auto pt-6">
               <SmartLink
                 href={topic.link.href}
-                className="group/more inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent"
+                className="tap group/more inline-flex items-center gap-2 text-sm font-medium text-fg hover:text-accent"
               >
                 {topic.link.label}
                 <ArrowRight

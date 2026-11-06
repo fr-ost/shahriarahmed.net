@@ -239,7 +239,7 @@ export function Navbar({ items, cta, name, title, email }: NavbarProps) {
           className={cn(
             "flex items-center justify-between gap-4 rounded-full border transition-[height,background-color,border-color,box-shadow,padding] duration-500 ease-smooth",
             scrolled || open
-              ? "h-14 border-line bg-bg/80 pl-4 pr-2 shadow-card backdrop-blur-xl backdrop-saturate-150 sm:pl-5"
+              ? "h-14 border-line bg-bg/95 pl-4 pr-2 shadow-card sm:pl-5 lg:bg-bg/80 lg:backdrop-blur-xl lg:backdrop-saturate-150"
               : "h-20 border-transparent bg-transparent px-[clamp(1rem,4vw,3rem)]",
           )}
         >
@@ -301,7 +301,7 @@ export function Navbar({ items, cta, name, title, email }: NavbarProps) {
             <button
               ref={menuButtonRef}
               type="button"
-              className="group/menu relative inline-flex size-10 items-center justify-center rounded-full text-fg transition-colors hover:bg-subtle lg:hidden"
+              className="group/menu relative inline-flex size-11 items-center justify-center rounded-full text-fg transition-colors hover:bg-subtle lg:hidden"
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}

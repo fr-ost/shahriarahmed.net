@@ -4,44 +4,37 @@ import { ButtonLink } from "@/components/ui/button";
 import { LegalDocument } from "@/components/ui/legal-document";
 import { PageHeader } from "@/components/ui/page-header";
 import { pages } from "@/data/portfolio";
-import {
-  xMassUnfollow as product,
-  xMassUnfollowPrivacy,
-  xMassUnfollowPrivacyUpdated,
-} from "@/data/x-mass-unfollow";
-import { buildPageJsonLd, softwareId, softwareReference } from "@/lib/json-ld";
+import { unfollowX, unfollowXPrivacy, unfollowXPrivacyUpdated } from "@/data/unfollowx";
+import { buildPageJsonLd, softwareNode } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
+import { prettyUrl } from "@/lib/utils";
 
-const page = pages.xMassUnfollowPrivacy;
-const productPage = pages.xMassUnfollow;
-const parents = [pages.projects, productPage];
+// At its old address: the extension was called X Mass Unfollow when the
+// Chrome Web Store listing first linked here.
+const page = pages.unfollowXPrivacy;
+const parents = [pages.projects];
 
-export const metadata: Metadata = pageMetadata(page, { image: product.shareImage });
+export const metadata: Metadata = pageMetadata(page);
 
-export default function XMassUnfollowPrivacyPage() {
+export default function UnfollowXPrivacyPage() {
+  const software = softwareNode(unfollowX);
   return (
     <>
       <JsonLd
         data={buildPageJsonLd({
           page,
           parents,
-          about: { "@id": softwareId(productPage) },
-          nodes: [softwareReference(product, productPage)],
+          about: { "@id": software["@id"] },
+          nodes: [software],
         })}
       />
       <PageHeader page={page} parents={parents}>
-        <ButtonLink
-          href={productPage.href}
-          variant="secondary"
-          size="sm"
-          icon="arrow-right"
-          className="mt-8"
-        >
-          About the extension
+        <ButtonLink href={unfollowX.website} variant="secondary" size="sm" className="mt-8">
+          {prettyUrl(unfollowX.website)}
         </ButtonLink>
       </PageHeader>
       <div className="container-page pb-24 sm:pb-28">
-        <LegalDocument sections={xMassUnfollowPrivacy} updated={xMassUnfollowPrivacyUpdated} />
+        <LegalDocument sections={unfollowXPrivacy} updated={unfollowXPrivacyUpdated} />
       </div>
     </>
   );

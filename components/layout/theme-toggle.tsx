@@ -42,7 +42,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={toggle}
       title="Toggle theme"
       className={cn(
-        "group/theme relative inline-flex size-10 items-center justify-center rounded-full text-muted transition-colors duration-300 hover:bg-subtle hover:text-fg",
+        "group/theme relative inline-flex size-11 items-center lg:size-10 justify-center rounded-full text-muted transition-colors duration-300 hover:bg-subtle hover:text-fg",
         className,
       )}
     >

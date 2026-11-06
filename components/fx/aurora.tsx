@@ -11,7 +11,9 @@ interface AuroraProps {
 /**
  * Slowly drifting fields of teal, sky and violet light behind a section.
  * Decorative and CSS-only (see `.aurora-blob` in styles/globals.css); it
- * holds still for visitors who prefer reduced motion.
+ * holds still on touch screens and for visitors who prefer reduced motion.
+ * The grain is blended in only where there is a mouse: blending is costly
+ * for phone GPUs.
  */
 export function Aurora({ className, grain = true, fade = false }: AuroraProps) {
   return (
@@ -27,7 +29,7 @@ export function Aurora({ className, grain = true, fade = false }: AuroraProps) {
       <span className="aurora-blob aurora-blob-b" />
       <span className="aurora-blob aurora-blob-c" />
       {grain ? (
-        <span className="absolute inset-0 bg-noise opacity-40 mix-blend-soft-light" />
+        <span className="absolute inset-0 hidden bg-noise opacity-40 mix-blend-soft-light [@media(hover:hover)_and_(pointer:fine)]:block" />
       ) : null}
     </div>
   );
