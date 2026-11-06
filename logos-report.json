@@ -1,0 +1,394 @@
+{
+  "generated_at": "2026-11-06T13:48:57.126Z",
+  "source": "api.fxtwitter.com",
+  "logos": {
+    "bitget": {
+      "handle": "bitget",
+      "screen_name": "bitget",
+      "name": "Bitget",
+      "description": "World’s largest Universal Exchange (UEX) for Crypto, Stocks, Gold, Forex, and more | Partner of @MotoGP & @UntoldFestival | Support @BitgetSupport",
+      "followers": 4300532,
+      "logo_saved": true
+    },
+    "bitmart": {
+      "handle": "BitMartExchange",
+      "screen_name": "BitMartExchange",
+      "name": "BitMart",
+      "description": "Trade smarter: Crypto, TradFi, AI trading tools, and prediction products in one platform.\n🎁 Up to 14,000 USDT bonuses: http://www.bitmart.com/invite/SOCIALS",
+      "followers": 1311236,
+      "logo_saved": true
+    },
+    "lbank": {
+      "handle": "LBank_Exchange",
+      "screen_name": "LBank_Exchange",
+      "name": "LBank.com",
+      "description": "Your Go-To Crypto Plug 💛 | 30M+ Users | 11 Years | Spot, Futures & Stocks | Official TG: https://t.me/LBankOfficial_EN",
+      "followers": 663291,
+      "logo_saved": true
+    },
+    "aitech": {
+      "handle": "AITECHio",
+      "screen_name": "AITECHio",
+      "name": "AITECH CLOUD NETWORK",
+      "description": "Enterprise-grade AI infrastructure ecosystem enabling autonomous AI systems at scale.",
+      "followers": 436627,
+      "logo_saved": true
+    },
+    "gate": {
+      "handle": "Gate",
+      "screen_name": "Gate",
+      "name": "Gate",
+      "description": "http://Gate.com | Top 3 | 13+Yrs | 62M+ Users |  5,400+ Cryptos | 12,800+ Stocks & CFDs | Sponsor of @redbullracing | Telegram: http://t.me/GateCom_EN",
+      "followers": 1938086,
+      "logo_saved": true
+    },
+    "trustfi": {
+      "handle": "trustfiorg",
+      "screen_name": "trustfiorg",
+      "name": "TrustFi",
+      "description": "Community driven incubator for #Web3 startups | Live on the best: #BTC #ETH #BNB #SOL #Polygon #TON #AVAX #NEAR #APT #Sui #ARB #OP #ZK & more | Powered by $TFI",
+      "followers": 66913,
+      "logo_saved": true
+    },
+    "mexc": {
+      "handle": "MEXC",
+      "screen_name": "MEXC",
+      "name": "MEXC",
+      "description": "Your 0-Fee Gateway to Infinite Opportunities\nTrade Crypto, Stocks, Gold, Silver, Oil and Prediction Markets in One Place\nSupport: @MEXC_CST｜#MEXC0Fee",
+      "followers": 1581640,
+      "logo_saved": true
+    },
+    "persistence": {
+      "handle": "PersistenceOne",
+      "screen_name": "PersistenceOne",
+      "name": "Persistence",
+      "description": "Managed AI employees and AI consulting for growing businesses.",
+      "followers": 44413,
+      "logo_saved": true
+    },
+    "0g-labs": {
+      "handle": "0G_labs",
+      "screen_name": "0G_labs",
+      "name": "0G Labs",
+      "description": "Trust Layer for AI, powered by @0G_Foundation",
+      "followers": 657556,
+      "logo_saved": true
+    },
+    "weex": {
+      "handle": "WEEX_Official",
+      "screen_name": "WEEX_Official",
+      "name": "WEEX",
+      "description": "One account. All markets.\nCrypto, gold, oil & more.\nTime-tested since 2018. Trusted by 10M users.\n🌐 http://weex.com",
+      "followers": 146985,
+      "logo_saved": true
+    },
+    "seedify": {
+      "handle": "seedifyfund",
+      "error": "no user (HTTP 404: User is suspended)",
+      "logo_saved": false,
+      "logo_error": "no user (HTTP 404: User is suspended)"
+    },
+    "seedworld": {
+      "handle": "SeedworldMeta",
+      "screen_name": "SeedworldMeta",
+      "name": "Seedworld",
+      "description": "Seedworld: Beyond The Keep is an online multiplayer survival game that blends progression, high-stakes PvPvE combat, and base-building.\n\nGather, Build, Survive!",
+      "followers": 54748,
+      "logo_saved": true
+    },
+    "kucoin": {
+      "handle": "kucoincom",
+      "screen_name": "kucoincom",
+      "name": "KuCoin",
+      "description": "Leading global crypto platform built on trust | 45M+ users worldwide | Support: @KuCoinUpdates | UK users: @KuCoin_UK | AU users: @kucoinaustralia",
+      "followers": 3478165,
+      "logo_saved": true
+    },
+    "seafi-seapad": {
+      "handle": "SeaFi_AI",
+      "screen_name": "SeaFi_AI",
+      "name": "SeaFi",
+      "description": "Project Launches, Leading Growth Hub, Smart Trading, and AI-Driven Innovation.",
+      "followers": 105979,
+      "logo_saved": true
+    },
+    "ascendex": {
+      "handle": "AscendEX_",
+      "screen_name": "AscendEX_",
+      "name": "AscendEX",
+      "description": "Start your crypto ascent here, with simple solutions that let you Invest, Earn, and Trade 300’s of crypto assets in one place. ⛰️🚀🌕🤝🏻",
+      "followers": 250992,
+      "logo_saved": true
+    },
+    "cheelee": {
+      "handle": "Cheelee_Tweet",
+      "screen_name": "Cheelee_Tweet",
+      "name": "Cheelee",
+      "description": "A new social network where users receive rewards for watching short videos! https://cheelee.go.link/4Ergs",
+      "followers": 176987,
+      "logo_saved": true
+    },
+    "bscs": {
+      "handle": "BSCS_Global",
+      "screen_name": "BSCS_Global",
+      "name": "BSCS Official",
+      "description": "The World Leading Multichain Launchpad and Incubator for Web3 Company. $BSCS http://t.me/BSCS_Channel",
+      "followers": 386583,
+      "logo_saved": true
+    },
+    "bitget-wallet": {
+      "handle": "BitgetWallet",
+      "screen_name": "BitgetWallet",
+      "name": "Bitget Wallet 🩵",
+      "description": "Everyday finance, powered by crypto\n\n100M users 🩵",
+      "followers": 2851800,
+      "logo_saved": true
+    },
+    "bybit": {
+      "handle": "Bybit_Official",
+      "screen_name": "Bybit_Official",
+      "name": "Bybit",
+      "description": "One platform with seamless access to global markets, payments, trading, wealth and RWA. \nAlways on. Borderless. Accessible. #NewFinancialPlatform",
+      "followers": 4862275,
+      "logo_saved": true
+    },
+    "velvet-capital": {
+      "handle": "Velvet_Capital",
+      "screen_name": "Velvet_Capital",
+      "name": "Velvet | Social Trading Terminal",
+      "description": "Trade everything onchain | Follow top traders in real time | Get AI insights | Backed by @YZiLabs | $VELVET",
+      "followers": 135318,
+      "logo_saved": true
+    },
+    "matchain": {
+      "handle": "matchain_io",
+      "screen_name": "matchain_io",
+      "name": "Matchain",
+      "description": "Decentralized and scalable AI chain, securing data sovereignty🔥 https://t.me/matchain_fam",
+      "followers": 400379,
+      "logo_saved": true
+    },
+    "venturemind": {
+      "handle": "VentureMindAI",
+      "screen_name": "VentureMindAI",
+      "name": "VentureMind AI",
+      "description": "Building the future of intelligent infrastructure. AI agents for X & Web2, Snowflake-native apps, and specialized AI tools. Powered by $VNTR 😈",
+      "followers": 18058,
+      "logo_saved": true
+    },
+    "unmarshal": {
+      "handle": "unmarshalai",
+      "error": "no user (HTTP 404: User is suspended)",
+      "logo_saved": false,
+      "logo_error": "no user (HTTP 404: User is suspended)"
+    },
+    "inference-labs": {
+      "handle": "inference_labs",
+      "screen_name": "inference_labs",
+      "name": "Inference Labs",
+      "description": "Autonomy unbridled.\nGoverned by math, not blind faith.\nhttps://sertn.ai/",
+      "followers": 38284,
+      "logo_saved": true
+    },
+    "edu3labs": {
+      "handle": "Edu3Labs",
+      "screen_name": "Edu3Labs",
+      "name": "Edu3Labs",
+      "description": "Learn. Trade. Read. Earn.\nThe end-to-end ecosystem for traders & investors.",
+      "followers": 82574,
+      "logo_saved": true
+    },
+    "openpad": {
+      "handle": "Openpad_IO",
+      "error": "no user (HTTP 404: User is suspended)",
+      "logo_saved": false,
+      "logo_error": "no user (HTTP 404: User is suspended)"
+    },
+    "deeplink": {
+      "handle": "DeepLinkGlobal",
+      "screen_name": "DeepLinkGlobal",
+      "name": "DeepLink",
+      "description": "Decentralized AI Cloud Gaming: AI + DePIN + AI Agents + GPU. \n| Built on @DeepBrainChain ⚙️\n| Play Anywhere, on Any Device",
+      "followers": 353797,
+      "logo_saved": true
+    },
+    "degpt": {
+      "handle": "degpt_fun",
+      "screen_name": "degpt_fun",
+      "name": "DeGPT",
+      "description": "",
+      "followers": 7,
+      "logo_saved": true
+    },
+    "men-coin": {
+      "handle": "Men_x_Meme",
+      "screen_name": "Men_x_Meme",
+      "name": "Men Coin",
+      "description": "$MEN - coin for REAL 🤝\n\n→ CA: A7uv3n1By5UNEa8UJqeCjGyLqHkMnkS1NP6K67VZBqd3\n→ Tg chat: https://t.me/+uIxWOFpQ_jZjYWRi",
+      "followers": 23763,
+      "logo_saved": true
+    },
+    "world-of-dypians": {
+      "handle": "worldofdypians",
+      "screen_name": "worldofdypians",
+      "name": "World of Dypians",
+      "description": "Shaping the future of AI-Powered Gaming. $WOD is part of the @BNBCHAIN $100M Incentive Program. 👉 Download now on @EpicGames.",
+      "followers": 303500,
+      "logo_saved": true
+    },
+    "rabbitx": {
+      "handle": "rabbitx_io",
+      "screen_name": "rabbitx_io",
+      "name": "RabbitX 🐇",
+      "description": "💰 DeFi Futures Exchange. Free Trading with Zero Fees. 🌐 Multichain | 100+ Markets | 50x Leverage 👉 Backed by Sequoia 👉",
+      "followers": 26636,
+      "logo_saved": true
+    },
+    "covalent": {
+      "handle": "Covalent_HQ",
+      "screen_name": "Covalent_HQ",
+      "name": "Covalent",
+      "description": "The data infrastructure for the onchain economy. Verified data across 100+ chains - powering apps, institutions & AI agents. Secured by $CXT. API → @goldrushdev",
+      "followers": 229330,
+      "logo_saved": true
+    },
+    "grvt": {
+      "handle": "grvt_io",
+      "screen_name": "grvt_io",
+      "name": "Grvt",
+      "description": "Trade Crypto & RWA perps. One balance, two jobs.\n\nPronounced \"gravity\"\n\nhttp://linktr.ee/grvt_io",
+      "followers": 505223,
+      "logo_saved": true
+    },
+    "kol-capital": {
+      "handle": "KOLCapital",
+      "screen_name": "KOLCapital",
+      "name": "KOL Capital",
+      "description": "Crypto Venture Capital | Investing in Next-Gen Tech and Teams Building the Web of Tomorrow",
+      "followers": 2127,
+      "logo_saved": true
+    },
+    "cointerminal": {
+      "handle": "CoinTerminal",
+      "screen_name": "CoinTerminal",
+      "name": "CoinTerminal",
+      "description": "The industry’s leading open-access launchpad with refund rights. Buy before major CEX listings.\n\nLooking to raise? http://cointerminal.com/founders-x-bio",
+      "followers": 168923,
+      "logo_saved": true
+    },
+    "aidapp": {
+      "handle": "aidappcom",
+      "screen_name": "aidappcom",
+      "name": "AIDA",
+      "description": "AI-powered trading terminal that connects multiple DEXs & LaunchPads for the best trading experience",
+      "followers": 122646,
+      "logo_saved": true
+    },
+    "superex": {
+      "candidates": [
+        {
+          "handle": "SuperExet",
+          "error": "no user (HTTP 404: User not found)"
+        },
+        {
+          "handle": "SuperEx",
+          "screen_name": "SuperEx",
+          "name": "SuperEx",
+          "description": "Trade Crypto · Stocks · Gold · Forex — One Platform, Connecting Global Markets and Web3.\n\nTelegram: https://t.me/SuperExOfficial",
+          "followers": 315047
+        },
+        {
+          "handle": "SuperExOfficial",
+          "error": "no user (HTTP 404: User not found)"
+        },
+        {
+          "handle": "superex_global",
+          "screen_name": "SuperEx_Global",
+          "name": "SuperEx",
+          "description": "http://superex.com",
+          "followers": 41
+        }
+      ],
+      "selected_handle": "SuperEx",
+      "logo_saved": true,
+      "note": "Selected @SuperEx: official SuperEx exchange, most followed (superex_global is a tiny 41-follower account)."
+    },
+    "altura": {
+      "candidates": [
+        {
+          "handle": "alturax",
+          "error": "no user (HTTP 404: User not found)"
+        },
+        {
+          "handle": "AlturaNFT",
+          "screen_name": "alturanft",
+          "name": "Altura (Former handle)",
+          "description": "WE GOT @ALTURA Go to http://x.com/altura",
+          "followers": 319
+        },
+        {
+          "handle": "altura_xyz",
+          "error": "no user (HTTP 404: User not found)"
+        }
+      ],
+      "selected_handle": null,
+      "logo_saved": false,
+      "note": "No logo: only live candidate @alturanft is labelled \"Altura (Former handle)\" and redirects to @altura, which was not a candidate; not clearly the official account."
+    },
+    "10set-ido": {
+      "candidates": [
+        {
+          "handle": "tenset_io",
+          "screen_name": "Tenset_io",
+          "name": "TenseT.io",
+          "description": "Powering institutional grade RWA financing | Film and Cricket IP | Curated ICOs | Backed by @TheSpartanGroup | https://discord.gg/HDnpm5fB4U",
+          "followers": 199534
+        },
+        {
+          "handle": "TensetOfficial",
+          "error": "no user (HTTP 404: User not found)"
+        },
+        {
+          "handle": "10SET_io",
+          "error": "no user (HTTP 404: User is suspended)"
+        },
+        {
+          "handle": "tenset",
+          "screen_name": "tenset",
+          "name": "tenset",
+          "description": "",
+          "followers": 11
+        }
+      ],
+      "selected_handle": "tenset_io",
+      "logo_saved": true,
+      "note": "Selected @Tenset_io: official TenseT.io (curated ICOs), ~200k followers."
+    },
+    "metatdex": {
+      "candidates": [
+        {
+          "handle": "MetaTdex",
+          "screen_name": "MetaTdex",
+          "name": "MetaTdex",
+          "description": "Next Generation Super Exchange and Web 3.0 Operating System.\n\nJoin us: http://discord.gg/metatdex",
+          "followers": 46298
+        },
+        {
+          "handle": "Metatdex_",
+          "error": "no user (HTTP 404: User not found)"
+        },
+        {
+          "handle": "MetaTdexGlobal",
+          "error": "no user (HTTP 404: User not found)"
+        },
+        {
+          "handle": "metatdex_official",
+          "error": "no user (HTTP 200)"
+        }
+      ],
+      "selected_handle": "MetaTdex",
+      "logo_saved": true,
+      "note": "Selected @MetaTdex: official MetaTdex exchange."
+    }
+  }
+}
