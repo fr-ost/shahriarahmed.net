@@ -225,7 +225,7 @@ export interface ExperienceEntry {
 export interface Collaboration {
   id: string;
   name: string;
-  /** e.g. "KOC campaign", "Marketing", "Development". */
+  /** e.g. "Partner · Affiliate", "Promotional partner", "Ambassador". */
   type: string | null;
   period: string | null;
   description: string | null;
@@ -233,6 +233,8 @@ export interface Collaboration {
   href: string | null;
   /** The project's X handle, without the @; links to its profile. */
   handle: string | null;
+  /** Small square logo in /public, e.g. the X profile picture. */
+  logo?: string;
 }
 
 /** A block of text on the privacy and DMCA pages. */
