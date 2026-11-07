@@ -1,8 +1,6 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { AnimatePresence } from "motion/react";
-import * as m from "motion/react-m";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -28,8 +26,6 @@ interface NavbarProps {
   title: string;
   email: string;
 }
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 function subscribeToScroll(onChange: () => void) {
   window.addEventListener("scroll", onChange, { passive: true });
@@ -221,11 +217,7 @@ export function Navbar({ items, cta, name, title, email }: NavbarProps) {
   }
 
   return (
-    <header
-      ref={headerRef}
-      className="fixed inset-x-0 top-0 z-50"
-      style={{ viewTransitionName: "site-header" }}
-    >
+    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
       <div
         className={cn(
           "relative z-10 mx-auto transition-[max-width,padding,margin] duration-500 ease-smooth",
@@ -316,75 +308,59 @@ export function Navbar({ items, cta, name, title, email }: NavbarProps) {
         </nav>
       </div>
 
-      <AnimatePresence>
-        {open ? (
-          <m.div
-            key="mobile-menu"
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Site navigation"
-            className="fixed inset-0 z-0 overflow-y-auto overscroll-contain bg-bg lg:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.25, ease } }}
-            transition={{ duration: 0.35, ease }}
-          >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 bg-grid mask-fade-b opacity-60"
-            />
-            <div className="container-page relative flex min-h-full flex-col pb-10 pt-28">
-              <nav aria-label="Mobile">
-                <ul className="flex flex-col">
-                  {[...items, cta].map((item, index) => (
-                    <m.li
-                      key={item.href}
-                      className="border-b border-line"
-                      initial={{ opacity: 0, y: 18 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6, transition: { duration: 0.15 } }}
-                      transition={{ duration: 0.5, delay: 0.06 + index * 0.045, ease }}
+      {open ? (
+        <div
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+          className="menu-in fixed inset-0 z-0 overflow-y-auto overscroll-contain bg-bg lg:hidden"
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-grid mask-fade-b opacity-60"
+          />
+          <div className="container-page relative flex min-h-full flex-col pb-10 pt-28">
+            <nav aria-label="Mobile">
+              <ul className="flex flex-col">
+                {[...items, cta].map((item, index) => (
+                  <li
+                    key={item.href}
+                    className="menu-item-in border-b border-line"
+                    style={{ animationDelay: `${60 + index * 45}ms` }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={(event) => onMenuLink(event, item.href)}
+                      aria-current={
+                        activeHref === item.href ? (onHome ? "true" : "page") : undefined
+                      }
+                      className="group/link flex items-baseline gap-4 py-4 text-fg"
                     >
-                      <Link
-                        href={item.href}
-                        onClick={(event) => onMenuLink(event, item.href)}
-                        aria-current={
-                          activeHref === item.href ? (onHome ? "true" : "page") : undefined
-                        }
-                        className="group/link flex items-baseline gap-4 py-4 text-fg"
-                      >
-                        <span className="eyebrow w-6 text-faint group-aria-[current]/link:text-accent">
-                          {pad2(index + 1)}
-                        </span>
-                        <span className="text-[2rem] font-semibold leading-none tracking-[-0.035em] transition-transform duration-500 ease-smooth group-hover/link:translate-x-1">
-                          {item.label}
-                        </span>
-                      </Link>
-                    </m.li>
-                  ))}
-                </ul>
-              </nav>
+                      <span className="eyebrow w-6 text-faint group-aria-[current]/link:text-accent">
+                        {pad2(index + 1)}
+                      </span>
+                      <span className="text-[2rem] font-semibold leading-none tracking-[-0.035em] transition-transform duration-500 ease-smooth group-hover/link:translate-x-1">
+                        {item.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-              <m.div
-                className="mt-auto pt-12"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.1 } }}
-                transition={{ duration: 0.6, delay: 0.4, ease }}
+            <div className="menu-in mt-auto pt-12" style={{ animationDelay: "400ms" }}>
+              <p className="eyebrow text-faint">Get in touch</p>
+              <a
+                href={`mailto:${email}`}
+                className="mt-2 inline-block break-all text-xl font-medium tracking-[-0.02em] text-fg underline decoration-line-strong underline-offset-[6px] transition-colors hover:decoration-accent"
               >
-                <p className="eyebrow text-faint">Get in touch</p>
-                <a
-                  href={`mailto:${email}`}
-                  className="mt-2 inline-block break-all text-xl font-medium tracking-[-0.02em] text-fg underline decoration-line-strong underline-offset-[6px] transition-colors hover:decoration-accent"
-                >
-                  {email}
-                </a>
-              </m.div>
+                {email}
+              </a>
             </div>
-          </m.div>
-        ) : null}
-      </AnimatePresence>
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }

@@ -23,7 +23,7 @@ export function Ticker() {
   return (
     <section
       aria-label="Focus areas and skills"
-      className="relative overflow-hidden border-y border-line bg-elevated/50 py-7 sm:py-9"
+      className="relative overflow-hidden border-y border-line bg-elevated/50 py-7 [--marquee-fade:color-mix(in_srgb,var(--elevated)_50%,var(--bg))] sm:py-9"
     >
       <Marquee
         items={focus}

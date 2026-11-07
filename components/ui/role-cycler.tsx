@@ -1,10 +1,9 @@
 "use client";
 
 import { Pause, Play } from "lucide-react";
-import { AnimatePresence } from "motion/react";
-import * as m from "motion/react-m";
 import { useEffect, useState } from "react";
 import { usePrefersReducedMotion } from "@/lib/hooks";
+import { cn } from "@/lib/utils";
 
 interface RoleCyclerProps {
   roles: string[];
@@ -12,15 +11,14 @@ interface RoleCyclerProps {
   interval?: number;
 }
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 /**
- * Cycles through roles with a soft vertical slide. Screen readers get the
+ * Cycles through roles with a soft vertical slide (CSS keyframes: the old
+ * role leaves upwards as the new one rises in). Screen readers get the
  * full list once; the rotation can be paused (WCAG 2.2.2) and does not run
  * for users who prefer reduced motion.
  */
 export function RoleCycler({ roles, interval = 2600 }: RoleCyclerProps) {
-  const [index, setIndex] = useState(0);
+  const [{ index, previous }, setRole] = useState({ index: 0, previous: -1 });
   const [paused, setPaused] = useState(false);
   const reduceMotion = usePrefersReducedMotion();
   const running = !paused && !reduceMotion && roles.length > 1;
@@ -28,7 +26,7 @@ export function RoleCycler({ roles, interval = 2600 }: RoleCyclerProps) {
   useEffect(() => {
     if (!running) return;
     const id = window.setInterval(() => {
-      setIndex((value) => (value + 1) % roles.length);
+      setRole((role) => ({ index: (role.index + 1) % roles.length, previous: role.index }));
     }, interval);
     return () => window.clearInterval(id);
   }, [running, interval, roles.length]);
@@ -37,18 +35,17 @@ export function RoleCycler({ roles, interval = 2600 }: RoleCyclerProps) {
     <span className="inline-flex items-center gap-3">
       <span className="sr-only">{roles.join(", ")}</span>
       <span aria-hidden className="relative inline-grid overflow-hidden py-[0.08em]">
-        <AnimatePresence initial={false}>
-          <m.span
-            key={roles[index]}
-            className="col-start-1 row-start-1 whitespace-nowrap"
-            initial={{ y: "105%", opacity: 0 }}
-            animate={{ y: "0%", opacity: 1 }}
-            exit={{ y: "-105%", opacity: 0 }}
-            transition={{ duration: 0.7, ease }}
-          >
-            {roles[index]}
-          </m.span>
-        </AnimatePresence>
+        {previous >= 0 ? (
+          <span key={`out-${index}`} className="role-out col-start-1 row-start-1 whitespace-nowrap">
+            {roles[previous]}
+          </span>
+        ) : null}
+        <span
+          key={`in-${index}`}
+          className={cn("col-start-1 row-start-1 whitespace-nowrap", previous >= 0 && "role-in")}
+        >
+          {roles[index]}
+        </span>
       </span>
       {reduceMotion ? null : (
         <button

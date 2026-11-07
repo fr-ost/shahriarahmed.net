@@ -15,6 +15,9 @@ import type { CvLink } from "@/lib/cv";
 import { cn } from "@/lib/utils";
 import portrait from "@/public/images/shahriar-ahmed.webp";
 
+/** The network shows around the portrait and fades out towards the text. */
+const networkFocus = { x: 0.72, y: 0.42, rx: 0.7, ry: 0.75, inner: 0.15, outer: 0.78 };
+
 /** Staggered CSS entrance: runs on first paint, independent of hydration. */
 function rise(delay: number): CSSProperties {
   return { animationDelay: `${delay}ms` };
@@ -37,7 +40,7 @@ function FloatingFact({
   return (
     <div
       className={cn(
-        "absolute z-10 hidden max-w-[18rem] items-center gap-3 rounded-2xl border border-line bg-elevated/75 py-2.5 pl-2.5 pr-4 shadow-float backdrop-blur-xl sm:flex",
+        "absolute z-10 hidden max-w-[18rem] items-center gap-3 rounded-2xl border border-line bg-elevated/95 py-2.5 pl-2.5 pr-4 shadow-float sm:flex",
         "animate-float",
         className,
       )}
@@ -70,7 +73,7 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
         aria-hidden
         className="absolute inset-0 -z-10 bg-grid opacity-80 [mask-image:radial-gradient(ellipse_70%_65%_at_50%_35%,black,transparent_78%)]"
       />
-      <MoleculeField className="-z-10 [mask-image:radial-gradient(ellipse_70%_75%_at_72%_42%,black_15%,transparent_78%)]" />
+      <MoleculeField className="-z-10" focus={networkFocus} />
 
       <div className="container-page grid flex-1 grid-cols-1 items-center gap-14 pb-10 lg:grid-cols-12 lg:gap-8 lg:pb-6">
         <div className="lg:col-span-7">
@@ -179,13 +182,13 @@ export function Hero({ cvLink }: { cvLink: CvLink }) {
           />
 
           <Tilt max={6}>
-            <figure className="relative overflow-hidden rounded-[2.25rem] p-[2px] shadow-float">
-              {/* Rotating gradient ring: a spinning conic field behind the frame */}
+            <figure className="group/portrait relative overflow-hidden rounded-[2.25rem] p-[2px] shadow-float">
+              {/* Gradient ring: a conic field behind the frame that turns while hovered */}
               <span
                 aria-hidden
                 className="absolute left-1/2 top-1/2 aspect-square w-[160%] -translate-x-1/2 -translate-y-1/2"
               >
-                <span className="ring-conic block size-full rounded-full animate-spin-ring" />
+                <span className="ring-conic block size-full rounded-full animate-spin-ring [animation-play-state:paused] group-hover/portrait:[animation-play-state:running]" />
               </span>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[calc(2.25rem-2px)] bg-subtle">
                 <Image

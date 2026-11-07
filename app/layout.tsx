@@ -5,7 +5,6 @@ import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { SpotlightTracker } from "@/components/fx/spotlight-tracker";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
-import { MotionProvider } from "@/components/providers/motion-provider";
 import { navigation, navigationCta, person, site, socials } from "@/data/portfolio";
 import { THEME_COLORS, themeInitScript } from "@/lib/theme";
 import "@/styles/globals.css";
@@ -26,6 +25,12 @@ const inter = Inter({
 const GOOGLE_TAG_ID = "AW-18494416712";
 
 const xHandle = socials.find((social) => social.id === "x")?.handle;
+
+// Ownership checks for Google Search Console and Bing Webmaster Tools: set
+// these in the hosting environment (e.g. Vercel → Settings → Environment
+// Variables) to the codes those tools give you, then redeploy.
+const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
+const bingVerification = process.env.BING_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -69,6 +74,14 @@ export const metadata: Metadata = {
   },
   formatDetection: { telephone: false, address: false, email: false },
   category: "science",
+  ...(googleVerification || bingVerification
+    ? {
+        verification: {
+          ...(googleVerification ? { google: googleVerification } : {}),
+          ...(bingVerification ? { other: { "msvalidate.01": bingVerification } } : {}),
+        },
+      }
+    : {}),
 };
 
 export const viewport: Viewport = {
@@ -89,7 +102,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <noscript
           dangerouslySetInnerHTML={{
             __html:
-              "<style>[data-reveal]{opacity:1!important;transform:none!important}.sweep-word{color:var(--fg)!important}</style>",
+              "<style>[data-reveal],[data-reveal-word]{opacity:1!important;transform:none!important}.sweep-word{color:var(--fg)!important}</style>",
           }}
         />
       </head>
@@ -107,21 +120,19 @@ gtag('config', '${GOOGLE_TAG_ID}');`}
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <MotionProvider>
-          <ScrollProgress />
-          <SpotlightTracker />
-          <Navbar
-            items={navigation}
-            cta={navigationCta}
-            name={person.name}
-            title={person.title}
-            email={person.email}
-          />
-          <main id="main" tabIndex={-1} className="outline-none">
-            {children}
-          </main>
-          <Footer />
-        </MotionProvider>
+        <ScrollProgress />
+        <SpotlightTracker />
+        <Navbar
+          items={navigation}
+          cta={navigationCta}
+          name={person.name}
+          title={person.title}
+          email={person.email}
+        />
+        <main id="main" tabIndex={-1} className="outline-none">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

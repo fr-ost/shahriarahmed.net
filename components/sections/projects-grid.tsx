@@ -1,13 +1,13 @@
 "use client";
 
 import { ArrowRight, ArrowUpRight, Puzzle } from "lucide-react";
-import * as m from "motion/react-m";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { contentIcons } from "@/components/icons";
 import { GitHubIcon } from "@/components/icons/brand-icons";
 import { Chip, StatusDot } from "@/components/ui/chip";
+import { Reveal } from "@/components/ui/reveal";
 import type { ArchivedProject, Project, ProjectCategory } from "@/lib/types";
 import { cn, isExternalHref, pad2, prettyUrl } from "@/lib/utils";
 
@@ -17,8 +17,6 @@ interface ProjectsGridProps {
   projects: Project[];
   categories: ProjectCategory[];
 }
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
   const [filter, setFilter] = useState<Filter>("All");
@@ -82,17 +80,15 @@ export function ProjectsGrid({ projects, categories }: ProjectsGridProps) {
           // With an odd number of cards, the first one spans both columns.
           const wide = visible.length % 2 === 1 && index === 0;
           return (
-            <m.li
+            <Reveal
+              as="li"
               key={project.id}
-              data-reveal=""
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-              transition={{ duration: 0.6, delay: index * 0.07, ease }}
+              y={16}
+              delay={index * 0.07}
               className={cn("flex", wide && "md:col-span-2")}
             >
               <ProjectCard project={project} wide={wide} />
-            </m.li>
+            </Reveal>
           );
         })}
       </ul>

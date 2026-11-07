@@ -451,18 +451,12 @@
   }
 }
 
-/* Fine film grain, for depth on large glowing surfaces. */
-@utility bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Aurora: soft colour fields drifting behind a section (see Aurora). Radial
-   gradients rather than blur filters, and transforms only, so they stay on
-   the compositor. */
+/* Aurora: soft fields of colour behind a section (see Aurora). Radial
+   gradients rather than blur filters, and still: animating these large
+   layers kept the GPU busy on every frame. */
 .aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  will-change: transform;
 }
 
 .aurora-blob-a {
@@ -471,7 +465,6 @@
   width: min(56rem, 130vw);
   aspect-ratio: 1;
   background: radial-gradient(closest-side, var(--aurora-1), transparent);
-  animation: aurora-a 24s ease-in-out infinite alternate;
 }
 
 .aurora-blob-b {
@@ -480,7 +473,6 @@
   width: min(44rem, 110vw);
   aspect-ratio: 1;
   background: radial-gradient(closest-side, var(--aurora-2), transparent);
-  animation: aurora-b 28s ease-in-out infinite alternate;
 }
 
 .aurora-blob-c {
@@ -489,32 +481,76 @@
   width: min(40rem, 100vw);
   aspect-ratio: 1;
   background: radial-gradient(closest-side, var(--aurora-3), transparent);
-  animation: aurora-c 32s ease-in-out infinite alternate;
 }
 
-/* Touch screens: the colour stays, the drift stops, and the layers flatten. */
-@media (pointer: coarse) {
-  .aurora-blob {
-    animation: none;
-    will-change: auto;
+/* Reveal on scroll (components/ui/reveal.tsx, lib/reveal.ts): an observer
+   adds data-shown, and a CSS transition does the rest, on the compositor. */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 18px), 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+
+[data-reveal][data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Heading words rise one after another (components/fx/reveal-words.tsx). */
+[data-reveal-word] {
+  transform: translate3d(0, 108%, 0);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)
+    calc(var(--reveal-delay, 0s) + var(--i, 0) * 0.07s);
+}
+
+[data-shown] [data-reveal-word] {
+  transform: none;
+}
+
+/* Role cycler (components/ui/role-cycler.tsx). */
+.role-in {
+  animation: role-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.role-out {
+  animation: role-out 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes role-in {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
   }
 }
 
-@keyframes aurora-a {
+@keyframes role-out {
   to {
-    transform: translate3d(-12%, 14%, 0) scale(1.12);
+    opacity: 0;
+    transform: translateY(-105%);
   }
 }
 
-@keyframes aurora-b {
-  to {
-    transform: translate3d(18%, -8%, 0) scale(0.92);
+/* Mobile menu: fades in, links rise in turn; it closes at once. */
+.menu-in {
+  animation: menu-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.menu-item-in {
+  animation: menu-item-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
   }
 }
 
-@keyframes aurora-c {
-  to {
-    transform: translate3d(-16%, -18%, 0) scale(1.18);
+@keyframes menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
   }
 }
 
@@ -571,10 +607,33 @@
 .marquee {
   --marquee-duration: 48s;
   --marquee-gap: 2.5rem;
+  --marquee-fade: var(--bg);
+  position: relative;
   display: flex;
   overflow: hidden;
   user-select: none;
-  mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
+}
+
+/* Soft edges: static overlays in the background colour, rather than a mask
+   that would be recomposited on every frame of the scroll. */
+.marquee::before,
+.marquee::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  z-index: 1;
+  width: 7%;
+  pointer-events: none;
+}
+
+.marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--marquee-fade), transparent);
+}
+
+.marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--marquee-fade), transparent);
 }
 
 .marquee-track {
@@ -644,68 +703,9 @@
   );
 }
 
-/* The surname in the hero: sharpens into view, then its gradient drifts. */
+/* The surname in the hero sharpens into view. */
 .animate-name {
   animation: focus-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
-}
-
-/* The drift repaints the whole word every frame: only where there is a mouse. */
-@media (hover: hover) and (pointer: fine) {
-  .animate-name {
-    animation:
-      focus-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 160ms both,
-      gradient-pan 7s ease-in-out 1.4s infinite alternate;
-  }
-}
-
-@keyframes gradient-pan {
-  from {
-    background-position: 0% 50%;
-  }
-  to {
-    background-position: 100% 50%;
-  }
-}
-
-/* Page transitions (app/template.tsx): the old page leaves quickly, the new
-   one settles in with a short lift. Opacity and transform only: a blur over
-   the whole page is too costly on phones. The header stays put. */
-::view-transition {
-  pointer-events: none;
-}
-
-::view-transition-old(.page) {
-  animation: 160ms cubic-bezier(0.4, 0, 1, 1) both page-out;
-}
-
-::view-transition-new(.page) {
-  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both page-in;
-}
-
-::view-transition-group(site-header) {
-  animation: none;
-  z-index: 100;
-}
-
-::view-transition-old(site-header) {
-  display: none;
-}
-
-::view-transition-new(site-header) {
-  animation: none;
-}
-
-@keyframes page-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes page-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
 }
 
 /* ── Motion preferences ────────────────────────────────────────────────── */
@@ -720,13 +720,15 @@
     transition-duration: 0.01ms !important;
   }
 
-  [data-reveal] {
+  [data-reveal],
+  [data-reveal-word] {
     opacity: 1 !important;
     transform: none !important;
   }
 
-  .marquee {
-    mask-image: none;
+  .marquee::before,
+  .marquee::after {
+    display: none;
   }
 
   .marquee-track {
@@ -740,10 +742,6 @@
 
   .marquee-track[aria-hidden] {
     display: none;
-  }
-
-  .aurora-blob {
-    animation: none;
   }
 
   .sweep-word {

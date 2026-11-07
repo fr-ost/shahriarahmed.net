@@ -166,7 +166,6 @@ Please also verify the education status (`"Current"`).
 app/                  Routes and metadata files
   layout.tsx          Fonts, SEO metadata, theme script, navbar/footer
   page.tsx            Home page (composes the sections, JSON-LD)
-  template.tsx        Page transitions (React <ViewTransition>)
   about/, contact/, unique-labs/, research/, projects/, experience/ (+ web3/),
   achievements/, privacy/, dmca/
                       The other pages
@@ -205,16 +204,20 @@ public/               Portrait, manifest icons, extension icons, (your CV)
 - **Typography**: Apple's system font (SF Pro) on iPhone, iPad and Mac. SF Pro cannot be
   embedded on the web, so other devices use Inter, an open-source typeface in the same style
   (self-hosted through `next/font`; also used for the share image).
-- **Motion**: drifting aurora light, a molecular network in the hero that bonds to the
-  pointer, word-by-word headings, a statement that brightens as it scrolls into view, cards lit
-  by the cursor, a tilting portrait, a self-drawing experience timeline, a ticker, and soft page
-  transitions. Animations use transforms and opacity, and everything holds still for visitors
-  who prefer reduced motion. Content is fully visible without JavaScript.
-- **Smoothness on phones**: the molecular network batches its drawing, pauses off screen and
-  while the page scrolls, and runs at 30 fps on touch screens. On touch screens the aurora holds
-  still, the film grain (a costly blend) is left out, the scrolled navbar is solid rather than
-  blurred, and the surname's gradient does not drift. Page transitions use no blur. Small text
-  links get a taller hit area on touch screens (the `tap` utility).
+- **Motion**: a molecular network in the hero that bonds to the pointer, word-by-word
+  headings, a statement that brightens as it scrolls into view, cards lit by the cursor, a
+  tilting portrait with a gradient ring that turns on hover, a self-drawing experience timeline
+  and a ticker. Everything holds still for visitors who prefer reduced motion, and content is
+  fully visible without JavaScript.
+- **Performance**: there is no animation library. Reveal-on-scroll is one shared
+  `IntersectionObserver` (`lib/reveal.ts`) plus CSS transitions; the reading-progress bar and
+  timeline use one passive scroll handler each, at most once per frame. Nothing large is
+  animated continuously: the aurora is still, there is no blended grain, and the floating cards
+  in the hero are solid rather than blurred. The molecular network fades its own edges (no CSS
+  mask), pauses off screen and while the page scrolls, and runs at 30 fps at up to 1.5× pixel
+  density. There are no page transitions, so navigation is immediate. On touch screens the
+  scrolled navbar is solid rather than blurred, and small text links get a taller hit area
+  (the `tap` utility).
 - **Icons**: edit the mark in `scripts/generate-icons.mjs` and run `npm run icons` to regenerate
   the favicon and app icons.
 
@@ -227,7 +230,25 @@ public/               Portrait, manifest icons, extension icons, (your CV)
    `www.shahriarahmed.net`, redirecting to the apex domain), then add the DNS records Vercel shows
    at your domain registrar.
 
-No environment variables are required.
+No environment variables are required. Two are optional, for search: set
+`GOOGLE_SITE_VERIFICATION` to the code from Google Search Console's "HTML tag" method, and
+`BING_SITE_VERIFICATION` to the code from Bing Webmaster Tools, then redeploy. Each adds its
+`<meta>` verification tag to every page.
+
+### Getting found for your name
+
+The site already does the on-page work: titles and headings lead with "Shahriar Ahmed", the
+homepage is a `ProfilePage` about you, and the structured data lists your name variants
+(Shahriar, Shahriar Ahmed Tushar) and links every profile. What moves rankings from there:
+
+1. **Google Search Console**: verify the domain (DNS record in Vercel, or the variable above),
+   submit `https://shahriarahmed.net/sitemap.xml`, and use **URL inspection → Request indexing**
+   for the homepage. Do the same in Bing Webmaster Tools (it can import from Search Console).
+2. **Link back from every profile**: put `https://shahriarahmed.net` in the website field of
+   your Google Scholar, ORCID, LinkedIn, GitHub, X, Facebook, Instagram and Telegram profiles,
+   using the same name, "Shahriar Ahmed", on each.
+3. **Use the address**: in the email signature, papers' author pages, conference bios and
+   Unique Labs' channels.
 
 [`vercel.json`](vercel.json) pins the framework (Next.js), build command and output directory, so
 deployments work even if the project's dashboard settings are wrong. Without it, a project whose

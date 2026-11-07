@@ -2,20 +2,16 @@ import { cn } from "@/lib/utils";
 
 interface AuroraProps {
   className?: string;
-  /** Fine film grain over the colour, for depth. */
-  grain?: boolean;
   /** Fade out towards the bottom edge, so a section can end without a seam. */
   fade?: boolean;
 }
 
 /**
- * Slowly drifting fields of teal, sky and violet light behind a section.
- * Decorative and CSS-only (see `.aurora-blob` in styles/globals.css); it
- * holds still on touch screens and for visitors who prefer reduced motion.
- * The grain is blended in only where there is a mouse: blending is costly
- * for phone GPUs.
+ * Soft fields of teal, sky and violet light behind a section. Decorative,
+ * CSS-only and still (see `.aurora-blob` in styles/globals.css), so it costs
+ * nothing once painted.
  */
-export function Aurora({ className, grain = true, fade = false }: AuroraProps) {
+export function Aurora({ className, fade = false }: AuroraProps) {
   return (
     <div
       aria-hidden
@@ -28,9 +24,6 @@ export function Aurora({ className, grain = true, fade = false }: AuroraProps) {
       <span className="aurora-blob aurora-blob-a" />
       <span className="aurora-blob aurora-blob-b" />
       <span className="aurora-blob aurora-blob-c" />
-      {grain ? (
-        <span className="absolute inset-0 hidden bg-noise opacity-40 mix-blend-soft-light [@media(hover:hover)_and_(pointer:fine)]:block" />
-      ) : null}
     </div>
   );
 }

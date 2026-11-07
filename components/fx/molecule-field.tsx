@@ -16,11 +16,28 @@ interface Atom {
   hub: boolean;
 }
 
+/**
+ * Where the network is visible: an ellipse (fractions of the canvas) that is
+ * solid out to `inner` of its radius and fades to nothing at `outer`. The
+ * canvas fades its own edges, so no CSS mask has to be composited each frame.
+ */
+interface Focus {
+  x: number;
+  y: number;
+  rx: number;
+  ry: number;
+  inner: number;
+  outer: number;
+}
+
 interface MoleculeFieldProps {
   className?: string;
   /** Multiplier for the number of atoms. */
   density?: number;
+  focus?: Focus;
 }
+
+const WHOLE: Focus = { x: 0.5, y: 0.5, rx: 1, ry: 1, inner: 1, outer: 2 };
 
 /** Distance within which atoms bond to the pointer. */
 const POINTER_REACH = 180;
@@ -35,11 +52,11 @@ const SCROLL_PAUSE = 160;
  * theme (`--molecule-*` in styles/globals.css).
  *
  * It starts once the page is idle, pauses off screen, in background tabs
- * and while the page scrolls, runs at 30 fps on touch screens, and draws a
- * single still frame for visitors who prefer reduced motion. Purely
- * decorative.
+ * and while the page scrolls, runs at 30 fps at no more than 1.5× pixel
+ * density (the drift is slow, so it looks the same), and draws a single
+ * still frame for visitors who prefer reduced motion. Purely decorative.
  */
-export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
+export function MoleculeField({ className, density = 1, focus = WHOLE }: MoleculeFieldProps) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -49,10 +66,19 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const finePointer = window.matchMedia("(pointer: fine)").matches;
-    // Phones and tablets: fewer frames and pixels, the same look.
-    const frameInterval = finePointer ? 0 : 1000 / 30;
-    const maxPixelRatio = finePointer ? 2 : 1.5;
+    const frameInterval = 1000 / 30;
+    const maxPixelRatio = 1.5;
     const bands: number[][] = Array.from({ length: BANDS }, () => []);
+    const dots: number[][] = Array.from({ length: BANDS }, () => []);
+    let fades = new Float32Array(0);
+    const { x: fx, y: fy, rx, ry, inner, outer } = focus;
+    /** 1 inside the focus ellipse, fading to 0 at its edge. */
+    const fadeAt = (x: number, y: number) => {
+      const dx = (x / width - fx) / rx;
+      const dy = (y / height - fy) / ry;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      return d <= inner ? 1 : d >= outer ? 0 : 1 - (d - inner) / (outer - inner);
+    };
     let lastDraw = 0;
     let stillUntil = 0;
     const pointer = { x: 0, y: 0, active: false };
@@ -113,8 +139,9 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       const reachSquared = reach * reach;
       const moving = !reducedMotion.matches;
 
-      if (moving) {
-        for (const atom of atoms) {
+      if (fades.length !== atoms.length) fades = new Float32Array(atoms.length);
+      atoms.forEach((atom, index) => {
+        if (moving) {
           atom.x += atom.vx * step;
           atom.y += atom.vy * step;
           if (atom.x < -12) atom.x = width + 12;
@@ -122,21 +149,25 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
           if (atom.y < -12) atom.y = height + 12;
           else if (atom.y > height + 12) atom.y = -12;
         }
-      }
+        fades[index] = fadeAt(atom.x, atom.y);
+      });
 
-      // Bonds between nearby atoms, fading with distance: sorted into a few
-      // opacity bands so that each band is a single stroke.
+      // Bonds between nearby atoms, fading with distance and towards the
+      // edges: sorted into a few opacity bands, so each band is one stroke.
       for (const band of bands) band.length = 0;
       for (let i = 0; i < atoms.length; i++) {
+        if (fades[i] === 0) continue;
         const a = atoms[i];
         for (let j = i + 1; j < atoms.length; j++) {
+          if (fades[j] === 0) continue;
           const b = atoms[j];
           const dx = a.x - b.x;
           const dy = a.y - b.y;
           const squared = dx * dx + dy * dy;
           if (squared > reachSquared) continue;
-          const closeness = 1 - Math.sqrt(squared) / reach;
-          bands[Math.min(BANDS - 1, Math.floor(closeness * BANDS))].push(a.x, a.y, b.x, b.y);
+          const strength = (1 - Math.sqrt(squared) / reach) * Math.min(fades[i], fades[j]);
+          if (strength < 0.05) continue;
+          bands[Math.min(BANDS - 1, Math.floor(strength * BANDS))].push(a.x, a.y, b.x, b.y);
         }
       }
       ctx.lineWidth = 0.8;
@@ -153,7 +184,8 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       });
 
       // The pointer acts as one more atom: a soft glow that bonds to its neighbours.
-      if (pointer.active && moving) {
+      const pointerFade = pointer.active && moving ? fadeAt(pointer.x, pointer.y) : 0;
+      if (pointerFade > 0) {
         const glow = ctx.createRadialGradient(
           pointer.x,
           pointer.y,
@@ -164,7 +196,7 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
         );
         glow.addColorStop(0, colors.glow);
         glow.addColorStop(1, "transparent");
-        ctx.globalAlpha = 0.12;
+        ctx.globalAlpha = 0.12 * pointerFade;
         ctx.fillStyle = glow;
         ctx.fillRect(
           pointer.x - POINTER_REACH,
@@ -175,44 +207,54 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
 
         ctx.lineWidth = 1;
         ctx.strokeStyle = colors.glow;
-        for (const atom of atoms) {
+        atoms.forEach((atom, index) => {
           const dx = pointer.x - atom.x;
           const dy = pointer.y - atom.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance > POINTER_REACH) continue;
-          ctx.globalAlpha = (1 - distance / POINTER_REACH) * 0.7;
+          if (distance > POINTER_REACH || fades[index] === 0) return;
+          ctx.globalAlpha =
+            (1 - distance / POINTER_REACH) * 0.7 * Math.min(pointerFade, fades[index]);
           ctx.beginPath();
           ctx.moveTo(pointer.x, pointer.y);
           ctx.lineTo(atom.x, atom.y);
           ctx.stroke();
-        }
+        });
       }
 
-      // Atoms: the small ones in one fill; hubs pulse with a soft halo.
-      ctx.globalAlpha = 0.7;
-      ctx.fillStyle = colors.node;
-      ctx.beginPath();
-      for (const atom of atoms) {
-        if (atom.hub) continue;
-        ctx.moveTo(atom.x + atom.r, atom.y);
-        ctx.arc(atom.x, atom.y, atom.r, 0, Math.PI * 2);
-      }
-      ctx.fill();
-      for (const atom of atoms) {
-        if (atom.hub) {
-          const pulse = 0.5 + 0.5 * Math.sin(time * 0.0016 + atom.phase);
-          ctx.globalAlpha = 0.1 + pulse * 0.16;
-          ctx.fillStyle = colors.glow;
-          ctx.beginPath();
-          ctx.arc(atom.x, atom.y, atom.r * 5.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.globalAlpha = 0.95;
-          ctx.fillStyle = colors.node;
-          ctx.beginPath();
-          ctx.arc(atom.x, atom.y, atom.r * 1.7, 0, Math.PI * 2);
-          ctx.fill();
+      // Atoms: the small ones in one fill per band; hubs pulse with a soft halo.
+      for (const dot of dots) dot.length = 0;
+      atoms.forEach((atom, index) => {
+        if (!atom.hub && fades[index] > 0.05) {
+          dots[Math.min(BANDS - 1, Math.floor(fades[index] * BANDS))].push(index);
         }
-      }
+      });
+      ctx.fillStyle = colors.node;
+      dots.forEach((dot, band) => {
+        if (dot.length === 0) return;
+        ctx.globalAlpha = 0.7 * ((band + 1) / BANDS);
+        ctx.beginPath();
+        for (const index of dot) {
+          const atom = atoms[index];
+          ctx.moveTo(atom.x + atom.r, atom.y);
+          ctx.arc(atom.x, atom.y, atom.r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      });
+      atoms.forEach((atom, index) => {
+        const fade = fades[index];
+        if (!atom.hub || fade < 0.05) return;
+        const pulse = 0.5 + 0.5 * Math.sin(time * 0.0016 + atom.phase);
+        ctx.globalAlpha = (0.1 + pulse * 0.16) * fade;
+        ctx.fillStyle = colors.glow;
+        ctx.beginPath();
+        ctx.arc(atom.x, atom.y, atom.r * 5.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 0.95 * fade;
+        ctx.fillStyle = colors.node;
+        ctx.beginPath();
+        ctx.arc(atom.x, atom.y, atom.r * 1.7, 0, Math.PI * 2);
+        ctx.fill();
+      });
       ctx.globalAlpha = 1;
     };
 
@@ -314,7 +356,7 @@ export function MoleculeField({ className, density = 1 }: MoleculeFieldProps) {
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("pointerleave", onPointerLeave);
     };
-  }, [density]);
+  }, [density, focus]);
 
   return (
     <canvas

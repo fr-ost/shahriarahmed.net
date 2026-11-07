@@ -54,7 +54,8 @@ export function personNode() {
     "@type": "Person",
     "@id": ids.person,
     name: person.name,
-    alternateName: [person.fullName],
+    // Searches for "Shahriar" alone should find him too.
+    alternateName: [person.fullName, person.givenName],
     url: personUrl,
     image: {
       "@type": "ImageObject",
@@ -99,7 +100,8 @@ function personReference() {
     "@type": "Person",
     "@id": ids.person,
     name: person.name,
-    alternateName: [person.fullName],
+    // Searches for "Shahriar" alone should find him too.
+    alternateName: [person.fullName, person.givenName],
     url: personUrl,
   };
 }
@@ -129,7 +131,7 @@ function websiteNode() {
     "@id": ids.website,
     url: site.url,
     name: person.name,
-    alternateName: [person.fullName, site.domain],
+    alternateName: [person.fullName, person.givenName, site.domain],
     description: site.description,
     inLanguage: "en",
     publisher: { "@id": ids.person },
@@ -174,6 +176,7 @@ export function buildHomeJsonLd() {
         inLanguage: "en",
         dateModified: buildDate,
         mainEntity: { "@id": ids.person },
+        about: { "@id": ids.person },
         isPartOf: { "@id": ids.website },
       },
       personNode(),
