@@ -171,7 +171,7 @@ export function ExperienceAside() {
 
 const experienceTabs = [
   { key: "experience", label: "Professional & academic", href: pages.experience.href },
-  { key: "web3", label: "Web3 & collaborations", href: pages.web3.href },
+  { key: "web3", label: "Web3", href: pages.web3.href },
 ] as const;
 
 /** Switches between the two experience pages. */

@@ -1,12 +1,4 @@
-import {
-  collaborations,
-  pages,
-  person,
-  projects,
-  publications,
-  site,
-  socials,
-} from "@/data/portfolio";
+import { pages, person, projects, publications, site, socials, uniqueLabs } from "@/data/portfolio";
 import { unfollowX } from "@/data/unfollowx";
 import { contentPages } from "@/lib/pages";
 import { isExternalHref } from "@/lib/utils";
@@ -23,7 +15,7 @@ export function GET() {
     "",
     `> ${site.description}`,
     "",
-    `${person.name} (full name ${person.fullName}) is based in ${person.location.city}, ${person.location.country}. ${pages.uniqueLabs.description}`,
+    `${person.name} (full name ${person.fullName}) is based in ${person.location.city}, ${person.location.country}. ${pages.uniqueLabs.description}${uniqueLabs.website ? ` Unique Labs' website: ${uniqueLabs.website}` : ""}`,
     "",
     "## Pages",
     "",
@@ -56,10 +48,6 @@ export function GET() {
     `- Website: ${unfollowX.website}`,
     `- Chrome Web Store: ${unfollowX.storeUrl}`,
     `- Privacy policy: ${absolute(pages.unfollowXPrivacy.href)}`,
-    "",
-    "## Web3 collaborations",
-    "",
-    `Listed on ${absolute(pages.uniqueLabs.href)}#collaborations: ${collaborations.map((item) => item.name).join(", ")}.`,
     "",
     "## Publications",
     "",

@@ -77,7 +77,7 @@ export interface PageMeta {
   seoTitle?: string;
   /** Description in search results (about 160 characters), if not `description`. */
   seoDescription?: string;
-  /** Short name for links and breadcrumbs, e.g. "Web3 & Collaborations". */
+  /** Short name for links and breadcrumbs, e.g. "Web3 Experience". */
   label: string;
   /** One line shown on the cards that link to the page. */
   summary?: string;
@@ -219,22 +219,6 @@ export interface ExperienceEntry {
   /** Renders as the prominent, highlighted entry. */
   featured?: boolean;
   link?: Link;
-}
-
-/** A past Web3 collaboration. `null` fields are simply not shown. */
-export interface Collaboration {
-  id: string;
-  name: string;
-  /** e.g. "Partner · Affiliate", "Promotional partner", "Ambassador". */
-  type: string | null;
-  period: string | null;
-  description: string | null;
-  /** The project's website. */
-  href: string | null;
-  /** The project's X handle, without the @; links to its profile. */
-  handle: string | null;
-  /** Small square logo in /public, e.g. the X profile picture. */
-  logo?: string;
 }
 
 /** A block of text on the privacy and DMCA pages. */
