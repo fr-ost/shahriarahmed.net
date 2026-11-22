@@ -30,7 +30,7 @@ import type {
   SocialLink,
   UniqueLabsInfo,
 } from "@/lib/types";
-import { unfollowX } from "./unfollowx";
+import { extensions, productivityExtensions, productsUrl, xExtensions } from "./products";
 
 /* ── Site & SEO ─────────────────────────────────────────────────────────── */
 
@@ -305,7 +305,7 @@ export const pages = {
     titleAccent: "Projects",
     seoTitle: "Projects by Shahriar Ahmed — Chrome Extensions for X & Telegram Bots",
     seoDescription:
-      "Projects by Shahriar Ahmed: GrowX and UnfollowX Pro, Chrome extensions for X (Twitter); a daily BCS current-affairs Telegram bot; and archived work.",
+      "Projects by Shahriar Ahmed: Unique Labs’ Chrome extensions (UnfollowX Pro, GrowX, Unique PDF, FrameShot and more), a daily BCS Telegram bot, and archived work.",
     description: "Technology work across AI, automation, and the web — alongside research.",
     summary: "Chrome extensions for X, a Telegram bot, and archived projects.",
     icon: "code",
@@ -507,13 +507,12 @@ export const uniqueLabs: UniqueLabsInfo = {
       icon: "workflow",
     },
   ],
-  products: [
-    {
-      name: unfollowX.name,
-      description: "Mass unfollow tool for X (Twitter), as a Chrome extension.",
-      href: unfollowX.website,
-    },
-  ],
+  // The company's Chrome extensions (data/products.ts).
+  products: extensions.map((item) => ({
+    name: item.status ? `${item.name} (${item.status})` : item.name,
+    description: item.tagline ?? item.description,
+    href: item.page?.href ?? item.href,
+  })),
   focusAreas: [
     "Web3",
     "Blockchain",
@@ -565,36 +564,30 @@ export const projectCategories: ProjectCategory[] = [
 
 export const projects: Project[] = [
   {
-    // GrowX: title as listed on the Chrome Web Store.
-    // UnfollowX Pro: see data/unfollowx.ts.
+    // From the company website: see data/products.ts.
     id: "x-chrome-extensions",
     name: "Chrome Extensions for X",
     description:
-      "Browser extensions that automate growing and managing an X (Twitter) account, published on the Chrome Web Store.",
-    categories: ["Automation", "Web", "Tools"],
-    technologies: ["Chrome extensions", "Browser automation"],
+      "Unique Labs’ Chrome extensions for growing and managing an X (Twitter) account: unfollowing, growth, and replies and posts written in your own voice.",
+    categories: ["AI", "Automation", "Tools"],
+    technologies: ["Chrome extensions", "Browser automation", "On-device AI"],
     status: null,
-    items: [
-      {
-        name: "GrowX - Unlimited Auto Follow for X/Twitter",
-        description:
-          "Unlimited auto follow for X (Twitter): grow your following with safe, smart automated follows, right in the browser.",
-        href: "https://chromewebstore.google.com/detail/growx-unlimited-auto-foll/ofiancichfcakbdgekhcahflpoglfgbh",
-        linkLabel: "Chrome Web Store",
-        page: { label: "Product page", href: "https://www.growxapp.org/" },
-        icon: "/images/growx/growx-icon.png",
-      },
-      {
-        name: unfollowX.name,
-        description: unfollowX.description,
-        href: unfollowX.storeUrl,
-        linkLabel: "Chrome Web Store",
-        page: { label: "Product page", href: unfollowX.website },
-        icon: unfollowX.icon.src,
-      },
-    ],
+    items: xExtensions,
     itemNoun: "extension",
-    links: { github: null, demo: null },
+    links: { github: null, demo: null, website: productsUrl },
+    icon: "puzzle",
+  },
+  {
+    id: "productivity-extensions",
+    name: "Productivity Extensions",
+    description:
+      "Free Chrome extensions by Unique Labs for everyday work in the browser — PDFs, screen capture, two-factor codes and web data — that keep your files on your device.",
+    categories: ["AI", "Web", "Tools"],
+    technologies: ["Chrome extensions", "In-browser processing"],
+    status: null,
+    items: productivityExtensions,
+    itemNoun: "extension",
+    links: { github: null, demo: null, website: productsUrl },
     icon: "puzzle",
   },
   {

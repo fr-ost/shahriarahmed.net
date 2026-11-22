@@ -157,6 +157,10 @@ export interface ProjectItem {
   page?: Link;
   /** Icon shown beside the name: a path in /public (the store icon). */
   icon?: string;
+  /** One short line, for compact lists (the homepage). */
+  tagline?: string;
+  /** Shown as a small label beside the name, e.g. "Beta" or "Private". */
+  status?: string;
 }
 
 export interface Project {
@@ -301,7 +305,6 @@ export interface BrowserExtension {
   description: string;
   website: string;
   storeUrl: string;
-  logo: ImageAsset;
-  /** Raster icon, for structured data. */
+  /** Square icon (also used for structured data). */
   icon: ImageAsset;
 }

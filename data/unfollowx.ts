@@ -11,8 +11,6 @@
 
 import type { BrowserExtension, LegalSection, ProductPermission } from "@/lib/types";
 
-const folder = "/images/unfollowx";
-
 const support = { label: "@igfrostt on Telegram", href: "https://t.me/igfrostt" };
 
 const permissions: ProductPermission[] = [
@@ -42,12 +40,16 @@ export const unfollowX: BrowserExtension = {
   name: "UnfollowX Pro",
   formerName: "X Mass Unfollow",
   description:
-    "Mass unfollow tool for X (Twitter): bulk unfollow, clean up your following list, and remove the accounts that don’t follow you back.",
+    "See who doesn't follow you back on X, who unfollowed you and which accounts have gone quiet — then unfollow the ones you choose, at a safe pace. Free, with no limits and no sign-up.",
   website: "https://www.unfollowx.com/",
   storeUrl:
     "https://chromewebstore.google.com/detail/x-twitter-mass-unfollow-t/igpjmagghnibmjkkdcgpjgpkfkpiglnl",
-  logo: { src: `${folder}/unfollowx-logo.svg`, alt: "UnfollowX Pro", width: 128, height: 128 },
-  icon: { src: `${folder}/unfollowx-icon.png`, alt: "UnfollowX Pro", width: 128, height: 128 },
+  icon: {
+    src: "/images/products/unfollowx-pro.png",
+    alt: "UnfollowX Pro",
+    width: 128,
+    height: 128,
+  },
 };
 
 /* ── Privacy policy of the extension ────────────────────────────────────── */

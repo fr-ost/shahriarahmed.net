@@ -116,10 +116,17 @@ ORCID iD is included as an identifier.
 
 ### Projects
 
+The Chrome extensions come from the Unique Labs website: **[`data/products.ts`](data/products.ts)**
+copies the names, taglines, summaries, store links and product websites from
+`src/content/products.ts` in the `fr-ost/www.uniquelabs.org` repository, and the logos from its
+`public/images/products/` (saved here in `public/images/products/`, 128 px). When a product is
+added or changed there, update that file to match. Items can carry a `tagline` (used on the
+homepage) and a `status` such as "Beta" or "Private" (shown as a small label).
+
 A project can link to its live site (`links.website`), list key facts (`details`) and group several
 apps under one card (`items`, each with its own link: the Chrome extensions and Telegram bots work
 this way). An item can also link to its own website (`page`, shown as "Product page" before the
-store link), as GrowX and UnfollowX Pro do. Cards with items show how many they contain
+store link), as the extensions do. Cards with items show how many they contain
 (`itemNoun`, e.g. "02 extensions") instead of a status. When the number of visible cards is odd,
 the first one spans the full width.
 
@@ -147,7 +154,7 @@ the page's structured data (JSON-LD).
 These are intentionally left empty rather than invented:
 
 - **Unique Labs**: GitHub and company contact email (falls back to your personal email);
-  UnfollowX Pro is listed as its product, so add any other products. Its partnerships are on
+  its products are the Chrome extensions in `data/products.ts`. Its partnerships are on
   its own website (`uniqueLabs.website`, www.uniquelabs.org), which the Web3 page links to
 - **Achievements**: none listed yet, so the page is hidden (it returns 404 and is not linked)
 - **Projects**: GitHub links (`links.github`)
@@ -185,6 +192,7 @@ components/
   icons/              Brand icons and the site mark
 data/portfolio.ts     All site content
 data/legal.ts         Privacy Policy and DMCA text
+data/products.ts      Unique Labs' Chrome extensions (from www.uniquelabs.org)
 data/unfollowx.ts     UnfollowX Pro and its privacy policy
 lib/                  Types, page metadata and structured data, theme, CV lookup, utilities
 styles/globals.css    Design tokens (light/dark), Tailwind theme, base styles

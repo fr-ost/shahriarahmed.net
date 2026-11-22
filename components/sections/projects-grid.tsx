@@ -243,6 +243,11 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
                   )
                 ) : null}
                 <span>{item.name}</span>
+                {item.status ? (
+                  <span className="eyebrow rounded-full border border-line px-2 py-0.5 text-faint">
+                    {item.status}
+                  </span>
+                ) : null}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">{item.description}</p>
               {item.page || item.href ? (

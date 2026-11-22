@@ -5,6 +5,7 @@ import {
   BriefcaseBusiness,
   Building2,
   Microscope,
+  Puzzle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,8 +23,9 @@ import {
   sections,
   uniqueLabs,
 } from "@/data/portfolio";
+import { extensions, productsUrl } from "@/data/products";
 import type { ProjectItem } from "@/lib/types";
-import { cn, isExternalHref } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 /** The card's main link covers the whole card; other links sit above it. */
 const stretched =
@@ -89,77 +91,73 @@ function ExternalArrow() {
   );
 }
 
-/** "Product page" then the store link, as on the Projects page. */
-function ExtensionLinks({ item, className }: { item: ProjectItem; className?: string }) {
+/** Unique Labs' Chrome extensions: each tile opens the product's own website. */
+function ProductsCard({ items, delay }: { items: ProjectItem[]; delay: number }) {
   return (
-    <div className={cn("flex flex-wrap items-center gap-x-5 gap-y-2", className)}>
-      {item.page ? (
-        isExternalHref(item.page.href) ? (
-          <a
-            href={item.page.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={extensionLinkClass}
-          >
-            {item.page.label}
-            <ExternalArrow />
-            <span className="sr-only"> — {item.name} (opens in a new tab)</span>
-          </a>
-        ) : (
-          <Link href={item.page.href} className={extensionLinkClass}>
-            {item.page.label}
-            <ArrowRight
-              aria-hidden
-              className="size-3.5 transition-transform group-hover/link:translate-x-0.5"
-            />
-            <span className="sr-only"> — {item.name}</span>
-          </Link>
-        )
-      ) : null}
-      {item.href ? (
+    <Card delay={delay} className="md:col-span-2 lg:col-span-8">
+      <div className="flex items-start justify-between gap-4">
+        <IconTile>
+          <Puzzle aria-hidden className="size-5" strokeWidth={1.6} />
+        </IconTile>
+        <span className="eyebrow text-faint">{items.length} Chrome extensions</span>
+      </div>
+      <h3 className="mt-8 text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">
+        <Link href={pages.projects.href} className={stretched}>
+          Products by {uniqueLabs.name}
+        </Link>
+      </h3>
+      <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
+        {items.map((item) => (
+          <li key={item.name}>
+            <a
+              href={item.page?.href ?? item.href ?? productsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                aboveStretched,
+                "flex h-full items-center gap-3 rounded-xl border border-line bg-bg/60 p-2.5 pr-3 transition-colors hover:border-accent/40",
+              )}
+            >
+              {item.icon ? (
+                <Image
+                  src={item.icon}
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="size-9 shrink-0 rounded-lg"
+                />
+              ) : null}
+              <span className="min-w-0">
+                <span className="flex items-center gap-2 text-sm font-semibold text-fg">
+                  <span className="truncate">{item.name}</span>
+                  {item.status ? (
+                    <span className="eyebrow shrink-0 text-faint">{item.status}</span>
+                  ) : null}
+                </span>
+                <span className="mt-0.5 line-clamp-2 text-xs leading-snug text-muted">
+                  {item.tagline ?? item.description}
+                </span>
+              </span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-auto flex items-center justify-between gap-4 pt-6">
         <a
-          href={item.href}
+          href={productsUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={extensionLinkClass}
         >
-          {item.linkLabel}
+          All products on {uniqueLabs.name}
           <ExternalArrow />
-          <span className="sr-only"> — {item.name} (opens in a new tab)</span>
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
-      ) : null}
-    </div>
-  );
-}
-
-/** A Chrome extension: its name links to its website, then its two links. */
-function ExtensionCard({ item, delay }: { item: ProjectItem; delay: number }) {
-  const href = item.page?.href ?? item.href;
-  const external = href ? isExternalHref(href) : false;
-  return (
-    <Card delay={delay} className="lg:col-span-4">
-      <div className="flex items-start justify-between gap-4">
-        {item.icon ? (
-          <Image src={item.icon} alt="" width={44} height={44} className="size-11 rounded-xl" />
-        ) : null}
-        <span className="eyebrow text-faint">Chrome extension</span>
+        <span className="text-fg">
+          <MoreArrow />
+        </span>
       </div>
-      <h3 className="mt-8 text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">
-        {href ? (
-          <a
-            href={href}
-            {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            className={stretched}
-          >
-            {item.name}
-            {external ? <span className="sr-only"> (opens in a new tab)</span> : null}
-          </a>
-        ) : (
-          item.name
-        )}
-      </h3>
-      <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{item.description}</p>
-      <ExtensionLinks item={item} className="mt-auto pt-6" />
     </Card>
   );
 }
@@ -178,10 +176,7 @@ function MoreArrow() {
 /** Homepage overview of research, the company, experience and products. */
 export function Work() {
   const [latest] = publications;
-  const extensions = projects.find((project) => project.id === "x-chrome-extensions");
   const bots = projects.find((project) => project.id === "telegram-bots");
-  const growX = extensions?.items?.find((item) => item.name.startsWith("GrowX"));
-  const unfollowX = extensions?.items?.find((item) => item.name.startsWith("UnfollowX"));
   const recent = experience.slice(0, 3);
 
   return (
@@ -325,8 +320,7 @@ export function Work() {
           </div>
         </Card>
 
-        {unfollowX ? <ExtensionCard item={unfollowX} delay={0.04} /> : null}
-        {growX ? <ExtensionCard item={growX} delay={0.08} /> : null}
+        <ProductsCard items={extensions} delay={0.04} />
 
         {/* Telegram bots */}
         {bots?.items?.length ? (
