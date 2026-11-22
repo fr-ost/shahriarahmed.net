@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { RevealObserver } from "@/components/fx/reveal-observer";
 import { SpotlightTracker } from "@/components/fx/spotlight-tracker";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { navigation, navigationCta, person, site, socials } from "@/data/portfolio";
@@ -43,7 +44,6 @@ export const metadata: Metadata = {
   authors: [{ name: person.name, url: `${site.url}/about` }],
   creator: person.name,
   publisher: person.name,
-  keywords: [...site.keywords],
   alternates: { canonical: "/" },
   openGraph: {
     type: "profile",
@@ -109,9 +109,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
-          strategy="afterInteractive"
+          // After the page is idle, so it never competes with the first paint.
+          strategy="lazyOnload"
         />
-        <Script id="google-tag" strategy="afterInteractive">
+        <Script id="google-tag" strategy="lazyOnload">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
@@ -122,6 +123,7 @@ gtag('config', '${GOOGLE_TAG_ID}');`}
         </a>
         <ScrollProgress />
         <SpotlightTracker />
+        <RevealObserver />
         <Navbar
           items={navigation}
           cta={navigationCta}

@@ -1,20 +1,29 @@
 import { achievements, pages } from "@/data/portfolio";
+import { posts } from "@/data/posts";
 import type { PageMeta } from "@/lib/types";
 
 /**
- * Pages with their own content, in the order they are offered. Achievements
- * is listed only once there is something to show.
+ * Pages with their own content, in the order they are offered. The blog and
+ * Achievements are listed only once there is something to show.
  */
 export const contentPages: PageMeta[] = [
   pages.research,
   pages.projects,
   pages.experience,
   pages.web3,
+  ...(posts.length > 0 ? [pages.blog] : []),
   ...(achievements.length > 0 ? [pages.achievements] : []),
 ];
 
 /** Pages about the site and its owner, listed beside the legal pages. */
-export const infoPages: PageMeta[] = [pages.about, pages.contact, pages.privacy, pages.dmca];
+export const infoPages: PageMeta[] = [
+  pages.about,
+  pages.cv,
+  pages.now,
+  pages.contact,
+  pages.privacy,
+  pages.dmca,
+];
 
 /** Heading text of a page, e.g. "Selected Projects". */
 export function pageTitle(page: PageMeta): string {

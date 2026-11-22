@@ -5,7 +5,8 @@ import { CurrentResearchCard } from "@/components/sections/research";
 import { BlockHeading } from "@/components/ui/block-heading";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
-import { pages } from "@/data/portfolio";
+import { ProseBlock } from "@/components/ui/prose-block";
+import { pages, researchIntro } from "@/data/portfolio";
 import { articleNodes, buildPageJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -19,7 +20,10 @@ export default function ResearchPage() {
       <JsonLd data={buildPageJsonLd({ page, type: "CollectionPage", nodes: articleNodes() })} />
       <PageHeader page={page} />
       <div className="container-page pb-24 sm:pb-28">
-        <CurrentResearchCard />
+        <ProseBlock id="focus-title" copy={researchIntro} />
+        <div className="mt-24 sm:mt-32">
+          <CurrentResearchCard />
+        </div>
 
         <section
           id="publications"

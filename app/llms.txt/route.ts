@@ -1,13 +1,13 @@
 import { pages, person, projects, publications, site, socials, uniqueLabs } from "@/data/portfolio";
+import { sortedPosts } from "@/data/posts";
 import { unfollowX } from "@/data/unfollowx";
+import { absolute } from "@/lib/json-ld";
 import { contentPages } from "@/lib/pages";
 import { isExternalHref } from "@/lib/utils";
 
 // A plain-text summary of the site for AI assistants (llmstxt.org),
 // generated at build time from the same data as the pages.
 export const dynamic = "force-static";
-
-const absolute = (href: string) => (href === "/" ? site.url : `${site.url}${href}`);
 
 export function GET() {
   const lines = [
@@ -20,9 +20,16 @@ export function GET() {
     "## Pages",
     "",
     `- [Home](${site.url}): ${site.description}`,
-    ...[pages.about, pages.uniqueLabs, ...contentPages, pages.contact].map(
-      (page) => `- [${page.label}](${absolute(page.href)}): ${page.description}`,
-    ),
+    ...[
+      pages.about,
+      pages.uniqueLabs,
+      ...contentPages,
+      pages.researchPaper,
+      pages.bcsBot,
+      pages.cv,
+      pages.now,
+      pages.contact,
+    ].map((page) => `- [${page.label}](${absolute(page.href)}): ${page.description}`),
     "",
     "## Projects",
     "",
@@ -36,7 +43,8 @@ export function GET() {
               ? item.page.href
               : absolute(item.page.href)
             : item.href;
-          return `  - ${item.name}${itemLink ? ` (${itemLink})` : ""}: ${item.description}`;
+          const about = item.slug ? `; on this site: ${absolute(`/projects/${item.slug}`)}` : "";
+          return `  - ${item.name}${itemLink ? ` (${itemLink}${about})` : ""}: ${item.description}`;
         }),
       ];
     }),
@@ -57,11 +65,22 @@ export function GET() {
         publication.journal,
         publication.published?.label,
         publication.url,
+        publication.explainer ? `explained: ${absolute(publication.explainer.href)}` : null,
       ]
         .filter(Boolean)
         .join(" — "),
     ),
     "",
+    ...(sortedPosts.length
+      ? [
+          "## Blog",
+          "",
+          ...sortedPosts.map(
+            (post) => `- [${post.title}](${absolute(`/blog/${post.slug}`)}): ${post.description}`,
+          ),
+          "",
+        ]
+      : []),
     "## Profiles",
     "",
     ...socials

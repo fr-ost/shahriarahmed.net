@@ -23,6 +23,7 @@ import type {
   PageMeta,
   Project,
   ProjectCategory,
+  ProseCopy,
   Publication,
   SectionMeta,
   SkillGroup,
@@ -35,43 +36,20 @@ import { extensions, productivityExtensions, productsUrl, xExtensions } from "./
 /* ── Site & SEO ─────────────────────────────────────────────────────────── */
 
 export const site = {
-  url: "https://shahriarahmed.net",
+  /**
+   * The site's address, used in canonical links, the sitemap, robots.txt,
+   * structured data and llms.txt. It must be the host Vercel serves without
+   * redirecting (Project → Settings → Domains → the primary domain).
+   * NEXT_PUBLIC_SITE_URL overrides it, e.g. "https://www.shahriarahmed.net".
+   */
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "https://shahriarahmed.net").replace(/\/$/, ""),
   domain: "shahriarahmed.net",
   /** Homepage title in search results (about 60 characters at most). */
   title: "Shahriar Ahmed — Researcher & Co-Founder of Unique Labs",
   /** Homepage description in search results (about 160 characters at most). */
   description:
-    "Shahriar Ahmed (Shahriar Ahmed Tushar) is a Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
+    "Shahriar Ahmed (Shahriar Ahmed Tushar): Biochemistry & Molecular Biology researcher at the University of Rajshahi, Bangladesh, and co-founder of Unique Labs.",
   locale: "en_US",
-  keywords: [
-    "Shahriar",
-    "Shahriar Ahmed",
-    "Shahriar Ahmed Tushar",
-    "Tushar",
-    "shahriarahmed.net",
-    "Unique Labs",
-    "Unique Labs Co-Founder",
-    "Co-Founder",
-    "Biochemistry",
-    "Molecular Biology",
-    "Biochemistry and Molecular Biology",
-    "BMB",
-    "Cancer Biology",
-    "University of Rajshahi",
-    "Rajshahi University",
-    "Researcher",
-    "KOC Marketing",
-    "Consultancy",
-    "Digital Marketing",
-    "Blockchain Development",
-    "Web3",
-    "AI",
-    "Automation",
-    "Chrome Extensions",
-    "Telegram Bots",
-    "Rajshahi",
-    "Bangladesh",
-  ],
 } as const;
 
 /* ── Personal information ───────────────────────────────────────────────── */
@@ -83,8 +61,9 @@ export const person = {
   givenName: "Shahriar",
   familyName: "Ahmed",
   /** Professional title, shown prominently across the site. */
-  title: "Co-Founder, Unique Labs",
-  jobTitle: "Co-Founder",
+  title: "Co-Founder & COO, Unique Labs",
+  /** As on the Unique Labs website (www.uniquelabs.org/team/shahriar-ahmed). */
+  jobTitle: "Co-Founder & COO",
   company: "Unique Labs",
   field: "Biochemistry & Molecular Biology",
   institution: "University of Rajshahi",
@@ -95,6 +74,26 @@ export const person = {
     countryCode: "BD",
     coordinates: "24.37° N, 88.60° E",
   },
+  /** Languages, as ISO codes, for structured data. */
+  languages: ["en", "bn"],
+  /** Topics for structured data: the most important, without duplicates. */
+  knowsAbout: [
+    "Biochemistry",
+    "Molecular Biology",
+    "Cancer Biology",
+    "Molecular Mechanisms of Disease",
+    "Computational Biosciences",
+    "Density Functional Theory (DFT)",
+    "Molecular Docking",
+    "Cell Culture",
+    "SDS-PAGE",
+    "qPCR",
+    "Web3",
+    "Blockchain Development",
+    "KOC Marketing",
+    "Digital Marketing",
+    "Chrome Extension Development",
+  ],
   portrait: {
     src: "/images/shahriar-ahmed.webp",
     alt: "Portrait of Shahriar Ahmed, Co-Founder of Unique Labs",
@@ -258,9 +257,9 @@ export const pages = {
     eyebrow: "About",
     title: "About",
     titleAccent: "Shahriar Ahmed",
-    seoTitle: "About Shahriar Ahmed Tushar — Researcher, Unique Labs Co-Founder",
+    seoTitle: "About Shahriar Ahmed Tushar — Researcher & Founder",
     seoDescription:
-      "Shahriar Ahmed (Shahriar Ahmed Tushar): Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
+      "Shahriar Ahmed (Shahriar Ahmed Tushar) is a biochemistry researcher from Rajshahi, Bangladesh, and Co-Founder & COO of Unique Labs. Background, skills, FAQ.",
     description:
       "Shahriar Ahmed (full name Shahriar Ahmed Tushar) is a Biochemistry & Molecular Biology researcher at the University of Rajshahi and Co-Founder of Unique Labs.",
   },
@@ -270,7 +269,9 @@ export const pages = {
     eyebrow: "Contact",
     title: "Contact",
     titleAccent: "Shahriar Ahmed",
-    seoTitle: "Contact Shahriar Ahmed — Email, Research & Social Profiles",
+    seoTitle: "Contact Shahriar Ahmed — Email & Profiles",
+    seoDescription:
+      "Contact Shahriar Ahmed (Shahriar Ahmed Tushar) in Rajshahi, Bangladesh, by email or through Google Scholar, ORCID, LinkedIn, GitHub, X and Telegram.",
     description:
       "Reach Shahriar Ahmed by email, or through Google Scholar, ORCID, LinkedIn, GitHub, X, Telegram, and other profiles.",
   },
@@ -280,7 +281,9 @@ export const pages = {
     eyebrow: "Company",
     title: "Unique",
     titleAccent: "Labs",
-    seoTitle: "Unique Labs — KOC, Digital Marketing & Blockchain Development",
+    seoTitle: "Unique Labs by Shahriar Ahmed — KOC, Marketing & Web3",
+    seoDescription:
+      "Unique Labs, co-founded in 2019 by Shahriar Ahmed: KOC and consultancy, digital marketing, blockchain development, and Chrome extensions such as Unique PDF.",
     description:
       "Unique Labs, co-founded by Shahriar Ahmed, offers KOC and consultancy services, digital marketing, and blockchain development for brands and Web3 projects.",
     icon: "building",
@@ -292,7 +295,7 @@ export const pages = {
     title: "Research",
     seoTitle: "Research & Publications — Shahriar Ahmed",
     seoDescription:
-      "Research by Shahriar Ahmed in Biochemistry & Molecular Biology at the University of Rajshahi: cancer biology, and a 2026 paper in the Journal of Molecular Structure.",
+      "Research by Shahriar Ahmed Tushar in Biochemistry & Molecular Biology at the University of Rajshahi: cancer biology and a Journal of Molecular Structure paper.",
     description: "Exploring molecular mechanisms through experimental biology.",
     summary: "Current Master’s research in cancer biology, and published work.",
     icon: "microscope",
@@ -303,7 +306,7 @@ export const pages = {
     eyebrow: "Projects",
     title: "Selected",
     titleAccent: "Projects",
-    seoTitle: "Projects by Shahriar Ahmed — Chrome Extensions for X & Telegram Bots",
+    seoTitle: "Projects by Shahriar Ahmed — Chrome Extensions & Bots",
     seoDescription:
       "Projects by Shahriar Ahmed: Unique Labs’ Chrome extensions (UnfollowX Pro, GrowX, Unique PDF, FrameShot and more), a daily BCS Telegram bot, and archived work.",
     description: "Technology work across AI, automation, and the web — alongside research.",
@@ -316,8 +319,9 @@ export const pages = {
     eyebrow: "Experience",
     title: "Experience",
     description: "Entrepreneurship, research, and technology — one timeline.",
+    seoTitle: "Experience — Shahriar Ahmed, Unique Labs & BMB Research",
     seoDescription:
-      "Experience of Shahriar Ahmed: Co-Founder of Unique Labs, graduate student in Biochemistry & Molecular Biology at the University of Rajshahi, and published author.",
+      "Experience of Shahriar Ahmed: Co-Founder & COO of Unique Labs since 2019; Master’s student in Biochemistry & Molecular Biology at the University of Rajshahi.",
     summary: "Unique Labs, graduate research, conferences, and publications.",
     icon: "briefcase",
   },
@@ -345,6 +349,67 @@ export const pages = {
       "Privacy policy of UnfollowX Pro (formerly X Mass Unfollow), the Chrome extension for X: what stays on your device, what is sent to X, ads, and each permission.",
     description:
       "How UnfollowX Pro (formerly X Mass Unfollow) handles your data. This policy applies to version 7.0.0.",
+  },
+  researchPaper: {
+    href: "/research/mcl-1-azo-hydrazone-paper",
+    label: "Mcl-1 paper, explained",
+    eyebrow: "Research explainer",
+    title: "Our Mcl-1 paper,",
+    titleAccent: "in plain language",
+    description:
+      "What our 2026 Journal of Molecular Structure paper did and found: an azo–hydrazone compound with a strong optical response, and its predicted grip on the cancer protein Mcl-1.",
+    seoTitle: "Mcl-1 Azo–Hydrazone Paper Explained — Shahriar Ahmed",
+    seoDescription:
+      "A plain-language guide by co-author Shahriar Ahmed Tushar to a 2026 Journal of Molecular Structure paper: an azo–hydrazone compound, its optics and Mcl-1.",
+  },
+  bcsBot: {
+    href: "/projects/bcs-newspaper-brief",
+    label: "Newspaper Brief Daily for BCS",
+    eyebrow: "Telegram bot",
+    title: "Newspaper Brief",
+    titleAccent: "Daily for BCS",
+    description:
+      "A Telegram bot with daily current affairs for BCS exam preparation: notes in Bangla and three MCQs, every day at 8 AM.",
+    seoTitle: "BCS Current Affairs Telegram Bot — Shahriar Ahmed",
+    seoDescription:
+      "Newspaper Brief Daily for BCS (@BCSNWZ_bot), a Telegram bot by Shahriar Ahmed: daily BCS current affairs notes in Bangla and three MCQs, every day at 8 AM.",
+  },
+  cv: {
+    href: "/cv",
+    label: "CV",
+    eyebrow: "Curriculum vitae",
+    title: "Curriculum",
+    titleAccent: "Vitae",
+    description:
+      "Education, research, publications, experience and skills of Shahriar Ahmed Tushar — on one page, and as a PDF.",
+    seoTitle: "CV — Shahriar Ahmed Tushar, Biochemistry & Unique Labs",
+    seoDescription:
+      "CV of Shahriar Ahmed Tushar, Rajshahi, Bangladesh: B.Sc. (Hons) and Master’s in Biochemistry & Molecular Biology, publication, Unique Labs. PDF download.",
+  },
+  now: {
+    href: "/now",
+    label: "Now",
+    eyebrow: "Now",
+    title: "What I’m doing",
+    titleAccent: "now",
+    description: "What I am working on at the moment — research, Unique Labs and side projects.",
+    seoTitle: "Now — What Shahriar Ahmed Is Working On",
+    seoDescription:
+      "What Shahriar Ahmed is doing now: a Master’s in Biochemistry & Molecular Biology at the University of Rajshahi, Unique Labs, and Chrome extensions.",
+  },
+  blog: {
+    href: "/blog",
+    label: "Blog",
+    eyebrow: "Writing",
+    title: "Notes &",
+    titleAccent: "articles",
+    description:
+      "Writing on biochemistry and research methods, building Chrome extensions, and Web3 marketing.",
+    seoTitle: "Blog — Shahriar Ahmed on Research, Extensions & Web3",
+    seoDescription:
+      "Articles by Shahriar Ahmed (Shahriar Ahmed Tushar): biochemistry and research methods, building Chrome extensions at Unique Labs, and KOC marketing in Web3.",
+    summary: "Articles on research, Chrome extensions and Web3.",
+    icon: "paper",
   },
   achievements: {
     href: "/achievements",
@@ -375,7 +440,7 @@ export const pages = {
     titleAccent: "Policy",
     description: "Copyright on this website, and how to report infringing material.",
     seoDescription:
-      "Copyright and DMCA policy of shahriarahmed.net: how to report material that infringes your copyright, and how to send a counter-notice.",
+      "Copyright and DMCA policy of shahriarahmed.net, the website of Shahriar Ahmed: how to report material that infringes your copyright, and how to counter-notice.",
   },
 } satisfies Record<string, PageMeta>;
 
@@ -430,26 +495,36 @@ export const publications: Publication[] = [
     ],
     // Journal code "molstruc" in the DOI.
     journal: "Journal of Molecular Structure",
+    volume: "1368",
+    articleNumber: "146299",
     published: { label: "17 April 2026", dateTime: "2026-04-17" },
     abstract:
       "An azo-hydrazone derivative, 4-((E)-phenyldiazenyl)-2-((E)-(2-phenylhydrazono)methyl)phenol (PDPMP), was synthesized and characterized using FT-IR, UV–Vis, NMR, and LC-MS. Its structural, electronic, and nonlinear optical (NLO) properties were examined via DFT and TD-DFT at the B3LYP/6–311++G(d,p) level with the IEFPCM solvent model. The influence of solvent polarity on electronic transitions, charge transfer, NLO response, and antagonist activity was explored systematically. Solvent polarity significantly altered UV–Vis absorption, HOMO–LUMO gap, charge-transfer behavior, and NLO efficiency. PDPMP exhibited first-order hyperpolarizability (βtotal) of 537 × 10⁻³¹ esu, which is approximately 69 times greater than the reference value for urea (βtotal = 7.803 × 10⁻³¹ esu) and 3.5 time than p-nitroaniline (βtotal = 155 × 10–31 esu) and increasing up to threefold in polar solvents with notable positive solvatochromism. NTO and TDM analyses confirmed solvent-induced intramolecular charge transfer, while NBO and RDG analyses revealed orbital delocalization and noncovalent interactions. Molecular docking against Mcl-1 (PDB IDs: 4HW3, 6GL8) suggested that PDPMP has higher binding affinity than the preclinical drug Obatoclax. These findings suggest that it may serve as a dual-function NLO material and merit additional investigation for its potential as an anticancer agent.",
     presentedAt:
       "2nd International Conference on “Recent Advances in Science and Technology” (ICRAST)",
+    explainer: { label: "Read the explainer", href: "/research/mcl-1-azo-hydrazone-paper" },
   },
 ];
 
 /* ── About ──────────────────────────────────────────────────────────────── */
 
 export const about: {
+  /** Answer-first summary at the top of /about, quotable on its own. */
+  inBrief: string;
   paragraphs: string[];
   focusAreas: string[];
   profile: LabeledValue[];
+  /** Questions people ask, answered on /about. */
+  faq: { question: string; answer: string }[];
 } = {
+  inBrief:
+    "Shahriar Ahmed (full name Shahriar Ahmed Tushar) is a Bangladeshi biochemistry researcher and Web3 founder based in Rajshahi. Shahriar completed a B.Sc. (Hons) in Biochemistry & Molecular Biology at the University of Rajshahi (2021–2026), is now doing a Master’s there in cancer biology, and co-authored a 2026 paper in the Journal of Molecular Structure. In 2019 Shahriar co-founded Unique Labs — Co-Founder & COO today — and builds Chrome extensions such as UnfollowX Pro, GrowX and Unique PDF.",
   paragraphs: [
     "I am a Biochemistry & Molecular Biology researcher interested in understanding molecular mechanisms underlying disease and exploring how modern computational technologies can accelerate scientific discovery.",
-    "My Master’s research at the University of Rajshahi is rooted in cancer biology, working with molecular biology techniques that span protein purification, cell culture, and molecular analysis.",
-    "Alongside the lab, I write software — AI-assisted tools, browser automation, and Telegram bots — and I am interested in how AI and automation can accelerate both research and everyday work.",
-    "I am also the Co-Founder of Unique Labs, where we offer KOC and consultancy services, digital marketing, and blockchain development.",
+    "I completed my B.Sc. (Hons) in Biochemistry & Molecular Biology at the University of Rajshahi (2021–2026), and I am now doing my Master’s there, with research rooted in cancer biology. In the lab I work with cell culture, SDS-PAGE, affinity chromatography, hemagglutination and MTT assays, qPCR and apoptosis analysis; on the computer, with density functional theory (DFT) and molecular docking — the methods behind our 2026 paper on an azo–hydrazone compound and the cancer protein Mcl-1.",
+    "From July 2025 to September 2026 I was a research member of the Computational Biosciences and Chemistry Research Organization (CBCRO). Earlier, I served as Joint IT Secretary of the ASM Student Chapter at the University of Rajshahi.",
+    "Alongside research, I co-founded Unique Labs in 2019 — it began as Unique Tech — and I am its Co-Founder & COO. We offer KOC (Key Opinion Consumer) and consultancy services, digital marketing, and blockchain development, and we build our own Chrome extensions: UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX, XAICG and UniqueFarm. I also run a Telegram bot that sends daily current affairs to BCS exam candidates.",
+    "I live and work in Rajshahi, Bangladesh, in English and Bangla.",
   ],
   focusAreas: [
     "Cancer biology",
@@ -460,12 +535,40 @@ export const about: {
   ],
   profile: [
     { label: "Full name", value: "Shahriar Ahmed Tushar" },
-    { label: "Role", value: "Co-Founder, Unique Labs" },
+    { label: "Role", value: "Co-Founder & COO, Unique Labs" },
     { label: "Field", value: "Biochemistry & Molecular Biology" },
+    { label: "Education", value: "B.Sc. (Hons) 2021–2026 • Master’s, ongoing" },
     { label: "Research Focus", value: "Cancer Biology • Molecular Research" },
     { label: "Technology Focus", value: "AI • Software • Automation" },
     { label: "Institution", value: "University of Rajshahi" },
     { label: "Location", value: "Rajshahi, Bangladesh" },
+    { label: "Languages", value: "English • Bangla" },
+  ],
+  faq: [
+    {
+      question: "Who is Shahriar Ahmed?",
+      answer:
+        "Shahriar Ahmed — full name Shahriar Ahmed Tushar — is a biochemistry researcher at the University of Rajshahi and the Co-Founder & COO of Unique Labs, based in Rajshahi, Bangladesh. This website, shahriarahmed.net, is the official one; other people share the name, so look for “Tushar”, Rajshahi or Unique Labs to be sure it is the same person.",
+    },
+    {
+      question: "What is Unique Labs?",
+      answer:
+        "Unique Labs is a Web3 growth and software company I co-founded in 2019, first under the name Unique Tech. It offers KOC and consultancy services, digital marketing and blockchain development, and it builds Chrome extensions such as UnfollowX Pro, GrowX and Unique PDF. Its website is www.uniquelabs.org.",
+    },
+    {
+      question: "What does Shahriar Ahmed research?",
+      answer:
+        "Cancer biology and the molecular mechanisms of disease, for my Master’s in Biochemistry & Molecular Biology at the University of Rajshahi, together with computational methods such as DFT and molecular docking. My first paper, published in 2026 in the Journal of Molecular Structure, studied an azo–hydrazone compound’s optical properties and its predicted binding to the cancer protein Mcl-1.",
+    },
+    {
+      question: "Where is Shahriar Ahmed based?",
+      answer: "In Rajshahi, Bangladesh, where I study at the University of Rajshahi.",
+    },
+    {
+      question: "How can I contact Shahriar Ahmed?",
+      answer:
+        "By email at shahriar.bmb@gmail.com, or through LinkedIn, X (@0x_nation) and Telegram (@igfrostt). Every profile is listed on the Contact page.",
+    },
   ],
 };
 
@@ -475,10 +578,14 @@ export const about: {
 export const uniqueLabs: UniqueLabsInfo = {
   name: "Unique Labs",
   tagline: "Building at the intersection of technology, AI, and experimentation.",
-  founderRole: "Co-Founder",
+  founderRole: "Co-Founder & COO",
+  founded: "2019",
+  formerName: "Unique Tech",
+  /** The founder's profile on the company website. */
+  founderProfile: "https://www.uniquelabs.org/team/shahriar-ahmed",
   founderName: person.name,
   description:
-    "Unique Labs is the company I co-founded. We offer KOC and consultancy services, digital marketing, and blockchain development — helping brands and Web3 projects build, launch, and grow.",
+    "Unique Labs is the company I co-founded in 2019, first as Unique Tech. We offer KOC and consultancy services, digital marketing, and blockchain development — helping brands and Web3 projects build, launch, and grow — and we build our own Chrome extensions.",
   mission:
     "To help brands and Web3 projects grow with trust — combining authentic, community-driven marketing and clear strategy with secure, reliable blockchain technology.",
   whatWeBuild: [
@@ -511,7 +618,7 @@ export const uniqueLabs: UniqueLabsInfo = {
   products: extensions.map((item) => ({
     name: item.status ? `${item.name} (${item.status})` : item.name,
     description: item.tagline ?? item.description,
-    href: item.page?.href ?? item.href,
+    href: item.slug ? `/projects/${item.slug}` : (item.page?.href ?? item.href),
   })),
   focusAreas: [
     "Web3",
@@ -529,6 +636,78 @@ export const uniqueLabs: UniqueLabsInfo = {
 /* ── Research ───────────────────────────────────────────────────────────── */
 /*  Current research stays confidential until it is published; the site     */
 /*  shows this placeholder instead of project details.                       */
+
+/** Introduction on /research. */
+export const researchIntro: ProseCopy = {
+  eyebrow: "Focus",
+  title: "What I research",
+  paragraphs: [
+    "My research sits in biochemistry and molecular biology, with a focus on cancer biology and the molecular mechanisms of disease. Alongside the bench, I use computational biosciences — density functional theory (DFT) and molecular docking — to understand how molecules behave and to predict how they might interact with proteins.",
+    "I completed my B.Sc. (Hons) in Biochemistry & Molecular Biology at the University of Rajshahi (2021–2026), and I am now doing my Master’s there. My Master’s research is in cancer biology; its details stay confidential until the work is published.",
+    "From July 2025 to September 2026 I was a research member of the Computational Biosciences and Chemistry Research Organization (CBCRO). My first paper, published in the Journal of Molecular Structure in 2026, combined experiments with DFT and docking to study an azo–hydrazone compound and its predicted binding to the cancer protein Mcl-1. [Read the plain-language explainer](/research/mcl-1-azo-hydrazone-paper).",
+  ],
+  termsTitle: "Methods I work with",
+  terms: [
+    {
+      term: "Cell culture",
+      definition:
+        "Growing cells under controlled conditions to study how they behave and respond to treatment.",
+    },
+    {
+      term: "SDS-PAGE",
+      definition: "Separating proteins by size in a gel, to check that they are present and pure.",
+    },
+    {
+      term: "Affinity chromatography",
+      definition: "Purifying a protein by how specifically it binds to a partner molecule.",
+    },
+    {
+      term: "Hemagglutination assay",
+      definition:
+        "Measuring the clumping of red blood cells, to detect and compare agents that bind them.",
+    },
+    {
+      term: "MTT assay",
+      definition:
+        "A colour-based test of cell viability, showing how a treatment affects living cells.",
+    },
+    {
+      term: "qPCR",
+      definition:
+        "Quantitative PCR: measuring how much of a specific DNA or RNA is present, for example to follow gene expression.",
+    },
+    {
+      term: "Apoptosis analysis",
+      definition: "Detecting programmed cell death, a key outcome in cancer biology.",
+    },
+    {
+      term: "DFT and molecular docking",
+      definition:
+        "Calculating a molecule’s structure and electronic properties, and predicting how it fits into a protein.",
+    },
+  ],
+};
+
+/** The company's story, on /unique-labs. */
+export const uniqueLabsStory: ProseCopy = {
+  eyebrow: "Story",
+  title: "How Unique Labs started",
+  paragraphs: [
+    "I co-founded Unique Labs in 2019. It started as Unique Tech, and today I run it as Co-Founder & COO.",
+    "The company works in two directions. For brands and Web3 projects, we offer KOC (Key Opinion Consumer) and consultancy services, digital marketing, and blockchain development — smart contracts, tokens and dApps. And we build our own Chrome extensions: tools for growing an X (Twitter) account, such as [UnfollowX Pro](/projects/unfollowx-pro) and [GrowX](/projects/growx), and free tools for everyday work in the browser, such as [Unique PDF](/projects/unique-pdf), [FrameShot](/projects/frameshot), [Twofold](/projects/twofold) and [Rowlio](/projects/rowlio).",
+    "Each product has its own page on this site, with what it does and links to its website and Chrome Web Store listing. The company’s partnerships and full catalogue are on [uniquelabs.org](https://www.uniquelabs.org/).",
+  ],
+};
+
+/** What KOC marketing is, on /experience/web3. */
+export const web3Intro: ProseCopy = {
+  eyebrow: "In Web3",
+  title: "KOC marketing, and what I do in Web3",
+  paragraphs: [
+    "A Key Opinion Consumer (KOC) is an everyday user who shares a genuine experience of a product with their own community. A Key Opinion Leader (KOL) is an influencer or expert with a large following. KOC campaigns trade reach for trust: smaller voices, closer to the people they talk to.",
+    "At [Unique Labs](/unique-labs) I work on KOC and consultancy, digital marketing and blockchain development for Web3 brands and projects: planning launches and growth, running community campaigns, and building smart contracts, tokens and dApps.",
+  ],
+};
 
 export const currentResearch: CurrentResearch = {
   label: "Current research",
@@ -600,11 +779,12 @@ export const projects: Project[] = [
     items: [
       {
         name: "Newspaper Brief Daily for BCS",
+        slug: "bcs-newspaper-brief",
         description:
           "Daily current affairs for BCS exam preparation: notes in Bangla and three MCQs, delivered every day at 8 AM.",
         href: "https://t.me/BCSNWZ_bot",
         linkLabel: "@BCSNWZ_bot",
-        icon: "/images/bcs-news/bcs-news-icon.png",
+        icon: "/images/bcs-news/bcs-news-icon.webp",
       },
     ],
     itemNoun: "bot",
@@ -656,22 +836,32 @@ export const experience: ExperienceEntry[] = [
     role: "Co-Founder",
     organization: "Unique Labs",
     categories: ["Entrepreneurship"],
-    period: null,
+    period: "2019 — Present",
     current: true,
     featured: true,
     description:
-      "Co-founded Unique Labs, offering KOC and consultancy services, digital marketing, and blockchain development.",
+      "Co-founded Unique Labs (first called Unique Tech) in 2019 and run it as Co-Founder & COO: KOC and consultancy services, digital marketing and blockchain development, and our own Chrome extensions.",
     link: { label: "About Unique Labs", href: "/unique-labs" },
   },
   {
     id: "masters-research",
-    role: "Graduate Student",
+    role: "Master’s Student",
     organization: "Biochemistry & Molecular Biology · University of Rajshahi",
     categories: ["Academic", "Research"],
     period: null,
     current: true,
-    description: "Master’s research in cancer biology. Details will be shared after publication.",
+    description:
+      "Master’s in Biochemistry & Molecular Biology, after completing the B.Sc. (Hons) there (2021–2026). Research in cancer biology; details will be shared after publication.",
     link: { label: "View research", href: "/research" },
+  },
+  {
+    id: "cbcro",
+    role: "Research Member",
+    organization: "Computational Biosciences and Chemistry Research Organization (CBCRO)",
+    categories: ["Research"],
+    period: "Jul 2025 — Sep 2026",
+    description:
+      "Member of a research organisation working in computational biosciences and chemistry.",
   },
   {
     id: "icrast",
@@ -682,7 +872,7 @@ export const experience: ExperienceEntry[] = [
     period: null,
     description:
       "Participated and presented the research published as DOI 10.1016/j.molstruc.2026.146299.",
-    link: { label: "View publication", href: "/#publications" },
+    link: { label: "View publication", href: "/research" },
   },
   {
     id: "publication",
@@ -691,8 +881,17 @@ export const experience: ExperienceEntry[] = [
     categories: ["Research"],
     period: "17 Apr 2026",
     description:
-      "Co-author of “Solvent-dependent nonlinear optical response and potential Mcl-1 antagonist activity of an azo–hydrazone derivative: Experimental and theoretical studies”.",
-    link: { label: "View publication", href: "/#publications" },
+      "Co-author of “Solvent-dependent nonlinear optical response and potential Mcl-1 antagonist activity of an azo–hydrazone derivative: Experimental and theoretical studies” (vol. 1368, 146299).",
+    link: { label: "Read the explainer", href: "/research/mcl-1-azo-hydrazone-paper" },
+  },
+  {
+    id: "asm",
+    role: "Joint IT Secretary (former)",
+    organization: "ASM Student Chapter, University of Rajshahi",
+    categories: ["Academic"],
+    period: null,
+    description:
+      "Served on the committee of the university’s ASM student chapter, as Joint IT Secretary.",
   },
   {
     id: "technology-projects",
@@ -701,7 +900,7 @@ export const experience: ExperienceEntry[] = [
     categories: ["Technology", "Projects"],
     period: null,
     description:
-      "Building Chrome extensions for X and Telegram bots. Earlier built Signova, an AI-assisted crypto market analysis platform, now discontinued.",
+      "Building Unique Labs’ Chrome extensions — UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio and more — and a daily BCS Telegram bot. Earlier built Signova, an AI-assisted crypto market analysis platform, now discontinued.",
     link: { label: "View projects", href: "/projects" },
   },
 ];
@@ -744,6 +943,15 @@ export const education: EducationEntry[] = [
     location: "Rajshahi, Bangladesh",
     period: null,
     status: "Current",
+  },
+  {
+    id: "bsc",
+    degree: "B.Sc. (Hons)",
+    field: "Biochemistry & Molecular Biology",
+    institution: "University of Rajshahi",
+    location: "Rajshahi, Bangladesh",
+    period: "2021 — 2026",
+    status: "Completed",
   },
 ];
 

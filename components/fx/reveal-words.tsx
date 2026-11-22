@@ -1,7 +1,4 @@
-"use client";
-
 import { Fragment, type CSSProperties } from "react";
-import { useReveal } from "@/lib/reveal";
 import { cn } from "@/lib/utils";
 
 interface RevealWordsProps {
@@ -15,12 +12,12 @@ interface RevealWordsProps {
 
 /**
  * Heading text whose words rise into place one after another when it comes
- * into view (CSS transitions; see `[data-reveal-word]`). Visible without
+ * into view (CSS transitions, started by the page's one observer in
+ * lib/reveal.ts; see `[data-reveal-word]`). Visible without
  * JavaScript (see the <noscript> rule in app/layout.tsx); static for
  * visitors who prefer reduced motion.
  */
 export function RevealWords({ text, accent, className, delay = 0 }: RevealWordsProps) {
-  const ref = useReveal<HTMLSpanElement>();
   const words = [
     ...text
       .split(" ")
@@ -34,7 +31,6 @@ export function RevealWords({ text, accent, className, delay = 0 }: RevealWordsP
 
   return (
     <span
-      ref={ref}
       data-reveal-group=""
       className={className}
       style={{ "--reveal-delay": `${delay}s` } as CSSProperties}

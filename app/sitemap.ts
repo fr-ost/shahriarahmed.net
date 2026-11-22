@@ -1,40 +1,55 @@
 import type { MetadataRoute } from "next";
 import { legalUpdated } from "@/data/legal";
-import { pages, person, site } from "@/data/portfolio";
+import { pages, person } from "@/data/portfolio";
+import { productDetails } from "@/data/product-details";
+import { sortedPosts } from "@/data/posts";
+import { extensions } from "@/data/products";
 import { unfollowXPrivacyUpdated } from "@/data/unfollowx";
+import { absolute } from "@/lib/json-ld";
+import { pageLastModified } from "@/lib/lastmod";
 import { contentPages } from "@/lib/pages";
 
 /**
- * Every page of the site, for search engines. Pages that show the portrait
- * also list it, so it can appear in image search.
+ * Every page of the site, for search engines. `lastmod` is when the page's
+ * content last changed (from git, or the date written on legal pages) and
+ * is left out when unknown. `changefreq` and `priority` are omitted:
+ * Google ignores them.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-  const portrait = `${site.url}${person.portrait.src}`;
+  const portrait = absolute(person.portrait.src);
   const entry = (
     href: string,
-    priority: number,
-    changeFrequency: "monthly" | "yearly",
     extra: Partial<MetadataRoute.Sitemap[number]> = {},
-  ) => ({
-    url: href === "/" ? site.url : `${site.url}${href}`,
-    lastModified,
-    changeFrequency,
-    priority,
-    ...extra,
-  });
+  ): MetadataRoute.Sitemap[number] => {
+    const lastModified = pageLastModified(href);
+    return {
+      url: absolute(href),
+      ...(lastModified ? { lastModified } : {}),
+      ...extra,
+    };
+  };
+  const products = extensions.filter((item) => item.slug);
 
   return [
-    entry("/", 1, "monthly", { images: [portrait] }),
-    entry(pages.about.href, 0.9, "monthly", { images: [portrait] }),
-    entry(pages.uniqueLabs.href, 0.9, "monthly", { images: [portrait] }),
-    ...contentPages.map((page) => entry(page.href, 0.8, "monthly")),
-    entry(pages.contact.href, 0.7, "monthly"),
-    ...[pages.privacy, pages.dmca].map((page) =>
-      entry(page.href, 0.3, "yearly", { lastModified: new Date(legalUpdated.dateTime) }),
-    ),
-    entry(pages.unfollowXPrivacy.href, 0.3, "yearly", {
-      lastModified: new Date(unfollowXPrivacyUpdated.dateTime),
+    entry("/", { images: [portrait] }),
+    entry(pages.about.href, { images: [portrait] }),
+    entry(pages.uniqueLabs.href),
+    ...contentPages.map((page) => entry(page.href)),
+    entry(pages.researchPaper.href),
+    ...products.map((item) => {
+      const cover = item.slug ? productDetails[item.slug]?.cover : undefined;
+      return entry(`/projects/${item.slug}`, cover ? { images: [absolute(cover.src)] } : {});
     }),
+    entry(pages.bcsBot.href),
+    ...sortedPosts.map((post) =>
+      entry(`/blog/${post.slug}`, { lastModified: post.updated ?? post.published }),
+    ),
+    entry(pages.cv.href),
+    entry(pages.now.href),
+    entry(pages.contact.href),
+    ...[pages.privacy, pages.dmca].map((page) =>
+      entry(page.href, { lastModified: legalUpdated.dateTime }),
+    ),
+    entry(pages.unfollowXPrivacy.href, { lastModified: unfollowXPrivacyUpdated.dateTime }),
   ];
 }

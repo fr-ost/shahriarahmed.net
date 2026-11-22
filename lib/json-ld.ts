@@ -1,16 +1,22 @@
 import {
-  about,
   education,
+  experience,
   pages,
   person,
   publications,
   site,
-  skillGroups,
   socials,
   uniqueLabs,
 } from "@/data/portfolio";
+import { pageLastModified } from "@/lib/lastmod";
 import { breadcrumbTrail, pageTitle } from "@/lib/pages";
-import type { BrowserExtension, ImageAsset, PageMeta } from "@/lib/types";
+import type {
+  BrowserExtension,
+  ImageAsset,
+  PageMeta,
+  ProductDetail,
+  ProjectItem,
+} from "@/lib/types";
 
 /**
  * schema.org structured data (JSON-LD). Every page describes itself and
@@ -30,32 +36,86 @@ const institutionSameAs: Record<string, string> = {
   "University of Rajshahi": "https://en.wikipedia.org/wiki/University_of_Rajshahi",
 };
 
-// Evaluated at build time, like the rest of the static site.
-const buildDate = new Date().toISOString();
+/** `dateModified` from git history, when known (see lib/lastmod.ts). */
+function dateModified(href: string) {
+  const date = pageLastModified(href);
+  return date ? { dateModified: date } : {};
+}
 
-const absolute = (href: string) => (href === "/" ? site.url : `${site.url}${href}`);
+/** Absolute URL of a page of this site. */
+export const absolute = (href: string) => (href === "/" ? site.url : `${site.url}${href}`);
 
 /** The person's website, as given for the Person schema. */
 const personUrl = `${site.url}/`;
 
-export function personNode() {
-  const sameAs = socials
-    .filter((social) => social.id !== "email" && social.href)
-    .map((social) => social.href);
-  const orcid = socials.find((social) => social.id === "orcid");
-  const knowsAbout = [
-    person.field,
-    ...about.focusAreas,
-    ...skillGroups.flatMap((group) => group.skills),
-    ...uniqueLabs.whatWeBuild.map((service) => service.title),
+/** A university, linked to its Wikipedia page where known. */
+function university(name: string) {
+  return {
+    "@type": "CollegeOrUniversity",
+    name,
+    ...(institutionSameAs[name] ? { sameAs: institutionSameAs[name] } : {}),
+  };
+}
+
+/** "Jul 2025 — Sep 2026" → { startDate: "2025-07", endDate: "2026-09" }. */
+function periodDates(period: string | null) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
+  const parse = (part?: string) => {
+    const match = part?.trim().match(/^(?:([A-Z][a-z]{2}) )?(\d{4})$/);
+    if (!match) return undefined;
+    const month = match[1] ? months.indexOf(match[1]) + 1 : 0;
+    return month ? `${match[2]}-${String(month).padStart(2, "0")}` : match[2];
+  };
+  const [start, end] = (period ?? "").split("—");
+  const startDate = parse(start);
+  const endDate = parse(end);
+  return { ...(startDate ? { startDate } : {}), ...(endDate ? { endDate } : {}) };
+}
+
+/** Research and student organisations, as roles with their dates. */
+function memberships() {
+  return experience
+    .filter((entry) => ["cbcro", "asm"].includes(entry.id))
+    .map((entry) => ({
+      "@type": "OrganizationRole",
+      roleName: entry.role.replace(/ \(former\)$/, ""),
+      ...periodDates(entry.period),
+      memberOf: { "@type": "Organization", name: entry.organization },
+    }));
+}
+
+export function personNode() {
+  const sameAs = [
+    ...socials
+      .filter((social) => social.id !== "email" && social.href)
+      .map((social) => social.href),
+    ...(uniqueLabs.founderProfile ? [uniqueLabs.founderProfile] : []),
+  ];
+  const orcid = socials.find((social) => social.id === "orcid");
+  const completed = education.filter((entry) => entry.status === "Completed");
+  const current = education.filter((entry) => entry.status !== "Completed");
 
   return {
     "@type": "Person",
     "@id": ids.person,
     name: person.name,
-    // Searches for "Shahriar" alone should find him too.
+    // Searches for "Shahriar" alone should match this person too.
     alternateName: [person.fullName, person.givenName],
+    givenName: person.givenName,
+    familyName: person.familyName,
     url: personUrl,
     image: {
       "@type": "ImageObject",
@@ -67,19 +127,37 @@ export function personNode() {
     description: site.description,
     // Named here so it resolves on pages that do not include the company node.
     worksFor: { "@type": "Organization", "@id": ids.organization, name: uniqueLabs.name },
-    affiliation: education.map((entry) => ({
-      "@type": "CollegeOrUniversity",
-      name: entry.institution,
-      ...(institutionSameAs[entry.institution]
-        ? { sameAs: institutionSameAs[entry.institution] }
-        : {}),
-    })),
+    hasOccupation: [
+      {
+        "@type": "Occupation",
+        name: person.jobTitle,
+        description: `${person.jobTitle} of ${uniqueLabs.name}: KOC and consultancy, digital marketing, blockchain development and Chrome extensions.`,
+      },
+      {
+        "@type": "Occupation",
+        name: "Researcher",
+        occupationalCategory: person.field,
+      },
+    ],
+    alumniOf: [...new Set(completed.map((entry) => entry.institution))].map(university),
+    affiliation: [...new Set(current.map((entry) => entry.institution))].map(university),
+    memberOf: memberships(),
+    knowsLanguage: person.languages,
     address: {
       "@type": "PostalAddress",
       addressLocality: person.location.city,
       addressCountry: person.location.countryCode,
     },
-    knowsAbout: [...new Set(knowsAbout)],
+    homeLocation: {
+      "@type": "Place",
+      name: `${person.location.city}, ${person.location.country}`,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: person.location.city,
+        addressCountry: person.location.countryCode,
+      },
+    },
+    knowsAbout: person.knowsAbout,
     sameAs,
     ...(orcid?.href
       ? {
@@ -100,7 +178,7 @@ function personReference() {
     "@type": "Person",
     "@id": ids.person,
     name: person.name,
-    // Searches for "Shahriar" alone should find him too.
+    // Searches for "Shahriar" alone should match this person too.
     alternateName: [person.fullName, person.givenName],
     url: personUrl,
   };
@@ -112,6 +190,8 @@ export function organizationNode() {
     "@id": ids.organization,
     name: uniqueLabs.name,
     url: uniqueLabs.website ?? absolute(pages.uniqueLabs.href),
+    ...(uniqueLabs.formerName ? { alternateName: uniqueLabs.formerName } : {}),
+    ...(uniqueLabs.founded ? { foundingDate: uniqueLabs.founded } : {}),
     description: pages.uniqueLabs.description,
     slogan: uniqueLabs.tagline,
     founder: { "@id": ids.person },
@@ -121,7 +201,9 @@ export function organizationNode() {
         ...uniqueLabs.focusAreas,
       ]),
     ],
-    ...(uniqueLabs.github ? { sameAs: [uniqueLabs.github] } : {}),
+    ...(uniqueLabs.website || uniqueLabs.github
+      ? { sameAs: [uniqueLabs.website, uniqueLabs.github].filter(Boolean) }
+      : {}),
   };
 }
 
@@ -155,8 +237,17 @@ export function articleNodes() {
         : { "@id": ids.person },
       ...(publication.abstract ? { abstract: publication.abstract } : {}),
       ...(publication.journal
-        ? { isPartOf: { "@type": "Periodical", name: publication.journal } }
+        ? {
+            isPartOf: publication.volume
+              ? {
+                  "@type": "PublicationVolume",
+                  volumeNumber: publication.volume,
+                  isPartOf: { "@type": "Periodical", name: publication.journal },
+                }
+              : { "@type": "Periodical", name: publication.journal },
+          }
         : {}),
+      ...(publication.articleNumber ? { pagination: publication.articleNumber } : {}),
       ...(publication.published ? { datePublished: publication.published.dateTime } : {}),
     }));
 }
@@ -174,7 +265,7 @@ export function buildHomeJsonLd() {
         name: site.title,
         description: site.description,
         inLanguage: "en",
-        dateModified: buildDate,
+        ...dateModified("/"),
         mainEntity: { "@id": ids.person },
         about: { "@id": ids.person },
         isPartOf: { "@id": ids.website },
@@ -204,6 +295,36 @@ export function softwareNode(extension: BrowserExtension) {
     installUrl: extension.storeUrl,
     sameAs: [extension.storeUrl],
     author: { "@id": ids.person },
+    publisher: { "@type": "Organization", "@id": ids.organization, name: uniqueLabs.name },
+  };
+}
+
+/**
+ * One of the Chrome extensions, as a SoftwareApplication made by the person
+ * and published by the company, for its page on this site.
+ */
+export function productNode(item: ProjectItem, detail: ProductDetail | undefined, href: string) {
+  const sameAs = [item.page?.href, item.href].filter((url): url is string => Boolean(url));
+  return {
+    "@type": "SoftwareApplication",
+    "@id": `${absolute(href)}#software`,
+    name: item.name,
+    description: item.description,
+    url: item.page?.href ?? absolute(href),
+    ...(item.icon ? { image: absolute(item.icon) } : {}),
+    applicationCategory: "BrowserApplication",
+    applicationSubCategory: "Chrome extension",
+    operatingSystem: "Chrome",
+    ...(item.href ? { installUrl: item.href } : {}),
+    ...(sameAs.length ? { sameAs } : {}),
+    ...(detail?.pricing === "FREE"
+      ? { offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }
+      : {}),
+    ...(detail?.features.length
+      ? { featureList: detail.features.map((feature) => feature.title) }
+      : {}),
+    author: { "@id": ids.person },
+    creator: { "@id": ids.person },
     publisher: { "@type": "Organization", "@id": ids.organization, name: uniqueLabs.name },
   };
 }
@@ -247,7 +368,7 @@ export function buildPageJsonLd({
         name: page.seoTitle ?? `${pageTitle(page)} — ${person.name}`,
         description: page.seoDescription ?? page.description,
         inLanguage: "en",
-        dateModified: buildDate,
+        ...dateModified(page.href),
         isPartOf: { "@id": ids.website },
         about: subject,
         ...(mainEntity ? { mainEntity } : {}),

@@ -7,7 +7,7 @@ import { BlockHeading } from "@/components/ui/block-heading";
 import { ButtonLink } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { Reveal } from "@/components/ui/reveal";
-import { pages, person } from "@/data/portfolio";
+import { about, pages, person } from "@/data/portfolio";
 import { buildPageJsonLd, ids, organizationNode, personNode } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -28,6 +28,17 @@ export default function AboutPage() {
       />
       <PageHeader page={page} />
       <div className="container-page pb-24 sm:pb-28">
+        {/* Answer first: a summary that reads well on its own, e.g. when quoted. */}
+        <section
+          aria-labelledby="in-brief-title"
+          className="mb-16 rounded-3xl border border-line bg-elevated p-6 shadow-card sm:mb-20 sm:p-8"
+        >
+          <h2 id="in-brief-title" className="eyebrow text-accent">
+            In brief
+          </h2>
+          <p className="mt-3 text-lg leading-relaxed text-fg">{about.inBrief}</p>
+        </section>
+
         <AboutBody />
 
         <section aria-labelledby="highlights-title" className="mt-24 sm:mt-32">
@@ -47,6 +58,23 @@ export default function AboutPage() {
             description="Laboratory techniques, programming tools, and blockchain development I work with."
           />
           <SkillsGrid />
+        </section>
+
+        <section aria-labelledby="faq-title" className="mt-24 sm:mt-32">
+          <BlockHeading id="faq-title" eyebrow="FAQ" title="Questions people ask" />
+          <div className="divide-y divide-line border-y border-line">
+            {about.faq.map((item) => (
+              <div
+                key={item.question}
+                className="grid grid-cols-1 gap-3 py-7 lg:grid-cols-12 lg:gap-12"
+              >
+                <h3 className="text-lg font-semibold tracking-tight text-fg lg:col-span-5">
+                  {item.question}
+                </h3>
+                <p className="leading-relaxed text-muted lg:col-span-7">{item.answer}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <Reveal className="mt-16 flex flex-col gap-6 rounded-[2rem] border border-line p-6 sm:p-10 lg:flex-row lg:items-center lg:justify-between">

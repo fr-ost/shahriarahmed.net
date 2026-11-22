@@ -14,6 +14,7 @@ import { contentIcons } from "@/components/icons";
 import { StatusDot } from "@/components/ui/chip";
 import { Reveal } from "@/components/ui/reveal";
 import { Section, SectionHeading } from "@/components/ui/section";
+import { SmartLink } from "@/components/ui/smart-link";
 import {
   currentResearch,
   experience,
@@ -109,10 +110,10 @@ function ProductsCard({ items, delay }: { items: ProjectItem[]; delay: number })
       <ul className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
         {items.map((item) => (
           <li key={item.name}>
-            <a
-              href={item.page?.href ?? item.href ?? productsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <SmartLink
+              href={
+                item.slug ? `/projects/${item.slug}` : (item.page?.href ?? item.href ?? productsUrl)
+              }
               className={cn(
                 aboveStretched,
                 "flex h-full items-center gap-3 rounded-xl border border-line bg-bg/60 p-2.5 pr-3 transition-colors hover:border-accent/40",
@@ -138,8 +139,7 @@ function ProductsCard({ items, delay }: { items: ProjectItem[]; delay: number })
                   {item.tagline ?? item.description}
                 </span>
               </span>
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
+            </SmartLink>
           </li>
         ))}
       </ul>

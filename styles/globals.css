@@ -483,7 +483,7 @@
   background: radial-gradient(closest-side, var(--aurora-3), transparent);
 }
 
-/* Reveal on scroll (components/ui/reveal.tsx, lib/reveal.ts): an observer
+/* Reveal on scroll (components/ui/reveal.tsx, lib/reveal.ts): one observer
    adds data-shown, and a CSS transition does the rest, on the compositor. */
 [data-reveal] {
   opacity: 0;
@@ -670,7 +670,7 @@
   transition-delay: calc(var(--i, 0) * 28ms);
 }
 
-[data-sweep="on"] .sweep-word {
+[data-sweep][data-shown] .sweep-word {
   color: var(--fg);
 }
 
@@ -753,5 +753,39 @@
   ::view-transition-group(*) {
     animation-duration: 0s !important;
     animation-delay: 0s !important;
+  }
+}
+
+/* Bangla text: the system's Bengali fonts, which Inter does not cover. */
+:lang(bn) {
+  font-family:
+    "Noto Sans Bengali", "Hind Siliguri", "Kohinoor Bangla", "Bangla Sangam MN", "Nirmala UI",
+    "Vrinda", sans-serif;
+}
+
+/* Printing (and the CV PDF): plain paper, no site chrome or effects. */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm 15mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .skip-link {
+    display: none !important;
+  }
+
+  [data-reveal],
+  [data-reveal-word] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  a {
+    text-decoration: none;
   }
 }

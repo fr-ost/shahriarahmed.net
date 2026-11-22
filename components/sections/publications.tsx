@@ -155,6 +155,16 @@ function PublicationCard({
             </a>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            {publication.explainer ? (
+              <ButtonLink
+                href={publication.explainer.href}
+                variant="secondary"
+                size="sm"
+                icon="arrow-right"
+              >
+                {publication.explainer.label}
+              </ButtonLink>
+            ) : null}
             <CopyButton value={publication.doi} label="Copy DOI" />
             <ButtonLink href={publication.url} size="sm">
               View publication

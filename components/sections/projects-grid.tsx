@@ -242,7 +242,16 @@ function ProjectCard({ project, wide }: { project: Project; wide: boolean }) {
                     </span>
                   )
                 ) : null}
-                <span>{item.name}</span>
+                {item.slug ? (
+                  <Link
+                    href={`/projects/${item.slug}`}
+                    className="underline decoration-transparent underline-offset-4 transition-colors hover:text-accent hover:decoration-accent/40"
+                  >
+                    {item.name}
+                  </Link>
+                ) : (
+                  <span>{item.name}</span>
+                )}
                 {item.status ? (
                   <span className="eyebrow rounded-full border border-line px-2 py-0.5 text-faint">
                     {item.status}

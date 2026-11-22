@@ -6,7 +6,8 @@ import { BlockHeading } from "@/components/ui/block-heading";
 import { ButtonLink } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/ui/page-header";
-import { pages, uniqueLabs, web3Experience } from "@/data/portfolio";
+import { ProseBlock } from "@/components/ui/prose-block";
+import { pages, uniqueLabs, web3Experience, web3Intro } from "@/data/portfolio";
 import { buildPageJsonLd } from "@/lib/json-ld";
 import { pageMetadata } from "@/lib/metadata";
 import { prettyUrl } from "@/lib/utils";
@@ -31,6 +32,10 @@ export default function Web3Page() {
           <div className="lg:col-span-4">
             <Web3Aside />
           </div>
+        </div>
+
+        <div className="mt-24 sm:mt-32">
+          <ProseBlock id="koc-title" copy={web3Intro} />
         </div>
 
         {/* Partnerships live on the Unique Labs website. */}

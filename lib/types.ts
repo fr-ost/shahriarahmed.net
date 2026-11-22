@@ -82,8 +82,6 @@ export interface PageMeta {
   /** One line shown on the cards that link to the page. */
   summary?: string;
   icon?: IconKey;
-  /** Search terms for this page, in place of the site-wide list. */
-  keywords?: string[];
 }
 
 export interface SectionMeta {
@@ -124,11 +122,16 @@ export interface Publication {
   title: string | null;
   authors: string[] | null;
   journal: string | null;
+  /** Journal volume and article number, e.g. "1368" and "146299". */
+  volume?: string;
+  articleNumber?: string;
   /** Publication date, e.g. { label: "17 April 2026", dateTime: "2026-04-17" }. */
   published: { label: string; dateTime: string } | null;
   abstract: string | null;
   /** Conference or event where the work was presented, if any. */
   presentedAt: string | null;
+  /** A page on this site that explains the paper in plain language. */
+  explainer?: Link;
 }
 
 export interface Achievement {
@@ -161,6 +164,22 @@ export interface ProjectItem {
   tagline?: string;
   /** Shown as a small label beside the name, e.g. "Beta" or "Private". */
   status?: string;
+  /** Its page on this site, /projects/<slug>, when it has one. */
+  slug?: string;
+  /** Description in search results for that page (about 150 characters). */
+  seoDescription?: string;
+}
+
+/** The longer story of a product, for its page on this site. */
+export interface ProductDetail {
+  pricing: "FREE" | "FREEMIUM" | "PAID" | "UNSPECIFIED";
+  stage: "AVAILABLE" | "BETA" | "COMING_SOON" | "PRIVATE" | "DISCONTINUED";
+  /** Markdown: paragraphs, ### headings, lists and **bold**. */
+  description: string;
+  features: { title: string; description: string }[];
+  privacyPolicy?: string;
+  support?: string;
+  cover?: ImageAsset;
 }
 
 export interface Project {
@@ -266,6 +285,12 @@ export interface UniqueLabsService {
 
 export interface UniqueLabsInfo {
   name: string;
+  /** Year founded, e.g. "2019". */
+  founded?: string;
+  /** Earlier name, if any. */
+  formerName?: string;
+  /** The founder's profile page on the company website. */
+  founderProfile?: string;
   tagline: string;
   founderRole: string;
   founderName: string;
@@ -307,4 +332,14 @@ export interface BrowserExtension {
   storeUrl: string;
   /** Square icon (also used for structured data). */
   icon: ImageAsset;
+}
+
+/** Running text for a page section, with an optional list of terms. */
+export interface ProseCopy {
+  eyebrow: string;
+  title: string;
+  /** Paragraphs; the Markdown subset of components/ui/markdown.tsx. */
+  paragraphs: string[];
+  termsTitle?: string;
+  terms?: { term: string; definition: string }[];
 }

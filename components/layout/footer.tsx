@@ -15,7 +15,7 @@ const year = new Date().getFullYear();
 
 export function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden border-t border-line">
+    <footer className="relative isolate overflow-hidden border-t border-line print:hidden">
       <div
         aria-hidden
         className="absolute inset-x-0 bottom-0 -z-10 h-[30rem] bg-[radial-gradient(ellipse_55%_75%_at_50%_100%,var(--glow),transparent_70%)] opacity-35"

@@ -217,7 +217,7 @@ export function Navbar({ items, cta, name, title, email }: NavbarProps) {
   }
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50">
+    <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 print:hidden">
       <div
         className={cn(
           "relative z-10 mx-auto transition-[max-width,padding,margin] duration-500 ease-smooth",

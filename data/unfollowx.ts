@@ -45,7 +45,7 @@ export const unfollowX: BrowserExtension = {
   storeUrl:
     "https://chromewebstore.google.com/detail/x-twitter-mass-unfollow-t/igpjmagghnibmjkkdcgpjgpkfkpiglnl",
   icon: {
-    src: "/images/products/unfollowx-pro.png",
+    src: "/images/products/unfollowx-pro.webp",
     alt: "UnfollowX Pro",
     width: 128,
     height: 128,

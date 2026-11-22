@@ -58,7 +58,6 @@ export function pageMetadata(page: PageMeta, options: PageMetadataOptions = {}):
     // An explicit SEO title already names the site owner, so skip the template.
     title: page.seoTitle ? { absolute: page.seoTitle } : pageTitle(page),
     description,
-    ...(page.keywords ? { keywords: page.keywords } : {}),
     alternates: { canonical: page.href },
     openGraph: options.profile
       ? {
